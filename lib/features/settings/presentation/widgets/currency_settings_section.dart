@@ -189,7 +189,7 @@ class _CurrencySettingsSectionState
                 color: AppTheme.darkCardSurfaceElevated,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: AppTheme.jadeTosca.withAlpha(120),
+                  color: AppTheme.primaryAction.withAlpha(120),
                   width: 1.0,
                 ),
               ),
@@ -197,7 +197,7 @@ class _CurrencySettingsSectionState
                 children: [
                   const Icon(
                     Icons.currency_exchange_rounded,
-                    color: AppTheme.jadeTosca,
+                    color: AppTheme.primaryAction,
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -219,7 +219,7 @@ class _CurrencySettingsSectionState
                           style: GoogleFonts.inter(
                             fontSize: 16,
                             fontWeight: FontWeight.w800,
-                            color: AppTheme.jadeTosca,
+                            color: AppTheme.primaryAction,
                           ),
                         ),
                         Text(
@@ -276,7 +276,7 @@ class _CurrencySettingsSectionState
                   const Icon(
                     Icons.sync_alt_rounded,
                     size: 14,
-                    color: AppTheme.jadeTosca,
+                    color: AppTheme.primaryAction,
                   ),
                   const SizedBox(width: 4),
                   Text(
@@ -284,7 +284,7 @@ class _CurrencySettingsSectionState
                     style: GoogleFonts.inter(
                       fontSize: 10.5,
                       fontWeight: FontWeight.w700,
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                     ),
                   ),
                 ],
@@ -431,7 +431,7 @@ class _CurrencySettingsSectionState
                       tooltip: 'Tukar Posisi',
                       style: IconButton.styleFrom(
                         backgroundColor: AppTheme.darkCardSurfaceElevated,
-                        foregroundColor: AppTheme.jadeTosca,
+                        foregroundColor: AppTheme.primaryAction,
                       ),
                       icon: const Icon(Icons.swap_horiz_rounded, size: 22),
                     ),
@@ -533,7 +533,7 @@ class _CurrencySettingsSectionState
                           style: GoogleFonts.inter(
                             fontSize: 22,
                             fontWeight: FontWeight.w800,
-                            color: AppTheme.jadeTosca,
+                            color: AppTheme.primaryAction,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -616,7 +616,7 @@ class _CurrencyOptionTile extends StatelessWidget {
     return ListTile(
       leading: Icon(
         selected ? Icons.radio_button_checked : Icons.radio_button_off,
-        color: selected ? AppTheme.jadeTosca : AppTheme.textMutedDark,
+        color: selected ? AppTheme.primaryAction : AppTheme.textMutedDark,
       ),
       title: Text(
         label,

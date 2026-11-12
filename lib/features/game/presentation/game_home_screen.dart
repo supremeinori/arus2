@@ -521,19 +521,8 @@ class _GameHomeScreenState extends ConsumerState<GameHomeScreen> {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFF0F766E), Color(0xFF0D9488)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF0D9488).withValues(alpha: 0.25),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-              ],
+              color: AppTheme.primaryAction,
+              borderRadius: BorderRadius.circular(14),
             ),
             child: Row(
               children: [
@@ -692,14 +681,14 @@ class _GameHomeScreenState extends ConsumerState<GameHomeScreen> {
                   ),
                   Row(
                     children: [
-                      const Icon(Icons.star_rounded, color: AppTheme.warningAmber, size: 18),
+                      const Icon(Icons.emoji_events_rounded, color: AppTheme.warningText, size: 18),
                       const SizedBox(width: 4),
                       Text(
                         '$_currentScore Poin',
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w800,
                           fontSize: 15,
-                          color: AppTheme.primary,
+                          color: AppTheme.primaryAction,
                         ),
                       ),
                     ],
@@ -718,17 +707,8 @@ class _GameHomeScreenState extends ConsumerState<GameHomeScreen> {
                     margin: const EdgeInsets.only(bottom: 8),
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFFF59E0B), Color(0xFFEF4444)],
-                      ),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x33F59E0B),
-                          blurRadius: 6,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
+                      color: AppTheme.warningText,
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -820,15 +800,8 @@ class _GameHomeScreenState extends ConsumerState<GameHomeScreen> {
                   height: 180,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: AppTheme.lightCardBorder),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
@@ -901,15 +874,15 @@ class _GameHomeScreenState extends ConsumerState<GameHomeScreen> {
   // VIEW 3: HASIL PERMAINAN & SKOR
   // ==========================================
   Widget _buildResultView() {
-    String badgeTitle = 'Barista Pemula ⭐';
-    Color badgeColor = AppTheme.textMuted;
+    String badgeTitle = 'Barista Pemula';
+    Color badgeColor = AppTheme.textMutedOnElevated;
 
     if (_currentScore >= 800) {
-      badgeTitle = 'Master Menu POS ⭐⭐⭐';
-      badgeColor = AppTheme.warningAmber;
+      badgeTitle = 'Master Menu POS';
+      badgeColor = AppTheme.warningText;
     } else if (_currentScore >= 500) {
-      badgeTitle = 'Kasir Handal ⭐⭐';
-      badgeColor = AppTheme.primary;
+      badgeTitle = 'Kasir Handal';
+      badgeColor = AppTheme.primaryAction;
     }
 
     return SingleChildScrollView(
@@ -920,14 +893,14 @@ class _GameHomeScreenState extends ConsumerState<GameHomeScreen> {
           // Ikon Trofi
           Container(
             padding: const EdgeInsets.all(22),
-            decoration: BoxDecoration(
-              color: AppTheme.warningAmber.withValues(alpha: 0.12),
+            decoration: const BoxDecoration(
+              color: AppTheme.warningBg,
               shape: BoxShape.circle,
             ),
             child: const Icon(
               Icons.emoji_events_rounded,
               size: 64,
-              color: AppTheme.warningAmber,
+              color: AppTheme.warningText,
             ),
           ),
           const SizedBox(height: 14),
@@ -936,18 +909,18 @@ class _GameHomeScreenState extends ConsumerState<GameHomeScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               decoration: BoxDecoration(
-                color: AppTheme.warningAmber.withValues(alpha: 0.18),
-                borderRadius: BorderRadius.circular(12),
+                color: AppTheme.warningBg,
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.stars_rounded, color: AppTheme.warningAmber, size: 16),
+                  const Icon(Icons.emoji_events_rounded, color: AppTheme.warningTextDeep, size: 16),
                   const SizedBox(width: 4),
                   Text(
-                    'REKOR SKOR BARU! 🏆',
+                    'REKOR SKOR BARU!',
                     style: GoogleFonts.inter(
-                      color: AppTheme.warningAmber,
+                      color: AppTheme.warningTextDeep,
                       fontWeight: FontWeight.w800,
                       fontSize: 12,
                     ),
@@ -981,15 +954,8 @@ class _GameHomeScreenState extends ConsumerState<GameHomeScreen> {
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(color: AppTheme.lightCardBorder),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
             ),
             child: Column(
               children: [
@@ -1003,7 +969,7 @@ class _GameHomeScreenState extends ConsumerState<GameHomeScreen> {
                   style: GoogleFonts.inter(
                     fontSize: 40,
                     fontWeight: FontWeight.w900,
-                    color: AppTheme.primary,
+                    color: AppTheme.primaryAction,
                   ),
                 ),
                 const Divider(height: 28),
@@ -1014,19 +980,19 @@ class _GameHomeScreenState extends ConsumerState<GameHomeScreen> {
                       label: 'Jawaban Benar',
                       value: '$_correctCount / ${_questions.length}',
                       icon: Icons.check_circle_rounded,
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                     ),
                     _GameResultMetric(
                       label: 'Combo Beruntun',
-                      value: '$_maxComboStreak x 🔥',
+                      value: '$_maxComboStreak x',
                       icon: Icons.local_fire_department_rounded,
-                      color: const Color(0xFFF59E0B),
+                      color: AppTheme.warningText,
                     ),
                     _GameResultMetric(
                       label: 'Total Waktu',
                       value: '$_totalDurationSec dtk',
                       icon: Icons.timer_outlined,
-                      color: AppTheme.primary,
+                      color: AppTheme.primaryAction,
                     ),
                   ],
                 ),
@@ -1042,24 +1008,27 @@ class _GameHomeScreenState extends ConsumerState<GameHomeScreen> {
                 child: OutlinedButton(
                   onPressed: () => setState(() => _gameState = GameState.lobby),
                   style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(0, 48),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     side: const BorderSide(color: AppTheme.lightCardBorder),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
                   child: const Text('Menu Utama', style: TextStyle(fontWeight: FontWeight.w700)),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: ElevatedButton(
+                child: ElevatedButton.icon(
                   onPressed: () => _startGame(_selectedMode),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primary,
+                    backgroundColor: AppTheme.primaryAction,
+                    minimumSize: const Size(0, 48),
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
-                  child: const Text(
-                    'Main Lagi 🔁',
+                  icon: const Icon(Icons.replay_rounded, color: Colors.white, size: 18),
+                  label: const Text(
+                    'Main Lagi',
                     style: TextStyle(fontWeight: FontWeight.w800, color: Colors.white),
                   ),
                 ),
@@ -1156,16 +1125,16 @@ class _Gyro2WayPanel extends StatelessWidget {
     required bool isActive,
   }) {
     final isLeft = direction == Tilt2WayDirection.left;
-    final color = isActive ? AppTheme.jadeTosca : AppTheme.textSecondary;
+    final color = isActive ? AppTheme.primaryAction : AppTheme.textSecondary;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 150),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: isActive ? AppTheme.jadeTosca.withValues(alpha: 0.15) : Colors.transparent,
+        color: isActive ? AppTheme.lightToskaBg : Colors.transparent,
         borderRadius: BorderRadius.circular(6),
         border: Border.all(
-          color: isActive ? AppTheme.jadeTosca : Colors.transparent,
+          color: isActive ? AppTheme.primaryAction : Colors.transparent,
           width: 1.2,
         ),
       ),
@@ -1175,7 +1144,7 @@ class _Gyro2WayPanel extends StatelessWidget {
           if (isLeft) Icon(Icons.arrow_back_rounded, size: 12, color: color),
           const SizedBox(width: 3),
           Text(
-            isLeft ? '⬅️ Miring Kiri' : 'Miring Kanan ➡️',
+            isLeft ? 'Miring Kiri' : 'Miring Kanan',
             style: GoogleFonts.inter(
               fontSize: 10.5,
               fontWeight: isActive ? FontWeight.w800 : FontWeight.w600,
@@ -1246,7 +1215,7 @@ class _Game2WayOptionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color cardColor = isHighlighted ? const Color(0xFFF0FDFA) : Colors.white;
-    Color borderColor = isHighlighted ? AppTheme.jadeTosca : AppTheme.lightCardBorder;
+    Color borderColor = isHighlighted ? AppTheme.primaryAction : AppTheme.lightCardBorder;
     Color textColor = AppTheme.textPrimaryLight;
     Widget? statusIcon;
 
@@ -1268,26 +1237,17 @@ class _Game2WayOptionCard extends StatelessWidget {
 
     return InkWell(
       onTap: isAnswerChecked ? null : () => onSelect(opt.key),
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(12),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: cardColor,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: borderColor,
             width: isHighlighted || (isAnswerChecked && opt.key == correctKey) ? 2.0 : 1.2,
           ),
-          boxShadow: isHighlighted
-              ? [
-                  BoxShadow(
-                    color: AppTheme.jadeTosca.withValues(alpha: 0.2),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ]
-              : null,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1300,7 +1260,7 @@ class _Game2WayOptionCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2.5),
                   decoration: BoxDecoration(
                     color: isHighlighted
-                        ? AppTheme.jadeTosca
+                        ? AppTheme.primaryAction
                         : AppTheme.lightCardSurfaceElevated,
                     borderRadius: BorderRadius.circular(6),
                   ),

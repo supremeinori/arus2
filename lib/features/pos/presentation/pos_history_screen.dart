@@ -79,7 +79,7 @@ class _PosHistoryScreenState extends ConsumerState<PosHistoryScreen> {
           ElevatedButton(
             onPressed: () => Navigator.of(ctx).pop(reasonCtrl.text.trim()),
             style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.dangerRed, foregroundColor: Colors.white),
+                backgroundColor: AppTheme.dangerTextDeep, foregroundColor: Colors.white),
             child: const Text('Void'),
           ),
         ],
@@ -106,7 +106,7 @@ class _PosHistoryScreenState extends ConsumerState<PosHistoryScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: AppTheme.dangerRed,
+          backgroundColor: AppTheme.dangerTextDeep,
           content: Text(e.toString().replaceAll('Exception: ', ''),
               style: GoogleFonts.inter(color: Colors.white, fontSize: 13)),
         ));
@@ -193,7 +193,7 @@ class _PosHistoryScreenState extends ConsumerState<PosHistoryScreen> {
               child: Row(
                 children: [
                   const Icon(Icons.filter_alt_outlined,
-                      size: 18, color: AppTheme.jadeTosca),
+                      size: 18, color: AppTheme.primaryAction),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -218,19 +218,19 @@ class _PosHistoryScreenState extends ConsumerState<PosHistoryScreen> {
                       ownerTitle: isOwner ? 'Filter Riwayat Transaksi' : 'Filter Periode Waktu',
                     ),
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: AppTheme.jadeTosca),
+                      side: const BorderSide(color: AppTheme.primaryAction),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 4),
-                      minimumSize: const Size(0, 32),
+                          horizontal: 12, vertical: 8),
+                      minimumSize: const Size(44, 44),
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     child: Text('Ubah',
                         style: GoogleFonts.inter(
-                            fontSize: 11.5,
+                            fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: AppTheme.jadeTosca)),
+                            color: AppTheme.primaryAction)),
                   ),
                 ],
               ),
@@ -260,14 +260,14 @@ class _PosHistoryScreenState extends ConsumerState<PosHistoryScreen> {
                           ),
                         ),
                         selected: selectedCustomDate == null && selectedDateFilter == filter,
-                        selectedColor: AppTheme.jadeTosca,
+                        selectedColor: AppTheme.primaryAction,
                         backgroundColor: AppTheme.darkCardSurfaceElevated,
                         side: BorderSide(
                           color: (selectedCustomDate == null && selectedDateFilter == filter)
-                              ? AppTheme.jadeTosca
+                              ? AppTheme.primaryAction
                               : AppTheme.darkCardBorder,
                         ),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         showCheckmark: false,
                         onSelected: (selected) {
                           if (selected) {
@@ -295,14 +295,14 @@ class _PosHistoryScreenState extends ConsumerState<PosHistoryScreen> {
                       ),
                     ),
                     backgroundColor: selectedCustomDate != null
-                        ? AppTheme.jadeTosca
+                        ? AppTheme.primaryAction
                         : AppTheme.darkCardSurfaceElevated,
                     side: BorderSide(
                       color: selectedCustomDate != null
-                          ? AppTheme.jadeTosca
+                          ? AppTheme.primaryAction
                           : AppTheme.darkCardBorder,
                     ),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     onPressed: () async {
                       final now = DateTime.now();
                       final picked = await showDatePicker(
@@ -313,11 +313,11 @@ class _PosHistoryScreenState extends ConsumerState<PosHistoryScreen> {
                         builder: (context, child) {
                           return Theme(
                             data: Theme.of(context).copyWith(
-                              colorScheme: const ColorScheme.dark(
-                                primary: AppTheme.jadeTosca,
+                              colorScheme: const ColorScheme.light(
+                                primary: AppTheme.primaryAction,
                                 onPrimary: Colors.white,
-                                surface: AppTheme.darkCardSurfaceElevated,
-                                onSurface: AppTheme.textPrimaryDark,
+                                surface: AppTheme.lightCardSurface,
+                                onSurface: AppTheme.textPrimaryLight,
                               ),
                             ),
                             child: child!,
@@ -474,7 +474,7 @@ class _PaymentChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
       decoration: BoxDecoration(
-        color: AppTheme.jadeTosca.withValues(alpha: 0.12),
+        color: AppTheme.lightToskaBg,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
@@ -482,7 +482,7 @@ class _PaymentChip extends StatelessWidget {
         style: GoogleFonts.inter(
           fontSize: 11,
           fontWeight: FontWeight.w700,
-          color: AppTheme.jadeTosca,
+          color: AppTheme.primaryAction,
         ),
       ),
     );
@@ -516,16 +516,16 @@ class _HistoryCard extends ConsumerWidget {
     String badgeText;
 
     if (voided) {
-      badgeBg = const Color(0xFFFEE2E2);
-      badgeTextColor = AppTheme.dangerRed;
+      badgeBg = AppTheme.dangerBg;
+      badgeTextColor = AppTheme.dangerTextDeep;
       badgeText = 'VOID';
     } else if (isFailed) {
-      badgeBg = const Color(0xFFFEE2E2);
-      badgeTextColor = AppTheme.dangerRed;
+      badgeBg = AppTheme.dangerBg;
+      badgeTextColor = AppTheme.dangerTextDeep;
       badgeText = '${_historyTimeFmt.format(tx.createdAt)} • Gagal Sinkron';
     } else if (isPending) {
-      badgeBg = const Color(0xFFFEF3C7);
-      badgeTextColor = const Color(0xFFB45309);
+      badgeBg = AppTheme.warningBg;
+      badgeTextColor = AppTheme.warningTextDeep;
       badgeText = '${_historyTimeFmt.format(tx.createdAt)} • Menunggu Sinkron';
     } else {
       badgeBg = const Color(0xFFDCFCE7);
@@ -590,14 +590,14 @@ class _HistoryCard extends ConsumerWidget {
                   OutlinedButton.icon(
                     onPressed: onDetail,
                     icon: const Icon(Icons.receipt_long_outlined,
-                        size: 15, color: AppTheme.jadeTosca),
+                        size: 15, color: AppTheme.primaryAction),
                     label: Text('Detail',
                         style: GoogleFonts.inter(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: AppTheme.jadeTosca)),
+                            color: AppTheme.primaryAction)),
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: AppTheme.jadeTosca),
+                      side: const BorderSide(color: AppTheme.primaryAction),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),
                       padding: const EdgeInsets.symmetric(
@@ -611,14 +611,14 @@ class _HistoryCard extends ConsumerWidget {
                     OutlinedButton.icon(
                       onPressed: voiding ? null : onVoid,
                       icon: const Icon(Icons.undo_rounded,
-                          size: 15, color: AppTheme.dangerRed),
+                          size: 15, color: AppTheme.dangerText),
                       label: Text('Void',
                           style: GoogleFonts.inter(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              color: AppTheme.dangerRed)),
+                              color: AppTheme.dangerText)),
                       style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: AppTheme.dangerRed),
+                        side: const BorderSide(color: AppTheme.dangerText),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),
                         padding: const EdgeInsets.symmetric(

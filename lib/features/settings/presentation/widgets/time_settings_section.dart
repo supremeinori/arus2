@@ -70,7 +70,7 @@ class TimeSettingsSection extends ConsumerWidget {
                       ? Icons.radio_button_checked
                       : Icons.radio_button_off,
                   color: currentTimezone == 'Asia/Jakarta'
-                      ? AppTheme.jadeTosca
+                      ? AppTheme.primaryAction
                       : AppTheme.textMutedDark,
                 ),
                 title: Text(
@@ -107,7 +107,7 @@ class TimeSettingsSection extends ConsumerWidget {
                       ? Icons.radio_button_checked
                       : Icons.radio_button_off,
                   color: currentTimezone == 'Asia/Makassar'
-                      ? AppTheme.jadeTosca
+                      ? AppTheme.primaryAction
                       : AppTheme.textMutedDark,
                 ),
                 title: Text(
@@ -144,7 +144,7 @@ class TimeSettingsSection extends ConsumerWidget {
                       ? Icons.radio_button_checked
                       : Icons.radio_button_off,
                   color: currentTimezone == 'Asia/Jayapura'
-                      ? AppTheme.jadeTosca
+                      ? AppTheme.primaryAction
                       : AppTheme.textMutedDark,
                 ),
                 title: Text(
@@ -181,7 +181,7 @@ class TimeSettingsSection extends ConsumerWidget {
                       ? Icons.radio_button_checked
                       : Icons.radio_button_off,
                   color: currentTimezone == 'Europe/London'
-                      ? AppTheme.jadeTosca
+                      ? AppTheme.primaryAction
                       : AppTheme.textMutedDark,
                 ),
                 title: Text(
@@ -217,7 +217,7 @@ class TimeSettingsSection extends ConsumerWidget {
             color: AppTheme.darkCardSurfaceElevated,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: AppTheme.jadeTosca.withAlpha(120),
+              color: AppTheme.primaryAction.withAlpha(120),
               width: 1.0,
             ),
           ),
@@ -225,7 +225,7 @@ class TimeSettingsSection extends ConsumerWidget {
             children: [
               const Icon(
                 Icons.access_time_rounded,
-                color: AppTheme.jadeTosca,
+                color: AppTheme.primaryAction,
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -247,7 +247,7 @@ class TimeSettingsSection extends ConsumerWidget {
                       style: GoogleFonts.inter(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
-                        color: AppTheme.jadeTosca,
+                        color: AppTheme.primaryAction,
                       ),
                     ),
                   ],

@@ -125,7 +125,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                   child: Row(
                     children: [
-                      const Icon(Icons.storefront_rounded, color: AppTheme.jadeTosca, size: 20),
+                      const Icon(Icons.storefront_rounded, color: AppTheme.primaryAction, size: 20),
                       const SizedBox(width: 8),
                       Text(
                         'Pilih Cakupan Cabang AI',
@@ -140,12 +140,12 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                 ),
                 const Divider(color: AppTheme.darkCardBorder),
                 ListTile(
-                  leading: const Icon(Icons.language_rounded, color: AppTheme.jadeTosca),
+                  leading: const Icon(Icons.language_rounded, color: AppTheme.primaryAction),
                   title: Text(
                     'Semua Cabang (Global)',
                     style: GoogleFonts.inter(
                       fontWeight: _selectedOutletId == null ? FontWeight.w700 : FontWeight.w500,
-                      color: _selectedOutletId == null ? AppTheme.jadeTosca : AppTheme.textPrimaryDark,
+                      color: _selectedOutletId == null ? AppTheme.primaryAction : AppTheme.textPrimaryDark,
                     ),
                   ),
                   subtitle: Text(
@@ -153,7 +153,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                     style: GoogleFonts.inter(fontSize: 12, color: AppTheme.textMutedDark),
                   ),
                   trailing: _selectedOutletId == null
-                      ? const Icon(Icons.check_circle_rounded, color: AppTheme.jadeTosca)
+                      ? const Icon(Icons.check_circle_rounded, color: AppTheme.primaryAction)
                       : null,
                   onTap: () {
                     setState(() {
@@ -170,7 +170,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                       outlet.name,
                       style: GoogleFonts.inter(
                         fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                        color: isSelected ? AppTheme.jadeTosca : AppTheme.textPrimaryDark,
+                        color: isSelected ? AppTheme.primaryAction : AppTheme.textPrimaryDark,
                       ),
                     ),
                     subtitle: Text(
@@ -178,7 +178,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                       style: GoogleFonts.inter(fontSize: 12, color: AppTheme.textMutedDark),
                     ),
                     trailing: isSelected
-                        ? const Icon(Icons.check_circle_rounded, color: AppTheme.jadeTosca)
+                        ? const Icon(Icons.check_circle_rounded, color: AppTheme.primaryAction)
                         : null,
                     onTap: () {
                       setState(() {
@@ -334,7 +334,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
               fit: BoxFit.cover,
               errorBuilder: (_, _, _) => const Icon(
                 Icons.smart_toy_outlined,
-                color: AppTheme.jadeTosca,
+                color: AppTheme.primaryAction,
                 size: 20,
               ),
             ),
@@ -363,7 +363,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                       Icon(
                         _selectedOutletId == null ? Icons.language_rounded : Icons.store_mall_directory_rounded,
                         size: 13,
-                        color: AppTheme.jadeTosca,
+                        color: AppTheme.primaryAction,
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -373,12 +373,12 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                         style: GoogleFonts.inter(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: AppTheme.jadeTosca,
+                          color: AppTheme.primaryAction,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const Icon(Icons.arrow_drop_down_rounded, size: 16, color: AppTheme.jadeTosca),
+                      const Icon(Icons.arrow_drop_down_rounded, size: 16, color: AppTheme.primaryAction),
                     ],
                   ),
                 ),
@@ -487,7 +487,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                 errorBuilder: (_, _, _) => const Icon(
                   Icons.analytics_outlined,
                   size: 42,
-                  color: AppTheme.jadeTosca,
+                  color: AppTheme.primaryAction,
                 ),
               ),
             ),
@@ -533,7 +533,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    icon: const Icon(Icons.help_outline_rounded, size: 16, color: AppTheme.jadeTosca),
+                    icon: const Icon(Icons.help_outline_rounded, size: 16, color: AppTheme.primaryAction),
                     label: Text(
                       prompt,
                       style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500, color: AppTheme.textPrimaryDark),
@@ -594,7 +594,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                 fit: BoxFit.cover,
                 errorBuilder: (_, _, _) => const Icon(
                   Icons.smart_toy_outlined,
-                  color: AppTheme.jadeTosca,
+                  color: AppTheme.primaryAction,
                   size: 16,
                 ),
               ),
@@ -604,10 +604,10 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               decoration: BoxDecoration(
-                color: isUser ? AppTheme.jadeTosca : AppTheme.darkCardSurface,
+                color: isUser ? AppTheme.primaryAction : AppTheme.darkCardSurface,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: isUser ? AppTheme.jadeTosca : AppTheme.darkCardBorder,
+                  color: isUser ? AppTheme.primaryAction : AppTheme.darkCardBorder,
                   width: 1.0,
                 ),
               ),
@@ -655,7 +655,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                         height: 1.4,
                       ),
                       listBullet: GoogleFonts.inter(
-                        color: isUser ? Colors.white : AppTheme.jadeTosca,
+                        color: isUser ? Colors.white : AppTheme.primaryAction,
                         fontSize: 13.5,
                         fontWeight: FontWeight.w700,
                       ),
@@ -663,7 +663,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                       listIndent: 18,
                       pPadding: const EdgeInsets.only(bottom: 6),
                       code: GoogleFonts.inter(
-                        color: AppTheme.jadeTosca,
+                        color: AppTheme.primaryAction,
                         fontSize: 12.5,
                         backgroundColor: AppTheme.darkCardSurfaceElevated,
                       ),
@@ -678,7 +678,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                         fontStyle: FontStyle.italic,
                       ),
                       blockquoteDecoration: const BoxDecoration(
-                        border: Border(left: BorderSide(color: AppTheme.jadeTosca, width: 3)),
+                        border: Border(left: BorderSide(color: AppTheme.primaryAction, width: 3)),
                       ),
                       tableBody: GoogleFonts.inter(
                         color: AppTheme.textPrimaryDark,
@@ -726,7 +726,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(Icons.tips_and_updates_outlined, size: 14, color: Color(0xFFF59E0B)),
+                          const Icon(Icons.tips_and_updates_outlined, size: 14, color: AppTheme.warningText),
                           const SizedBox(width: 6),
                           Expanded(
                             child: Text(
@@ -751,14 +751,14 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                         borderRadius: BorderRadius.circular(6),
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                           decoration: BoxDecoration(
                             color: isCopied
-                                ? AppTheme.jadeTosca.withValues(alpha: 0.15)
+                                ? AppTheme.lightToskaBg
                                 : AppTheme.darkCardSurfaceElevated,
                             borderRadius: BorderRadius.circular(6),
                             border: Border.all(
-                              color: isCopied ? AppTheme.jadeTosca : AppTheme.darkCardBorder,
+                              color: isCopied ? AppTheme.primaryAction : AppTheme.darkCardBorder,
                               width: 1.0,
                             ),
                           ),
@@ -768,7 +768,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                               Icon(
                                 isCopied ? Icons.check_rounded : Icons.copy_rounded,
                                 size: 13,
-                                color: isCopied ? AppTheme.jadeTosca : AppTheme.textMutedDark,
+                                color: isCopied ? AppTheme.primaryAction : AppTheme.textMutedDark,
                               ),
                               const SizedBox(width: 5),
                               Text(
@@ -776,7 +776,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                                 style: GoogleFonts.inter(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
-                                  color: isCopied ? AppTheme.jadeTosca : AppTheme.textMutedDark,
+                                  color: isCopied ? AppTheme.primaryAction : AppTheme.textMutedDark,
                                 ),
                               ),
                             ],
@@ -808,7 +808,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: AppTheme.darkCardBorder, width: 1.0),
             ),
-            child: const Icon(Icons.smart_toy_outlined, color: AppTheme.jadeTosca, size: 16),
+            child: const Icon(Icons.smart_toy_outlined, color: AppTheme.primaryAction, size: 16),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -833,7 +833,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                 const SizedBox(
                   width: 14,
                   height: 14,
-                  child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.jadeTosca),
+                  child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.primaryAction),
                 ),
                 const SizedBox(width: 10),
                 Text(
@@ -852,7 +852,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
   /// [ (Expanded) TextField Ketik Pesan... ]  [ 🎤 Ikon Mic STT ]  [ 🟢 Tombol Aksi Utama ]
   Widget _buildInputBar(bool isLoading) {
     final hasText = _inputController.text.trim().isNotEmpty;
-    const jadeTosca = AppTheme.jadeTosca;
+    const jadeTosca = AppTheme.primaryAction;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -916,10 +916,10 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
             ),
             const SizedBox(width: 4),
 
-            // 2. Tombol Aksi Utama (Bulat, Warna Jade Tosca #00A896)
+            // 2. Tombol Aksi Utama (Bulat, Warna Primary Action)
             Container(
-              width: 42,
-              height: 42,
+              width: 44,
+              height: 44,
               decoration: const BoxDecoration(
                 color: jadeTosca,
                 shape: BoxShape.circle,
@@ -960,7 +960,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
         : (_selectedOutletId ?? (outlets.isNotEmpty ? (outlets.first as OutletSummary).id : null));
     final voiceState = ref.watch(voiceSessionProvider);
     final voiceNotifier = ref.read(voiceSessionProvider.notifier);
-    const jadeTosca = AppTheme.jadeTosca;
+    const jadeTosca = AppTheme.primaryAction;
 
     Color statusColor;
     String statusTitle;
@@ -968,12 +968,12 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
 
     switch (voiceState.sessionState) {
       case VoiceSessionState.listening:
-        statusColor = const Color(0xFFEF4444);
+        statusColor = AppTheme.dangerText;
         statusTitle = 'Mendengarkan...';
         statusIcon = Icons.mic_rounded;
         break;
       case VoiceSessionState.processingFiller:
-        statusColor = const Color(0xFFF59E0B);
+        statusColor = AppTheme.warningText;
         statusTitle = 'Menganalisis...';
         statusIcon = Icons.hourglass_top_rounded;
         break;
@@ -983,7 +983,7 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
         statusIcon = Icons.volume_up_rounded;
         break;
       case VoiceSessionState.idle:
-        statusColor = AppTheme.jadeTosca;
+        statusColor = jadeTosca;
         statusTitle = 'Siap Berbicara';
         statusIcon = Icons.graphic_eq_rounded;
         break;
@@ -1151,18 +1151,15 @@ class _AiHomeScreenState extends ConsumerState<AiHomeScreen> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: voiceState.sessionState == VoiceSessionState.listening
-                          ? const Color(0xFFEF4444)
+                          ? AppTheme.dangerText
                           : jadeTosca,
-                      boxShadow: [
-                        BoxShadow(
-                          color: (voiceState.sessionState == VoiceSessionState.listening
-                                  ? const Color(0xFFEF4444)
-                                  : jadeTosca)
-                              .withValues(alpha: 0.35),
-                          blurRadius: 16,
-                          spreadRadius: 2,
-                        ),
-                      ],
+                      border: Border.all(
+                        color: (voiceState.sessionState == VoiceSessionState.listening
+                                ? AppTheme.dangerText
+                                : jadeTosca)
+                            .withValues(alpha: 0.25),
+                        width: 4,
+                      ),
                     ),
                     child: Center(
                       child: Icon(

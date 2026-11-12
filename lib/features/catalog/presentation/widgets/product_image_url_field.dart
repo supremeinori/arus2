@@ -255,7 +255,7 @@ class _ProductImagePreviewState extends State<ProductImagePreview> {
       content = _placeholder(
         Icons.link_off,
         'URL tidak valid',
-        AppTheme.dangerRed,
+        AppTheme.dangerText,
         size,
       );
     } else if (_activeUrl != current) {
@@ -275,7 +275,7 @@ class _ProductImagePreviewState extends State<ProductImagePreview> {
         errorBuilder: (context, error, stackTrace) => _placeholder(
           Icons.broken_image_outlined,
           'Gagal memuat',
-          AppTheme.dangerRed,
+          AppTheme.dangerText,
           size,
         ),
         loadingBuilder: (context, child, progress) {

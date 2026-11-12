@@ -43,7 +43,7 @@ class OperationsHubScreen extends ConsumerWidget {
           IconButton(
             icon: Badge(
               isLabelVisible: unreadCount > 0,
-              backgroundColor: AppTheme.dangerRed,
+              backgroundColor: AppTheme.dangerTextDeep,
               label: Text(
                 '$unreadCount',
                 style: GoogleFonts.inter(
@@ -306,7 +306,7 @@ class _BranchOptionTile extends StatelessWidget {
       button: true,
       selected: isSelected,
       child: Material(
-        color: isSelected ? AppTheme.jadeTosca.withAlpha(24) : AppTheme.darkCardSurfaceElevated,
+        color: isSelected ? AppTheme.lightToskaBg : AppTheme.darkCardSurfaceElevated,
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
@@ -316,7 +316,7 @@ class _BranchOptionTile extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: isSelected ? AppTheme.jadeTosca : AppTheme.darkCardBorder,
+                color: isSelected ? AppTheme.primaryAction : AppTheme.darkCardBorder,
                 width: isSelected ? 1.4 : 1.0,
               ),
             ),
@@ -325,7 +325,7 @@ class _BranchOptionTile extends StatelessWidget {
                 Icon(
                   option.icon,
                   size: 20,
-                  color: isSelected ? AppTheme.jadeTosca : AppTheme.textMutedDark,
+                  color: isSelected ? AppTheme.primaryAction : AppTheme.textMutedDark,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -412,16 +412,9 @@ class _OperationTile extends StatelessWidget {
             color: AppTheme.lightCardSurface,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
-              color: highlighted ? AppTheme.jadeTosca : AppTheme.lightCardBorder,
+              color: highlighted ? AppTheme.primaryAction : AppTheme.lightCardBorder,
               width: highlighted ? 1.4 : 1.0,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: AppTheme.textPrimaryLight.withValues(alpha: 0.03),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-              ),
-            ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -452,13 +445,13 @@ class _OperationTile extends StatelessWidget {
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: highlighted ? AppTheme.jadeTosca : AppTheme.lightToskaBg,
+                    color: highlighted ? AppTheme.primaryAction : AppTheme.lightToskaBg,
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: Icon(
                     icon,
                     size: 24,
-                    color: highlighted ? Colors.white : AppTheme.jadeTosca,
+                    color: highlighted ? Colors.white : AppTheme.primaryAction,
                   ),
                 ),
               ),

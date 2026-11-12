@@ -160,7 +160,7 @@ class _OutletLedgerState extends ConsumerState<_OutletLedger> {
                     style: GoogleFonts.inter(
                       fontSize: 13,
                       fontWeight: FontWeight.w800,
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                     ),
                   ),
                 ),
@@ -212,8 +212,8 @@ class _SingleChainLedgerViewState extends ConsumerState<_SingleChainLedgerView> 
             overflow: TextOverflow.ellipsis,
           ),
           backgroundColor: snapshot.validation.isValid
-              ? const Color(0xFF15803D)
-              : AppTheme.dangerRed,
+              ? AppTheme.successText
+              : AppTheme.dangerTextDeep,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -226,7 +226,7 @@ class _SingleChainLedgerViewState extends ConsumerState<_SingleChainLedgerView> 
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
           ),
-          backgroundColor: AppTheme.dangerRed,
+          backgroundColor: AppTheme.dangerTextDeep,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -253,7 +253,7 @@ class _SingleChainLedgerViewState extends ConsumerState<_SingleChainLedgerView> 
             child: const Text('Batal'),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: AppTheme.dangerRed),
+            style: FilledButton.styleFrom(backgroundColor: AppTheme.dangerTextDeep),
             onPressed: () => Navigator.pop(ctx, true),
             child: const Text('Simulasikan Tamper'),
           ),
@@ -277,7 +277,7 @@ class _SingleChainLedgerViewState extends ConsumerState<_SingleChainLedgerView> 
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          backgroundColor: AppTheme.dangerRed,
+          backgroundColor: AppTheme.dangerTextDeep,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -286,7 +286,7 @@ class _SingleChainLedgerViewState extends ConsumerState<_SingleChainLedgerView> 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Gagal simulasi tamper: $error'),
-          backgroundColor: AppTheme.dangerRed,
+          backgroundColor: AppTheme.dangerTextDeep,
         ),
       );
     } finally {
@@ -307,7 +307,7 @@ class _SingleChainLedgerViewState extends ConsumerState<_SingleChainLedgerView> 
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          backgroundColor: const Color(0xFF15803D),
+          backgroundColor: AppTheme.successText,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -316,7 +316,7 @@ class _SingleChainLedgerViewState extends ConsumerState<_SingleChainLedgerView> 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Gagal memulihkan blok: $error'),
-          backgroundColor: AppTheme.dangerRed,
+          backgroundColor: AppTheme.dangerTextDeep,
         ),
       );
     } finally {
@@ -334,14 +334,14 @@ class _SingleChainLedgerViewState extends ConsumerState<_SingleChainLedgerView> 
     final tamperedIdx = validation.tamperedBlockIndex;
 
     final statusColor = validation.isValid
-        ? AppTheme.jadeTosca
-        : AppTheme.dangerRed;
+        ? AppTheme.primaryAction
+        : AppTheme.dangerText;
 
     // Seluruh blok ditampilkan tanpa filter periode.
     final blocks = overview.blocks;
 
     return RefreshIndicator(
-      color: AppTheme.jadeTosca,
+      color: AppTheme.primaryAction,
       onRefresh: () async =>
           ref.refresh(integrityChainProvider(outlet.id).future),
       child: ListView(
@@ -352,13 +352,13 @@ class _SingleChainLedgerViewState extends ConsumerState<_SingleChainLedgerView> 
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: validation.isValid
-                  ? const Color(0x1810B981)
-                  : const Color(0x18EF4444),
+                  ? AppTheme.successBg
+                  : AppTheme.dangerBg,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: validation.isValid
-                    ? const Color(0x3310B981)
-                    : const Color(0x33EF4444),
+                    ? AppTheme.successText.withValues(alpha: 0.3)
+                    : AppTheme.dangerText.withValues(alpha: 0.35),
                 width: 1.0,
               ),
             ),
@@ -427,8 +427,8 @@ class _SingleChainLedgerViewState extends ConsumerState<_SingleChainLedgerView> 
             child: OutlinedButton.icon(
               onPressed: _isActionLoading ? null : () => _verifyChain(outlet.id),
               style: OutlinedButton.styleFrom(
-                foregroundColor: AppTheme.jadeTosca,
-                side: const BorderSide(color: AppTheme.jadeTosca),
+                foregroundColor: AppTheme.primaryAction,
+                side: const BorderSide(color: AppTheme.primaryAction),
                 minimumSize: const Size.fromHeight(44),
               ),
               icon: _isActionLoading
@@ -437,7 +437,7 @@ class _SingleChainLedgerViewState extends ConsumerState<_SingleChainLedgerView> 
                       height: 16,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        color: AppTheme.jadeTosca,
+                        color: AppTheme.primaryAction,
                       ),
                     )
                   : const Icon(Icons.shield_outlined, size: 18),
@@ -530,21 +530,21 @@ class _TransactionBlockCard extends ConsumerWidget {
         : '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
 
     final borderColor = isTampered
-        ? AppTheme.dangerRed
+        ? AppTheme.dangerText
         : isGenesis
-            ? const Color(0xFFF59E0B)
+            ? AppTheme.warningAmber
             : AppTheme.darkCardBorder;
 
     final badgeColor = isTampered
-        ? AppTheme.dangerRed
+        ? AppTheme.dangerText
         : isGenesis
-            ? const Color(0xFFF59E0B)
-            : AppTheme.jadeTosca;
+            ? AppTheme.warningText
+            : AppTheme.primaryAction;
 
     return Card(
       margin: EdgeInsets.zero,
       elevation: 0,
-      color: isTampered ? const Color(0x18EF4444) : AppTheme.darkCardSurface,
+      color: isTampered ? AppTheme.dangerBg : AppTheme.darkCardSurface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
@@ -585,11 +585,13 @@ class _TransactionBlockCard extends ConsumerWidget {
                       const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                   decoration: BoxDecoration(
                     color: isSale
-                        ? const Color(0x2210B981)
-                        : const Color(0x22EF4444),
+                        ? AppTheme.successBg
+                        : AppTheme.dangerBg,
                     borderRadius: BorderRadius.circular(6),
                     border: Border.all(
-                      color: isSale ? const Color(0x3310B981) : const Color(0x33EF4444),
+                      color: isSale
+                          ? AppTheme.successText.withValues(alpha: 0.35)
+                          : AppTheme.dangerText.withValues(alpha: 0.35),
                     ),
                   ),
                   child: Text(
@@ -598,8 +600,8 @@ class _TransactionBlockCard extends ConsumerWidget {
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
                       color: isSale
-                          ? const Color(0xFF34D399)
-                          : AppTheme.dangerRed,
+                          ? AppTheme.successText
+                          : AppTheme.dangerTextDeep,
                     ),
                   ),
                 ),
@@ -609,7 +611,7 @@ class _TransactionBlockCard extends ConsumerWidget {
                   style: GoogleFonts.inter(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: isTampered ? AppTheme.dangerRed : AppTheme.textPrimaryDark,
+                    color: isTampered ? AppTheme.dangerText : AppTheme.textPrimaryDark,
                   ),
                 ),
               ],
@@ -624,7 +626,7 @@ class _TransactionBlockCard extends ConsumerWidget {
                       ? Icons.receipt_long_outlined
                       : Icons.swap_horiz_rounded,
                   size: 16,
-                  color: AppTheme.jadeTosca,
+                  color: AppTheme.primaryAction,
                 ),
                 const SizedBox(width: 6),
                 Expanded(
@@ -669,10 +671,11 @@ class _TransactionBlockCard extends ConsumerWidget {
                 if (isTampered) ...[
                   FilledButton.icon(
                     style: FilledButton.styleFrom(
-                      backgroundColor: AppTheme.jadeTosca,
+                      backgroundColor: AppTheme.primaryAction,
+                      minimumSize: const Size(0, 44),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
-                        vertical: 6,
+                        vertical: 8,
                       ),
                       visualDensity: VisualDensity.compact,
                     ),
@@ -683,7 +686,8 @@ class _TransactionBlockCard extends ConsumerWidget {
                 ] else ...[
                   TextButton.icon(
                     style: TextButton.styleFrom(
-                      foregroundColor: AppTheme.dangerRed,
+                      foregroundColor: AppTheme.dangerText,
+                      minimumSize: const Size(0, 44),
                       visualDensity: VisualDensity.compact,
                     ),
                     onPressed: onSimulateTamper,
@@ -770,20 +774,20 @@ class _ChainConnector extends StatelessWidget {
             Container(
               width: 1.5,
               height: 18,
-              color: AppTheme.jadeTosca.withAlpha(120),
+              color: AppTheme.primaryAction.withAlpha(120),
             ),
             const SizedBox(width: 6),
             Icon(
               Icons.link_rounded,
               size: 16,
-              color: AppTheme.jadeTosca,
+              color: AppTheme.primaryAction,
             ),
             const SizedBox(width: 6),
             Text(
-              'Terkunci SHA-256 (Blok #$sourceIndex ➔ Blok #$targetIndex)',
+              'Terkunci SHA-256 (Blok #$sourceIndex -> Blok #$targetIndex)',
               style: GoogleFonts.inter(
-                fontSize: 10,
-                color: AppTheme.jadeTosca,
+                fontSize: 10.5,
+                color: AppTheme.primaryAction,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -791,7 +795,7 @@ class _ChainConnector extends StatelessWidget {
             Container(
               width: 1.5,
               height: 18,
-              color: AppTheme.jadeTosca.withAlpha(120),
+              color: AppTheme.primaryAction.withAlpha(120),
             ),
           ],
         ),

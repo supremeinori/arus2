@@ -63,12 +63,12 @@ class ShakeSettingsSheet extends ConsumerWidget {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: AppTheme.jadeTosca.withAlpha(25),
+                    color: AppTheme.lightToskaBg,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
                     Icons.vibration_rounded,
-                    color: AppTheme.jadeTosca,
+                    color: AppTheme.primaryAction,
                     size: 24,
                   ),
                 ),
@@ -138,7 +138,7 @@ class ShakeSettingsSheet extends ConsumerWidget {
                     color: AppTheme.textMuted,
                   ),
                 ),
-                activeThumbColor: AppTheme.jadeTosca,
+                activeThumbColor: AppTheme.primaryAction,
                 value: settings.shakeRefreshEnabled,
                 onChanged: (val) {
                   ref
@@ -178,12 +178,12 @@ class ShakeSettingsSheet extends ConsumerWidget {
                         ),
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? AppTheme.jadeTosca
+                              ? AppTheme.primaryAction
                               : Colors.grey.shade100,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             color: isSelected
-                                ? AppTheme.jadeTosca
+                                ? AppTheme.primaryAction
                                 : Colors.grey.shade300,
                             width: isSelected ? 1.5 : 1,
                           ),
@@ -239,7 +239,7 @@ class ShakeSettingsSheet extends ConsumerWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: AppTheme.jadeTosca.withAlpha(20),
+                    color: AppTheme.lightToskaBg,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -249,7 +249,7 @@ class ShakeSettingsSheet extends ConsumerWidget {
                     style: GoogleFonts.inter(
                       fontSize: 13,
                       fontWeight: FontWeight.w800,
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                     ),
                   ),
                 ),
@@ -260,7 +260,7 @@ class ShakeSettingsSheet extends ConsumerWidget {
               min: 3.0,
               max: 16.0,
               divisions: 26,
-              activeColor: AppTheme.jadeTosca,
+              activeColor: AppTheme.primaryAction,
               label: '${threshold.toStringAsFixed(1)} m/s²',
               onChanged: (val) {
                 ref.read(shakeThresholdProvider.notifier).setThreshold(val);
@@ -378,14 +378,14 @@ class ShakeSettingsSheet extends ConsumerWidget {
                           ),
                           child: Text(
                             liveForce >= threshold
-                                ? '✅ Lolos Threshold'
-                                : '⚠️ Kurang Kuat',
+                                ? 'Lolos Threshold'
+                                : 'Kurang Kuat',
                             style: GoogleFonts.inter(
                               fontSize: 10.5,
                               fontWeight: FontWeight.w700,
                               color: liveForce >= threshold
-                                  ? Colors.green.shade700
-                                  : Colors.amber.shade800,
+                                  ? AppTheme.successText
+                                  : AppTheme.warningTextDeep,
                             ),
                           ),
                         ),

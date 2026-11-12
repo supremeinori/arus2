@@ -48,6 +48,7 @@ class EmptyStateView extends StatelessWidget {
             if (ctaText != null && onCtaPressed != null) ...[
               const SizedBox(height: 20),
               ShadButton.outline(
+                height: 44,
                 onPressed: onCtaPressed,
                 child: Text(ctaText!),
               ),

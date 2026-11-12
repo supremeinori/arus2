@@ -93,7 +93,7 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                     child: const Icon(
                       Icons.fingerprint_rounded,
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                       size: 24,
                     ),
                   ),
@@ -116,7 +116,7 @@ class SettingsScreen extends ConsumerWidget {
                       color: AppTheme.textMutedDark,
                     ),
                   ),
-                  activeThumbColor: AppTheme.jadeTosca,
+                  activeThumbColor: AppTheme.primaryAction,
                   value:
                       ref.watch(authProvider).user?.settings.biometricEnabled ??
                       false,
@@ -128,7 +128,7 @@ class SettingsScreen extends ConsumerWidget {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              backgroundColor: AppTheme.dangerRed,
+                              backgroundColor: AppTheme.dangerTextDeep,
                               content: Text(
                                 'Sensor biometrik tidak tersedia atau belum didaftarkan di perangkat ini.',
                                 maxLines: 3,
@@ -152,7 +152,7 @@ class SettingsScreen extends ConsumerWidget {
                         if (!context.mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            backgroundColor: AppTheme.jadeTosca,
+                            backgroundColor: AppTheme.primaryAction,
                             content: Text(
                               'Login biometrik berhasil diaktifkan.',
                               maxLines: 2,

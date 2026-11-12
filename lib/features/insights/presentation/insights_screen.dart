@@ -66,7 +66,7 @@ class InsightsScreen extends ConsumerWidget {
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),
-            backgroundColor: AppTheme.jadeTosca,
+            backgroundColor: AppTheme.primaryAction,
           ),
         );
       }
@@ -80,7 +80,7 @@ class InsightsScreen extends ConsumerWidget {
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),
-            backgroundColor: const Color(0xFFDC2626),
+            backgroundColor: AppTheme.dangerTextDeep,
           ),
         );
       }
@@ -122,7 +122,7 @@ class InsightsScreen extends ConsumerWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.bolt_rounded, color: AppTheme.jadeTosca),
+            icon: const Icon(Icons.auto_graph_rounded, color: AppTheme.primaryAction),
             tooltip: 'Evaluasi Rule Engine Sekarang',
             onPressed: () => _triggerGeneration(context, ref),
           ),
@@ -153,7 +153,7 @@ class InsightsScreen extends ConsumerWidget {
                 }
 
                 return RefreshIndicator(
-                  color: AppTheme.jadeTosca,
+                  color: AppTheme.primaryAction,
                   onRefresh: () async => ref.invalidate(insightsListProvider),
                   child: ListView.separated(
                     padding: const EdgeInsets.fromLTRB(16, 14, 16, 20),
@@ -236,11 +236,11 @@ class _SeverityFilters extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
         children: [
-          chip('Semua', null, AppTheme.jadeTosca),
+          chip('Semua', null, AppTheme.primaryAction),
           const SizedBox(width: 8),
-          chip('Kritis', 'critical', AppTheme.dangerRed),
+          chip('Kritis', 'critical', AppTheme.dangerTextDeep),
           const SizedBox(width: 8),
-          chip('Peringatan', 'warning', const Color(0xFFF59E0B)),
+          chip('Peringatan', 'warning', AppTheme.warningTextDeep),
         ],
       ),
     );
@@ -291,7 +291,7 @@ class _InsightCard extends StatelessWidget {
               Icon(
                 isCritical ? Icons.warning_rounded : Icons.info_outline_rounded,
                 size: 20,
-                color: isCritical ? AppTheme.dangerRed : AppTheme.jadeTosca,
+                color: isCritical ? AppTheme.dangerText : AppTheme.primaryAction,
               ),
               const SizedBox(width: 8),
               Expanded(
@@ -310,12 +310,12 @@ class _InsightCard extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                 decoration: BoxDecoration(
                   color: isCritical
-                      ? const Color(0x22EF4444)
+                      ? AppTheme.dangerBg
                       : AppTheme.darkCardSurfaceElevated,
                   borderRadius: BorderRadius.circular(6),
                   border: Border.all(
                     color: isCritical
-                        ? const Color(0x33EF4444)
+                        ? AppTheme.dangerText.withValues(alpha: 0.35)
                         : AppTheme.darkCardBorder,
                     width: 1.0,
                   ),
@@ -323,9 +323,9 @@ class _InsightCard extends StatelessWidget {
                 child: Text(
                   item.ruleCode,
                   style: GoogleFonts.inter(
-                    fontSize: 10,
+                    fontSize: 10.5,
                     fontWeight: FontWeight.w700,
-                    color: isCritical ? AppTheme.dangerRed : AppTheme.jadeTosca,
+                    color: isCritical ? AppTheme.dangerTextDeep : AppTheme.primaryAction,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -348,10 +348,10 @@ class _InsightCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: AppTheme.darkCardSurfaceElevated,
-              borderRadius: BorderRadius.circular(6),
+              color: AppTheme.lightToskaBg,
+              borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: AppTheme.jadeTosca.withAlpha(100),
+                color: AppTheme.primaryAction.withValues(alpha: 0.3),
                 width: 1,
               ),
             ),
@@ -361,7 +361,7 @@ class _InsightCard extends StatelessWidget {
                 const Icon(
                   Icons.tips_and_updates_outlined,
                   size: 16,
-                  color: AppTheme.jadeTosca,
+                  color: AppTheme.primaryAction,
                 ),
                 const SizedBox(width: 6),
                 Expanded(
@@ -370,7 +370,7 @@ class _InsightCard extends StatelessWidget {
                     style: GoogleFonts.inter(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                     ),
                     maxLines: 4,
                     overflow: TextOverflow.ellipsis,
@@ -402,11 +402,11 @@ class _InsightCard extends StatelessWidget {
               ElevatedButton(
                 onPressed: onAcknowledge,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.jadeTosca,
-                  minimumSize: const Size(110, 36),
+                  backgroundColor: AppTheme.primaryAction,
+                  minimumSize: const Size(110, 44),
                   visualDensity: VisualDensity.compact,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 child: Text(
@@ -431,11 +431,11 @@ class _InsightCard extends StatelessWidget {
 Color _severityTone(String severity) {
   switch (severity) {
     case 'critical':
-      return AppTheme.dangerRed;
+      return AppTheme.dangerText;
     case 'warning':
-      return AppTheme.warningAmber;
+      return AppTheme.warningText;
     default:
-      return AppTheme.jadeTosca;
+      return AppTheme.primaryAction;
   }
 }
 

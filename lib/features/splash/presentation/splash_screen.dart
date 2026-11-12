@@ -305,7 +305,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(Icons.fingerprint_rounded, size: 28, color: AppTheme.jadeTosca),
+                            const Icon(Icons.fingerprint_rounded, size: 28, color: AppTheme.primaryAction),
                             const SizedBox(width: 10),
                             Text(
                               'Menunggu sensor biometrik...',
@@ -315,11 +315,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                         ),
                         const SizedBox(height: 6),
                         TextButton.icon(
-                          style: TextButton.styleFrom(visualDensity: VisualDensity.compact),
-                          icon: const Icon(Icons.password_rounded, size: 16, color: AppTheme.jadeTosca),
+                          style: TextButton.styleFrom(minimumSize: const Size(44, 44)),
+                          icon: const Icon(Icons.password_rounded, size: 16, color: AppTheme.primaryAction),
                           label: Text(
                             'Batal & Masuk dengan Password',
-                            style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: AppTheme.jadeTosca),
+                            style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: AppTheme.primaryAction),
                           ),
                           onPressed: () {
                             _goToLogin();

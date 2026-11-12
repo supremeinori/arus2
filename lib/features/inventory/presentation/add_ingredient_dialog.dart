@@ -89,7 +89,7 @@ class _AddIngredientDialogState extends ConsumerState<AddIngredientDialog> {
         Navigator.of(context).pop(true);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: AppTheme.jadeTosca,
+            backgroundColor: AppTheme.primaryAction,
             content: Text(
               isEditing ? 'Bahan baku berhasil diperbarui.' : 'Bahan baku baru berhasil ditambahkan.',
               style: GoogleFonts.inter(color: Colors.white),
@@ -142,20 +142,20 @@ class _AddIngredientDialogState extends ConsumerState<AddIngredientDialog> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: const Color(0x22EF4444),
+                    color: AppTheme.dangerBg,
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: const Color(0x33EF4444)),
+                    border: Border.all(color: AppTheme.dangerText.withValues(alpha: 0.4)),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.error_outline_rounded, color: AppTheme.dangerRed, size: 18),
+                      const Icon(Icons.error_outline_rounded, color: AppTheme.dangerTextDeep, size: 18),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           _errorMessage!,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFFF87171)),
+                          style: GoogleFonts.inter(fontSize: 12, color: AppTheme.dangerTextDeep),
                         ),
                       ),
                     ],
@@ -244,7 +244,8 @@ class _AddIngredientDialogState extends ConsumerState<AddIngredientDialog> {
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppTheme.jadeTosca,
+            backgroundColor: AppTheme.primaryAction,
+            minimumSize: const Size(0, 44),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),
           onPressed: _isLoading ? null : _submit,

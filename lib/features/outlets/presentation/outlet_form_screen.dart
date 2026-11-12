@@ -148,7 +148,7 @@ class _OutletFormScreenState extends ConsumerState<OutletFormScreen> {
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
           ),
-          backgroundColor: AppTheme.jadeTosca,
+          backgroundColor: AppTheme.primaryAction,
         ),
       );
     } else {
@@ -156,7 +156,7 @@ class _OutletFormScreenState extends ConsumerState<OutletFormScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Gagal menyimpan: $err', maxLines: 3, overflow: TextOverflow.ellipsis),
-          backgroundColor: AppTheme.dangerRed,
+          backgroundColor: AppTheme.dangerTextDeep,
         ),
       );
     }
@@ -229,7 +229,7 @@ class _OutletFormScreenState extends ConsumerState<OutletFormScreen> {
                   _selectedLat != null ? 'Koordinat Terpilih' : 'Ketuk Peta',
                   style: TextStyle(
                     fontSize: 12,
-                    color: _selectedLat != null ? AppTheme.jadeTosca : AppTheme.textMutedDark,
+                    color: _selectedLat != null ? AppTheme.primaryAction : AppTheme.textMutedDark,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -253,7 +253,7 @@ class _OutletFormScreenState extends ConsumerState<OutletFormScreen> {
               const SizedBox(height: 6),
               Text(
                 _locationError!,
-                style: const TextStyle(color: AppTheme.dangerRed, fontSize: 12),
+                style: const TextStyle(color: AppTheme.dangerText, fontSize: 12),
               ),
             ],
 
@@ -274,7 +274,7 @@ class _OutletFormScreenState extends ConsumerState<OutletFormScreen> {
                   ActionChip(
                     backgroundColor: AppTheme.darkCardSurfaceElevated,
                     side: const BorderSide(color: AppTheme.darkCardBorder),
-                    avatar: const Icon(Icons.location_city_rounded, size: 16, color: AppTheme.jadeTosca),
+                    avatar: const Icon(Icons.location_city_rounded, size: 16, color: AppTheme.primaryAction),
                     label: const Text('Jakarta', style: TextStyle(color: AppTheme.textPrimaryDark, fontSize: 12)),
                     onPressed: () => _applyCityPreset('Jakarta', -6.2088, 106.8456, 'Asia/Jakarta'),
                   ),
@@ -282,7 +282,7 @@ class _OutletFormScreenState extends ConsumerState<OutletFormScreen> {
                   ActionChip(
                     backgroundColor: AppTheme.darkCardSurfaceElevated,
                     side: const BorderSide(color: AppTheme.darkCardBorder),
-                    avatar: const Icon(Icons.location_city_rounded, size: 16, color: AppTheme.jadeTosca),
+                    avatar: const Icon(Icons.location_city_rounded, size: 16, color: AppTheme.primaryAction),
                     label: const Text('Jogja', style: TextStyle(color: AppTheme.textPrimaryDark, fontSize: 12)),
                     onPressed: () => _applyCityPreset('Jogja', -7.7828, 110.3670, 'Asia/Jakarta'),
                   ),
@@ -290,7 +290,7 @@ class _OutletFormScreenState extends ConsumerState<OutletFormScreen> {
                   ActionChip(
                     backgroundColor: AppTheme.darkCardSurfaceElevated,
                     side: const BorderSide(color: AppTheme.darkCardBorder),
-                    avatar: const Icon(Icons.location_city_rounded, size: 16, color: AppTheme.jadeTosca),
+                    avatar: const Icon(Icons.location_city_rounded, size: 16, color: AppTheme.primaryAction),
                     label: const Text('Bali', style: TextStyle(color: AppTheme.textPrimaryDark, fontSize: 12)),
                     onPressed: () => _applyCityPreset('Bali', -8.6705, 115.2126, 'Asia/Makassar'),
                   ),
@@ -298,7 +298,7 @@ class _OutletFormScreenState extends ConsumerState<OutletFormScreen> {
                   ActionChip(
                     backgroundColor: AppTheme.darkCardSurfaceElevated,
                     side: const BorderSide(color: AppTheme.darkCardBorder),
-                    avatar: const Icon(Icons.location_city_rounded, size: 16, color: AppTheme.jadeTosca),
+                    avatar: const Icon(Icons.location_city_rounded, size: 16, color: AppTheme.primaryAction),
                     label: const Text('London', style: TextStyle(color: AppTheme.textPrimaryDark, fontSize: 12)),
                     onPressed: () => _applyCityPreset('London', 51.5074, -0.1278, 'Europe/London'),
                   ),
@@ -320,7 +320,7 @@ class _OutletFormScreenState extends ConsumerState<OutletFormScreen> {
             if (isEditing) ...[
               const SizedBox(height: 16),
               SwitchListTile(
-                activeThumbColor: AppTheme.jadeTosca,
+                activeThumbColor: AppTheme.primaryAction,
                 title: const Text('Status Operasional Aktif', maxLines: 1, overflow: TextOverflow.ellipsis),
                 subtitle: const Text('Cabang aktif dapat bertransaksi dan menerima pesanan kasir', maxLines: 2, overflow: TextOverflow.ellipsis),
                 value: _isActive,
@@ -342,8 +342,9 @@ class _OutletFormScreenState extends ConsumerState<OutletFormScreen> {
           ),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.jadeTosca,
+              backgroundColor: AppTheme.primaryAction,
               foregroundColor: Colors.white,
+              minimumSize: const Size(0, 48),
               padding: const EdgeInsets.symmetric(vertical: 14),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),

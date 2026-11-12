@@ -305,13 +305,13 @@ class _PosCheckoutSheetState extends ConsumerState<PosCheckoutSheet> {
                 children: [
                   _MiniStat(
                     label: 'Dibayar',
-                    value: currentPaid == 0 ? '—' : ref.money(currentPaid),
+                    value: currentPaid == 0 ? '-' : ref.money(currentPaid),
                   ),
                   const SizedBox(width: 10),
                   _MiniStat(
                     label: 'Kembalian',
                     value: ref.money(change),
-                    valueColor: paidEnough ? AppTheme.jadeTosca : AppTheme.textMutedDark,
+                    valueColor: paidEnough ? AppTheme.primaryAction : AppTheme.textMutedDark,
                   ),
                 ],
               ),
@@ -351,7 +351,7 @@ class _PosCheckoutSheetState extends ConsumerState<PosCheckoutSheet> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Simulasi — tekan "Konfirmasi Pembayaran Diterima" setelah pelanggan membayar.',
+                      'Simulasi: tekan "Konfirmasi Pembayaran Diterima" setelah pelanggan membayar.',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.inter(fontSize: 11, color: AppTheme.textMutedDark),
                     ),
@@ -364,13 +364,13 @@ class _PosCheckoutSheetState extends ConsumerState<PosCheckoutSheet> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: AppTheme.dangerRed.withAlpha(20),
+                  color: AppTheme.dangerBg,
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppTheme.dangerRed.withAlpha(90), width: 1.0),
+                  border: Border.all(color: AppTheme.dangerText.withValues(alpha: 0.4), width: 1.0),
                 ),
                 child: Text(
                   _errorMessage!,
-                  style: GoogleFonts.inter(color: AppTheme.dangerRed, fontSize: 12),
+                  style: GoogleFonts.inter(color: AppTheme.dangerTextDeep, fontSize: 12),
                 ),
               ),
             ],
@@ -500,24 +500,24 @@ class _MethodPill extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 9),
             decoration: BoxDecoration(
-              color: isSelected ? AppTheme.jadeTosca.withAlpha(28) : AppTheme.darkCardSurfaceElevated,
+              color: isSelected ? AppTheme.lightToskaBg : AppTheme.darkCardSurfaceElevated,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                color: isSelected ? AppTheme.jadeTosca : AppTheme.darkCardBorder,
+                color: isSelected ? AppTheme.primaryAction : AppTheme.darkCardBorder,
                 width: isSelected ? 1.4 : 1.0,
               ),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(icon, size: 20, color: isSelected ? AppTheme.jadeTosca : AppTheme.textPrimaryDark),
+                Icon(icon, size: 20, color: isSelected ? AppTheme.primaryAction : AppTheme.textPrimaryDark),
                 const SizedBox(height: 4),
                 Text(
                   label,
                   style: GoogleFonts.inter(
                     fontSize: 11.5,
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                    color: isSelected ? AppTheme.jadeTosca : AppTheme.textPrimaryDark,
+                    color: isSelected ? AppTheme.primaryAction : AppTheme.textPrimaryDark,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -570,7 +570,7 @@ class _KeypadKey extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: isAccent ? AppTheme.jadeTosca : AppTheme.darkCardSurfaceElevated,
+      color: isAccent ? AppTheme.primaryAction : AppTheme.darkCardSurfaceElevated,
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
@@ -580,7 +580,7 @@ class _KeypadKey extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: isAccent ? AppTheme.jadeTosca : AppTheme.darkCardBorder,
+              color: isAccent ? AppTheme.primaryAction : AppTheme.darkCardBorder,
               width: 1.0,
             ),
           ),

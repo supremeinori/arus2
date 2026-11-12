@@ -359,22 +359,22 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: const Color(0x22EF4444),
+                  color: AppTheme.dangerBg,
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: const Color(0xFFEF4444), width: 1.0),
+                  border: Border.all(color: AppTheme.dangerText, width: 1.0),
                 ),
                 child: Text(
                   _error!,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(color: const Color(0xFFF87171), fontSize: 12.5),
+                  style: GoogleFonts.inter(color: AppTheme.dangerTextDeep, fontSize: 12.5),
                 ),
               ),
               const SizedBox(height: 16),
             ],
 
             // ---------- Step 1: Info dasar ----------
-            Text('Step 1 — Info Dasar',
+            Text('Step 1: Info Dasar',
                 style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700)),
             const SizedBox(height: 8),
             TextFormField(
@@ -435,7 +435,7 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Step 2 — Resep',
+                Text('Step 2: Resep',
                     style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700)),
                 TextButton.icon(
                   onPressed: () => setState(() => _rows.add(_RecipeRow())),
@@ -543,7 +543,7 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
                               ),
                               IconButton(
                                 icon: const Icon(Icons.delete_outline,
-                                    color: AppTheme.dangerRed, size: 20),
+                                    color: AppTheme.dangerText, size: 20),
                                 tooltip: 'Hapus baris ini',
                                 onPressed: _rows.length > 1
                                     ? () => setState(() => _rows.removeAt(i).dispose())
@@ -582,7 +582,7 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
                         children: [
                           Expanded(
                             child: Text(
-                              'Step 3 — Total Modal (HPP)',
+                              'Step 3: Total Modal (HPP)',
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.inter(
@@ -598,7 +598,7 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
                             style: GoogleFonts.inter(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
-                              color: AppTheme.jadeTosca,
+                              color: AppTheme.primaryAction,
                             ),
                           ),
                         ],
@@ -607,18 +607,19 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
                     const SizedBox(height: 16),
 
                     Text(
-                      'Step 4 — Rekomendasi Harga Jual',
+                      'Step 4: Rekomendasi Harga Jual',
                       style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(height: 8),
 
-                    // Tombol "✨ Rekomendasi Harga AI"
+                    // Tombol "Rekomendasi Harga AI"
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.jadeTosca,
+                          backgroundColor: AppTheme.primaryAction,
                           foregroundColor: Colors.white,
+                          minimumSize: const Size(0, 48),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -636,9 +637,9 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
                                   color: Colors.white,
                                 ),
                               )
-                            : const Icon(Icons.auto_awesome_rounded, size: 18),
+                            : const Icon(Icons.analytics_outlined, size: 18),
                         label: Text(
-                          '✨ Rekomendasi Harga AI',
+                          'Rekomendasi Harga AI',
                           style: GoogleFonts.inter(
                             fontSize: 13.5,
                             fontWeight: FontWeight.w700,
@@ -655,7 +656,7 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
                         decoration: BoxDecoration(
                           color: AppTheme.darkCardSurfaceElevated,
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppTheme.jadeTosca.withAlpha(120)),
+                          border: Border.all(color: AppTheme.primaryAction.withAlpha(120)),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -664,7 +665,7 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
                               children: [
                                 const Icon(
                                   Icons.lightbulb_outline_rounded,
-                                  color: AppTheme.jadeTosca,
+                                  color: AppTheme.primaryAction,
                                   size: 18,
                                 ),
                                 const SizedBox(width: 8),
@@ -673,7 +674,7 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
                                   style: GoogleFonts.inter(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w700,
-                                    color: AppTheme.jadeTosca,
+                                    color: AppTheme.primaryAction,
                                   ),
                                 ),
                               ],
@@ -681,7 +682,7 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
                             const SizedBox(height: 8),
                             // a) Action Chip/Button harga untuk mengisi price_idr
                             ActionChip(
-                              backgroundColor: AppTheme.jadeTosca,
+                              backgroundColor: AppTheme.primaryAction,
                               side: BorderSide.none,
                               avatar: const Icon(
                                 Icons.check_circle_outline_rounded,
@@ -713,17 +714,18 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            // c) Tombol sekunder "🤖 Lanjutkan ke Arus AI"
+                            // c) Tombol sekunder "Lanjutkan ke Arus AI"
                             OutlinedButton.icon(
                               style: OutlinedButton.styleFrom(
-                                foregroundColor: AppTheme.jadeTosca,
-                                side: const BorderSide(color: AppTheme.jadeTosca, width: 1.2),
+                                foregroundColor: AppTheme.primaryAction,
+                                side: const BorderSide(color: AppTheme.primaryAction, width: 1.2),
+                                minimumSize: const Size(0, 44),
                                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                               ),
                               onPressed: () => _navigateToAiChat(hpp),
                               icon: const Icon(Icons.forum_outlined, size: 16),
                               label: Text(
-                                '🤖 Lanjutkan ke Arus AI',
+                                'Lanjutkan ke Arus AI',
                                 style: GoogleFonts.inter(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
@@ -752,7 +754,7 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
                         for (final m in [30, 50, 100])
                           OutlinedButton(
                             style: OutlinedButton.styleFrom(
-                              foregroundColor: AppTheme.jadeTosca,
+                              foregroundColor: AppTheme.primaryAction,
                               side: const BorderSide(color: AppTheme.darkCardBorder),
                               backgroundColor: AppTheme.darkCardSurfaceElevated,
                             ),
@@ -820,8 +822,9 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
             ElevatedButton(
               onPressed: _saving ? null : _submit,
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.jadeTosca,
+                backgroundColor: AppTheme.primaryAction,
                 foregroundColor: Colors.white,
+                minimumSize: const Size(0, 48),
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -857,7 +860,7 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
                 label: Text(_isActive ? 'Nonaktifkan Menu' : 'Aktifkan Menu'),
                 style: OutlinedButton.styleFrom(
                   foregroundColor:
-                      _isActive ? AppTheme.dangerRed : AppTheme.jadeTosca,
+                      _isActive ? AppTheme.dangerText : AppTheme.primaryAction,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),

@@ -98,7 +98,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> with WidgetsB
               style: GoogleFonts.inter(
                 fontSize: 11.5,
                 fontWeight: FontWeight.w500,
-                color: AppTheme.jadeTosca,
+                color: AppTheme.primaryAction,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -117,7 +117,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> with WidgetsB
         ],
       ),
       body: RefreshIndicator(
-        color: AppTheme.jadeTosca,
+        color: AppTheme.primaryAction,
         backgroundColor: AppTheme.darkCardSurfaceElevated,
         onRefresh: () async {
           ref.invalidate(salesForecastProvider);
@@ -242,7 +242,7 @@ class _TabButton extends StatelessWidget {
             Icon(
               icon,
               size: 16,
-              color: isSelected ? AppTheme.jadeTosca : AppTheme.textMutedDark,
+              color: isSelected ? AppTheme.primaryAction : AppTheme.textMutedDark,
             ),
             const SizedBox(width: 6),
             Flexible(
@@ -417,9 +417,11 @@ class _HorizonPill extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(6),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        constraints: const BoxConstraints(minHeight: 40),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: isSelected ? AppTheme.jadeTosca : Colors.transparent,
+          color: isSelected ? AppTheme.primaryAction : Colors.transparent,
           borderRadius: BorderRadius.circular(6),
         ),
         child: Text(
@@ -427,7 +429,7 @@ class _HorizonPill extends StatelessWidget {
           style: GoogleFonts.inter(
             fontSize: 11.5,
             fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-            color: isSelected ? Colors.white : AppTheme.textMutedDark,
+            color: isSelected ? Colors.white : AppTheme.textMutedOnElevated,
           ),
         ),
       ),
@@ -477,7 +479,7 @@ class _SalesForecastKpis extends ConsumerWidget {
                 const SizedBox(height: 2),
                 Text(
                   '${ref.money(summary.avgDailyProjectedIdr)}/hari',
-                  style: GoogleFonts.inter(color: AppTheme.jadeTosca, fontSize: 10, fontWeight: FontWeight.w600),
+                  style: GoogleFonts.inter(color: AppTheme.primaryAction, fontSize: 10, fontWeight: FontWeight.w600),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -507,7 +509,7 @@ class _SalesForecastKpis extends ConsumerWidget {
                     Icon(
                       isPositive ? Icons.trending_up_rounded : Icons.trending_down_rounded,
                       size: 15,
-                      color: isPositive ? AppTheme.successGreen : AppTheme.dangerRed,
+                      color: isPositive ? AppTheme.successText : AppTheme.dangerText,
                     ),
                     const SizedBox(width: 3),
                     Flexible(
@@ -516,7 +518,7 @@ class _SalesForecastKpis extends ConsumerWidget {
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w800,
                           fontSize: 14,
-                          color: isPositive ? AppTheme.successGreen : AppTheme.dangerRed,
+                          color: isPositive ? AppTheme.successText : AppTheme.dangerText,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -589,10 +591,10 @@ class _AiInsightBanner extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
-        color: AppTheme.jadeTosca.withValues(alpha: 0.08),
+        color: AppTheme.lightToskaBg,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppTheme.jadeTosca.withValues(alpha: 0.25),
+          color: AppTheme.primaryAction.withValues(alpha: 0.25),
           width: 1.0,
         ),
       ),
@@ -602,12 +604,12 @@ class _AiInsightBanner extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: AppTheme.jadeTosca.withValues(alpha: 0.15),
+              color: Colors.white,
               borderRadius: BorderRadius.circular(8),
             ),
             child: const Icon(
               Icons.insights_rounded,
-              color: AppTheme.jadeTosca,
+              color: AppTheme.primaryAction,
               size: 16,
             ),
           ),
@@ -621,7 +623,7 @@ class _AiInsightBanner extends StatelessWidget {
                   style: GoogleFonts.inter(
                     fontWeight: FontWeight.w700,
                     fontSize: 12,
-                    color: AppTheme.jadeTosca,
+                    color: AppTheme.primaryAction,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -707,13 +709,13 @@ class _PredictiveChartCardState extends ConsumerState<_PredictiveChartCard> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const _LegendIndicator(
-                    color: AppTheme.jadeTosca,
+                    color: AppTheme.primaryAction,
                     label: 'Aktual',
                     isDashed: false,
                   ),
                   const SizedBox(width: 8),
                   const _LegendIndicator(
-                    color: Color(0xFF0284C7),
+                    color: Color(0xFF0369A1),
                     label: 'Prediksi',
                     isDashed: true,
                   ),
@@ -744,7 +746,7 @@ class _PredictiveChartCardState extends ConsumerState<_PredictiveChartCard> {
                           width: 8,
                           height: 8,
                           decoration: BoxDecoration(
-                            color: activePoint.isProjected ? const Color(0xFF0284C7) : AppTheme.jadeTosca,
+                            color: activePoint.isProjected ? const Color(0xFF0369A1) : AppTheme.primaryAction,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -765,7 +767,7 @@ class _PredictiveChartCardState extends ConsumerState<_PredictiveChartCard> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                           decoration: BoxDecoration(
-                            color: (activePoint.isProjected ? const Color(0xFF0284C7) : AppTheme.jadeTosca).withValues(alpha: 0.12),
+                            color: (activePoint.isProjected ? const Color(0xFF0369A1) : AppTheme.primaryAction).withValues(alpha: 0.12),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
@@ -773,7 +775,7 @@ class _PredictiveChartCardState extends ConsumerState<_PredictiveChartCard> {
                             style: GoogleFonts.inter(
                               fontSize: 9.5,
                               fontWeight: FontWeight.w700,
-                              color: activePoint.isProjected ? const Color(0xFF0284C7) : AppTheme.jadeTosca,
+                              color: activePoint.isProjected ? const Color(0xFF0369A1) : AppTheme.primaryAction,
                             ),
                           ),
                         ),
@@ -790,7 +792,7 @@ class _PredictiveChartCardState extends ConsumerState<_PredictiveChartCard> {
                         style: GoogleFonts.inter(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
-                          color: activePoint.isProjected ? const Color(0xFF0284C7) : AppTheme.jadeTosca,
+                          color: activePoint.isProjected ? const Color(0xFF0369A1) : AppTheme.primaryAction,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -1385,7 +1387,7 @@ class _StockoutForecastSection extends ConsumerWidget {
                       child: _StockStatusCard(
                         label: 'Kritis (<3 hari)',
                         count: summary.criticalCount,
-                        color: AppTheme.dangerRed,
+                        color: AppTheme.dangerText,
                         isSelected: activeFilter == 'critical',
                         onTap: () {
                           ref.read(selectedStockoutFilterProvider.notifier).state =
@@ -1398,7 +1400,7 @@ class _StockoutForecastSection extends ConsumerWidget {
                       child: _StockStatusCard(
                         label: 'Waspada (3-6 hr)',
                         count: summary.warningCount,
-                        color: AppTheme.warningAmber,
+                        color: AppTheme.warningText,
                         isSelected: activeFilter == 'warning',
                         onTap: () {
                           ref.read(selectedStockoutFilterProvider.notifier).state =
@@ -1448,16 +1450,20 @@ class _StockoutForecastSection extends ConsumerWidget {
                     if (activeFilter != 'all') ...[
                       const SizedBox(width: 8),
                       InkWell(
+                        borderRadius: BorderRadius.circular(6),
                         onTap: () => ref.read(selectedStockoutFilterProvider.notifier).state = 'all',
-                        child: Text(
-                          'Tampilkan Semua',
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: AppTheme.jadeTosca,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
+                          child: Text(
+                            'Tampilkan Semua',
+                            style: GoogleFonts.inter(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.primaryAction,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -1558,10 +1564,10 @@ class _StockoutItemCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final statusColor = item.isCritical
-        ? AppTheme.dangerRed
+        ? AppTheme.dangerText
         : item.isWarning
-            ? AppTheme.warningAmber
-            : AppTheme.successGreen;
+            ? AppTheme.warningText
+            : AppTheme.successText;
 
     final statusText = item.daysUntilStockout <= 0
         ? 'Habis Hari Ini!'
@@ -1640,7 +1646,7 @@ class _StockoutItemCard extends ConsumerWidget {
                 Flexible(
                   child: Text(
                     'Laju: ~${item.dailyVelocity} ${item.unit}/hari',
-                    style: GoogleFonts.inter(fontSize: 11.5, color: AppTheme.jadeTosca, fontWeight: FontWeight.w600),
+                    style: GoogleFonts.inter(fontSize: 11.5, color: AppTheme.primaryAction, fontWeight: FontWeight.w600),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -1708,7 +1714,7 @@ class _StockoutItemCard extends ConsumerWidget {
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w700,
                           fontSize: 12,
-                          color: AppTheme.jadeTosca,
+                          color: AppTheme.primaryAction,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

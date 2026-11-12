@@ -31,19 +31,34 @@ class _DashboardColors {
   static const textSecondary = Color(0xFF475569); // Slate-600
   static const textMuted = Color(0xFF64748B); // Slate-500
   static const border = Color(0xFFE2E8F0); // Hairline 1px Slate-200
-  static const teal = Color(0xFF00A896); // Modern Jade Tosca
+  static const teal = Color(0xFF0F766E); // Accessible Teal 700 (5.47:1 on white, 4.91:1 on tealLight)
+  static const tealGraphic = Color(0xFF00A896); // Jade Tosca graphic accent (bars, borders)
   static const tealLight = Color(0xFFE6F6F4);
-  static const amber = Color(0xFFD97706); // Warm Amber
+  static const amber = Color(0xFFB45309); // Accessible Amber-700 (5.02:1 on white)
+  static const amberDeep = Color(0xFF92400E); // Accessible Amber-800 on warm tint
   static const amberLight = Color(0xFFFEF3C7);
-  static const danger = Color(0xFFEF4444);
+  static const danger = Color(0xFFDC2626); // Accessible Red-600 (4.83:1 on white)
   static const chartGrid = Color(0xFFF1F5F9);
 }
 
-class DashboardScreen extends ConsumerWidget {
+class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends ConsumerState<DashboardScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     // Listener Sensor Guncangan (Shake-to-Refresh)
     ref.listen<DateTime?>(shakeEventProvider, (prev, next) {
       if (next != null) {
@@ -131,9 +146,6 @@ class DashboardScreen extends ConsumerWidget {
         [];
     final issuesCount = lowStockIngredients.length;
 
-    // Scroll controller untuk melompat ke section masalah / peringatan
-    final ScrollController scrollController = ScrollController();
-
     return Scaffold(
       backgroundColor: _DashboardColors.bg,
       body: SafeArea(
@@ -150,7 +162,7 @@ class DashboardScreen extends ConsumerWidget {
             ref.invalidate(notificationsListProvider);
           },
           child: SingleChildScrollView(
-            controller: scrollController,
+            controller: _scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Column(
@@ -273,8 +285,8 @@ class DashboardScreen extends ConsumerWidget {
                     issuesCount: issuesCount,
                     onViewHistory: () => context.push('/pos/history?scope=dashboard'),
                     onViewIssues: () {
-                      scrollController.animateTo(
-                        scrollController.position.maxScrollExtent,
+                      _scrollController.animateTo(
+                        _scrollController.position.maxScrollExtent,
                         duration: const Duration(milliseconds: 400),
                         curve: Curves.easeOutCubic,
                       );
@@ -285,8 +297,8 @@ class DashboardScreen extends ConsumerWidget {
                     issuesCount: issuesCount,
                     onViewHistory: () => context.push('/pos/history?scope=dashboard'),
                     onViewIssues: () {
-                      scrollController.animateTo(
-                        scrollController.position.maxScrollExtent,
+                      _scrollController.animateTo(
+                        _scrollController.position.maxScrollExtent,
                         duration: const Duration(milliseconds: 400),
                         curve: Curves.easeOutCubic,
                       );
@@ -353,60 +365,65 @@ class _WireframeHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // Brand Logo + Wordmark "Arus" + sapaan pemilik akun
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(
-                'assets/images/app_logo_mark.png',
-                width: 36,
-                height: 36,
-                fit: BoxFit.contain,
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        const TextSpan(text: 'Ar'),
+          Expanded(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  'assets/images/app_logo_mark.png',
+                  width: 36,
+                  height: 36,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text.rich(
                         TextSpan(
-                          text: 'us',
-                          style: GoogleFonts.inter(color: _DashboardColors.teal),
+                          children: [
+                            const TextSpan(text: 'Ar'),
+                            TextSpan(
+                              text: 'us',
+                              style: GoogleFonts.inter(color: _DashboardColors.teal),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    style: GoogleFonts.inter(
-                      fontSize: 19,
-                      fontWeight: FontWeight.w800,
-                      color: _DashboardColors.textPrimary,
-                      letterSpacing: -0.4,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.inter(
+                          fontSize: 19,
+                          fontWeight: FontWeight.w800,
+                          color: _DashboardColors.textPrimary,
+                          letterSpacing: -0.4,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        greeting,
+                        style: GoogleFonts.inter(
+                          fontSize: 11.5,
+                          color: _DashboardColors.textSecondary,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
-                  Text(
-                    greeting,
-                    style: GoogleFonts.inter(
-                      fontSize: 11.5,
-                      color: _DashboardColors.textSecondary,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
+          const SizedBox(width: 8),
 
           // Lonceng Notifikasi (API: GET /api/notifications)
           InkWell(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(22),
             onTap: () => context.push('/notifications'),
             child: Container(
-              width: 38,
-              height: 38,
+              width: 44,
+              height: 44,
               decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
@@ -545,20 +562,24 @@ class _HeroOmzetCard extends ConsumerWidget {
               ),
               if (errorMessage != null && onRetry != null)
                 InkWell(
+                  borderRadius: BorderRadius.circular(8),
                   onTap: onRetry,
-                  child: Row(
-                    children: [
-                      const Icon(Icons.refresh_rounded, size: 14, color: _DashboardColors.danger),
-                      const SizedBox(width: 4),
-                      Text(
-                        'Coba lagi',
-                        style: GoogleFonts.inter(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: _DashboardColors.danger,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.refresh_rounded, size: 14, color: _DashboardColors.danger),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Coba lagi',
+                          style: GoogleFonts.inter(
+                            fontSize: 11.5,
+                            fontWeight: FontWeight.w600,
+                            color: _DashboardColors.danger,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 )
               else
@@ -566,7 +587,7 @@ class _HeroOmzetCard extends ConsumerWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
                   decoration: BoxDecoration(
                     color: _DashboardColors.tealLight,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     dayLabel,
@@ -654,7 +675,7 @@ class _HeroOmzetCard extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(8),
                 onTap: () => _openFilterDialog(context, ref),
                 child: Container(
-                  padding: const EdgeInsets.all(7),
+                  padding: const EdgeInsets.all(11),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF1F5F9), // Slate-100
                     borderRadius: BorderRadius.circular(8),
@@ -700,49 +721,53 @@ class _KpiRowSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // Kartu Transaksi (Data Asli API)
+        // Kartu Transaksi (Data Asli API) - seluruh kartu dapat diketuk
         Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              color: _DashboardColors.card,
+          child: Material(
+            color: _DashboardColors.card,
+            borderRadius: BorderRadius.circular(14),
+            child: InkWell(
+              onTap: onViewHistory,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: _DashboardColors.border, width: 1.0),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Transaksi',
-                  style: GoogleFonts.inter(
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.w600,
-                    color: _DashboardColors.textSecondary,
-                  ),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: _DashboardColors.border, width: 1.0),
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  '$transactionCount',
-                  style: GoogleFonts.lexend(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w800,
-                    color: _DashboardColors.textPrimary,
-                    letterSpacing: -0.4,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                InkWell(
-                  onTap: onViewHistory,
-                  child: Text(
-                    'Lihat Transaksi',
-                    style: GoogleFonts.inter(
-                      fontSize: 11.5,
-                      fontWeight: FontWeight.w600,
-                      color: _DashboardColors.teal,
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Transaksi',
+                      style: GoogleFonts.inter(
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w600,
+                        color: _DashboardColors.textSecondary,
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 6),
+                    Text(
+                      '$transactionCount',
+                      style: GoogleFonts.lexend(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w800,
+                        color: _DashboardColors.textPrimary,
+                        letterSpacing: -0.4,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Lihat Transaksi',
+                      style: GoogleFonts.inter(
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.w600,
+                        color: _DashboardColors.teal,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
@@ -841,22 +866,31 @@ class _TerlarisCard extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Terlaris',
-                style: GoogleFonts.inter(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: _DashboardColors.textPrimary,
+              Expanded(
+                child: Text(
+                  'Terlaris',
+                  style: GoogleFonts.inter(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: _DashboardColors.textPrimary,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
+              const SizedBox(width: 8),
               InkWell(
+                borderRadius: BorderRadius.circular(8),
                 onTap: onViewAll,
-                child: Text(
-                  'Lihat Semua',
-                  style: GoogleFonts.inter(
-                    fontSize: 11.5,
-                    fontWeight: FontWeight.w600,
-                    color: _DashboardColors.teal,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
+                  child: Text(
+                    'Lihat Semua',
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: _DashboardColors.teal,
+                    ),
                   ),
                 ),
               ),
@@ -1062,7 +1096,7 @@ class _TrenCard extends StatelessWidget {
                                     height: barHeight,
                                     decoration: BoxDecoration(
                                       color: isPeak
-                                          ? _DashboardColors.teal
+                                          ? _DashboardColors.tealGraphic
                                           : (hasRevenue
                                               ? const Color(0xFF94A3B8)
                                               : const Color(0xFFE2E8F0)),
@@ -1117,7 +1151,7 @@ class _TrenCard extends StatelessWidget {
                                   height: barHeight,
                                   decoration: BoxDecoration(
                                     color: isPeak
-                                        ? _DashboardColors.teal
+                                        ? _DashboardColors.tealGraphic
                                         : (hasRevenue
                                             ? const Color(0xFF94A3B8)
                                             : const Color(0xFFE2E8F0)),
@@ -1189,22 +1223,31 @@ class _PeringatanCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Peringatan',
-                style: GoogleFonts.inter(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: _DashboardColors.textPrimary,
+              Expanded(
+                child: Text(
+                  'Peringatan',
+                  style: GoogleFonts.inter(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: _DashboardColors.textPrimary,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
+              const SizedBox(width: 8),
               InkWell(
+                borderRadius: BorderRadius.circular(8),
                 onTap: onViewAll,
-                child: Text(
-                  'Lihat Semua',
-                  style: GoogleFonts.inter(
-                    fontSize: 11.5,
-                    fontWeight: FontWeight.w600,
-                    color: _DashboardColors.teal,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
+                  child: Text(
+                    'Lihat Semua',
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: _DashboardColors.teal,
+                    ),
                   ),
                 ),
               ),
@@ -1279,7 +1322,7 @@ class _PeringatanCard extends StatelessWidget {
                             'Sisa ${item.stockQty} ${item.unit} (Min: ${item.reorderLevel} ${item.unit})',
                             style: GoogleFonts.inter(
                               fontSize: 11.5,
-                              color: _DashboardColors.amber,
+                              color: _DashboardColors.amberDeep,
                               fontWeight: FontWeight.w500,
                             ),
                           ),

@@ -37,7 +37,7 @@ class AsyncStateView<T> extends StatelessWidget {
                 height: 28,
                 child: CircularProgressIndicator(
                   strokeWidth: 2.5,
-                  valueColor: AlwaysStoppedAnimation<Color>(AppTheme.jadeTosca),
+                  valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primaryAction),
                 ),
               ),
               const SizedBox(height: 16),
@@ -67,10 +67,10 @@ class AsyncStateView<T> extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: AppTheme.dangerRed.withValues(alpha: 0.15),
+                      color: AppTheme.dangerBg,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.error_outline_rounded, color: AppTheme.dangerRed, size: 32),
+                    child: const Icon(Icons.error_outline_rounded, color: AppTheme.dangerText, size: 32),
                   ),
                   const SizedBox(height: 12),
                   Text(
@@ -94,8 +94,9 @@ class AsyncStateView<T> extends StatelessWidget {
                   if (onRetry != null) ...[
                     const SizedBox(height: 16),
                     ShadButton.outline(
+                      height: 44,
                       onPressed: onRetry,
-                      leading: const Icon(Icons.refresh_rounded, size: 16, color: AppTheme.jadeTosca),
+                      leading: const Icon(Icons.refresh_rounded, size: 16, color: AppTheme.primaryAction),
                       child: const Text(StringsId.retry),
                     ),
                   ],

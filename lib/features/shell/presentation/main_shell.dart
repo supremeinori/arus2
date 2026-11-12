@@ -177,9 +177,9 @@ class _MainShellState extends ConsumerState<MainShell> {
                   height: 40,
                   fit: BoxFit.cover,
                   errorBuilder: (_, _, _) => const Icon(
-                    Icons.auto_awesome_rounded,
+                    Icons.analytics_rounded,
                     size: 26,
-                    color: AppTheme.jadeTosca,
+                    color: AppTheme.primaryAction,
                   ),
                 ),
               ),
@@ -199,7 +199,7 @@ class _MainShellState extends ConsumerState<MainShell> {
             ref.read(shellTabIndexProvider.notifier).state = index;
           },
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: AppTheme.jadeTosca,
+          selectedItemColor: AppTheme.primaryAction,
           unselectedItemColor: AppTheme.textMutedLight,
           selectedFontSize: 11.5,
           unselectedFontSize: 11.5,

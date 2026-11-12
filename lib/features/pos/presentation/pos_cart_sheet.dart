@@ -59,7 +59,7 @@ class PosCartSheet extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
                   color: AppTheme.darkCardSurfaceElevated,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: AppTheme.darkCardBorder, width: 1.0),
                 ),
                 child: Text(
@@ -119,7 +119,7 @@ class PosCartSheet extends ConsumerWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(error),
-                            backgroundColor: const Color(0xFFD97706),
+                            backgroundColor: AppTheme.warningTextDeep,
                             duration: const Duration(seconds: 2),
                           ),
                         );
@@ -149,7 +149,7 @@ class PosCartSheet extends ConsumerWidget {
               Text('Diskon', style: GoogleFonts.inter(fontSize: 13, color: AppTheme.textMutedDark)),
               Text(
                 '- ${ref.money(cart.discountIdr)}',
-                style: GoogleFonts.inter(fontSize: 13, color: AppTheme.dangerRed),
+                style: GoogleFonts.inter(fontSize: 13, color: AppTheme.dangerText),
               ),
             ],
           ),
@@ -166,7 +166,7 @@ class PosCartSheet extends ConsumerWidget {
                 style: GoogleFonts.inter(
                   fontWeight: FontWeight.w800,
                   fontSize: 18,
-                  color: AppTheme.jadeTosca,
+                  color: AppTheme.primaryAction,
                 ),
               ),
             ],
@@ -275,7 +275,7 @@ class _CartLine extends StatelessWidget {
           iconSize: 20,
           visualDensity: VisualDensity.compact,
           tooltip: 'Hapus baris',
-          icon: const Icon(Icons.delete_outline, color: AppTheme.dangerRed),
+          icon: const Icon(Icons.delete_outline, color: AppTheme.dangerText),
           onPressed: onRemove,
         ),
       ],
@@ -359,10 +359,10 @@ class _StepperButton extends StatelessWidget {
             width: 28,
             height: 28,
             decoration: BoxDecoration(
-              color: isPrimary ? AppTheme.jadeTosca : AppTheme.darkCardSurfaceElevated,
+              color: isPrimary ? AppTheme.primaryAction : AppTheme.darkCardSurfaceElevated,
               shape: BoxShape.circle,
               border: Border.all(
-                color: isPrimary ? AppTheme.jadeTosca : AppTheme.darkCardBorder,
+                color: isPrimary ? AppTheme.primaryAction : AppTheme.darkCardBorder,
                 width: 1.0,
               ),
             ),

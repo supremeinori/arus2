@@ -53,12 +53,12 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppTheme.dangerRed.withValues(alpha: 0.12),
+                color: AppTheme.dangerBg,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
                 Icons.delete_outline_rounded,
-                color: AppTheme.dangerRed,
+                color: AppTheme.dangerTextDeep,
                 size: 22,
               ),
             ),
@@ -96,7 +96,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.dangerRed,
+              backgroundColor: AppTheme.dangerTextDeep,
               foregroundColor: Colors.white,
               elevation: 0,
               shape: RoundedRectangleBorder(
@@ -129,7 +129,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                         e.toString().replaceAll('Exception: ', ''),
                         style: GoogleFonts.inter(color: Colors.white),
                       ),
-                      backgroundColor: AppTheme.dangerRed,
+                      backgroundColor: AppTheme.dangerTextDeep,
                       behavior: SnackBarBehavior.floating,
                     ),
                   );
@@ -213,7 +213,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
       ),
       floatingActionButton: (isOwner || isManager)
           ? FloatingActionButton.extended(
-              backgroundColor: AppTheme.jadeTosca,
+              backgroundColor: AppTheme.primaryAction,
               foregroundColor: Colors.white,
               elevation: 2,
               icon: const Icon(Icons.person_add_rounded, size: 20),
@@ -229,7 +229,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
           : null,
       body: usersAsync.when(
         loading: () => const Center(
-          child: CircularProgressIndicator(color: AppTheme.jadeTosca),
+          child: CircularProgressIndicator(color: AppTheme.primaryAction),
         ),
         error: (err, _) => Center(
           child: Padding(
@@ -239,7 +239,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
               children: [
                 const Icon(
                   Icons.error_outline_rounded,
-                  color: AppTheme.dangerRed,
+                  color: AppTheme.dangerText,
                   size: 48,
                 ),
                 const SizedBox(height: 12),
@@ -255,14 +255,14 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                   err.toString(),
                   textAlign: TextAlign.center,
                   style: GoogleFonts.inter(
-                    color: AppTheme.textMutedLight,
+                    color: AppTheme.textMutedOnElevated,
                     fontSize: 13,
                   ),
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.jadeTosca,
+                    backgroundColor: AppTheme.primaryAction,
                     foregroundColor: Colors.white,
                   ),
                   onPressed: () =>
@@ -359,14 +359,14 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                       icon: Icons.badge_outlined,
                       label: 'Manager',
                       count: totalManagers.toString(),
-                      color: const Color(0xFFD97706),
+                      color: AppTheme.warningText,
                     ),
                     const SizedBox(width: 8),
                     _MetricChip(
                       icon: Icons.point_of_sale_rounded,
                       label: 'Kasir',
                       count: totalStaff.toString(),
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                     ),
                   ],
                 ),
@@ -563,9 +563,9 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                   if (selectedRole != 'all' || selectedOutlet != null)
                     TextButton(
                       style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: const Size(50, 24),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        minimumSize: const Size(64, 44),
+                        tapTargetSize: MaterialTapTargetSize.padded,
                       ),
                       onPressed: () {
                         ref.read(userRoleFilterProvider.notifier).state = 'all';
@@ -575,9 +575,9 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                       child: Text(
                         'Reset Filter',
                         style: GoogleFonts.inter(
-                          fontSize: 11.5,
+                          fontSize: 12,
                           fontWeight: FontWeight.w600,
-                          color: AppTheme.jadeTosca,
+                          color: AppTheme.primaryAction,
                         ),
                       ),
                     ),
@@ -850,14 +850,14 @@ class _UserCard extends StatelessWidget {
                   icon: const Icon(
                     Icons.edit_outlined,
                     size: 18,
-                    color: AppTheme.jadeTosca,
+                    color: AppTheme.primaryAction,
                   ),
                   tooltip: 'Edit Pengguna',
                   constraints: const BoxConstraints(
-                    minWidth: 32,
-                    minHeight: 32,
+                    minWidth: 44,
+                    minHeight: 44,
                   ),
-                  padding: const EdgeInsets.all(6),
+                  padding: const EdgeInsets.all(10),
                   onPressed: onEdit,
                 ),
               if (canDelete)
@@ -865,14 +865,14 @@ class _UserCard extends StatelessWidget {
                   icon: const Icon(
                     Icons.delete_outline_rounded,
                     size: 18,
-                    color: AppTheme.dangerRed,
+                    color: AppTheme.dangerText,
                   ),
                   tooltip: 'Hapus Pengguna',
                   constraints: const BoxConstraints(
-                    minWidth: 32,
-                    minHeight: 32,
+                    minWidth: 44,
+                    minHeight: 44,
                   ),
-                  padding: const EdgeInsets.all(6),
+                  padding: const EdgeInsets.all(10),
                   onPressed: onDelete,
                 ),
             ],
@@ -962,12 +962,14 @@ class _FilterChoiceChip extends StatelessWidget {
       borderRadius: BorderRadius.circular(8),
       onTap: onSelected,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        constraints: const BoxConstraints(minHeight: 40),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: isSelected ? AppTheme.jadeTosca : Colors.white,
+          color: isSelected ? AppTheme.primaryAction : Colors.white,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: isSelected ? AppTheme.jadeTosca : AppTheme.lightCardBorder,
+            color: isSelected ? AppTheme.primaryAction : AppTheme.lightCardBorder,
             width: 1.0,
           ),
         ),
@@ -1121,7 +1123,7 @@ class _UserFormSheetState extends ConsumerState<_UserFormSheet> {
               e.toString().replaceAll('Exception: ', ''),
               style: GoogleFonts.inter(color: Colors.white),
             ),
-            backgroundColor: AppTheme.dangerRed,
+            backgroundColor: AppTheme.dangerTextDeep,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -1172,14 +1174,14 @@ class _UserFormSheetState extends ConsumerState<_UserFormSheet> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: AppTheme.jadeTosca.withValues(alpha: 0.12),
+                      color: AppTheme.lightToskaBg,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
                       isEditing
                           ? Icons.edit_note_rounded
                           : Icons.person_add_rounded,
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                       size: 22,
                     ),
                   ),
@@ -1357,7 +1359,7 @@ class _UserFormSheetState extends ConsumerState<_UserFormSheet> {
                                   const Icon(
                                     Icons.storefront_rounded,
                                     size: 16,
-                                    color: AppTheme.jadeTosca,
+                                    color: AppTheme.primaryAction,
                                   ),
                                   const SizedBox(width: 8),
                                   Expanded(
@@ -1505,10 +1507,10 @@ class _UserFormSheetState extends ConsumerState<_UserFormSheet> {
               // Tombol Simpan
               SizedBox(
                 width: double.infinity,
-                height: 46,
+                height: 48,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.jadeTosca,
+                    backgroundColor: AppTheme.primaryAction,
                     foregroundColor: Colors.white,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
@@ -1574,7 +1576,7 @@ class _UserFormSheetState extends ConsumerState<_UserFormSheet> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(color: AppTheme.jadeTosca, width: 1.5),
+        borderSide: const BorderSide(color: AppTheme.primaryAction, width: 1.5),
       ),
     );
   }
@@ -1599,8 +1601,8 @@ class _RoleSelectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final activeColor = role == UserRole.manager
-        ? const Color(0xFFD97706) // Warm Amber
-        : AppTheme.jadeTosca; // Jade Tosca
+        ? AppTheme.warningText // Warm Amber (WCAG AA)
+        : AppTheme.primaryAction; // Jade Tosca Accessible
 
     return InkWell(
       borderRadius: BorderRadius.circular(10),

@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../shared/widgets/async_state_view.dart';
 import '../../../shared/widgets/empty_state.dart';
-import '../../../shared/widgets/test_push_notification_button.dart';
 import '../domain/notification_models.dart';
 import 'notifications_provider.dart';
 
@@ -79,9 +78,6 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
       ),
       body: Column(
         children: [
-          // Tombol uji notifikasi (sementara) — hapus baris ini untuk
-          // menghilangkan tombol tanpa mengubah sistem notifikasi push.
-          const TestPushNotificationButton(),
           _FilterChips(
             selectedFilter: _selectedFilter,
             onSelected: (val) => setState(() => _selectedFilter = val),
@@ -141,7 +137,7 @@ class _FilterChips extends StatelessWidget {
             padding: const EdgeInsets.only(right: 8),
             child: ChoiceChip(
               backgroundColor: AppTheme.darkCardSurface,
-              selectedColor: AppTheme.jadeTosca,
+              selectedColor: AppTheme.primaryAction,
               side: const BorderSide(color: AppTheme.darkCardBorder),
               labelStyle: TextStyle(
                 color: isSelected ? Colors.white : AppTheme.textSecondaryDark,
@@ -184,17 +180,17 @@ class _NotificationCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     IconData icon = Icons.info_outline;
-    Color color = AppTheme.jadeTosca;
+    Color color = AppTheme.primaryAction;
 
     if (item.type == 'low_stock') {
       icon = Icons.warning_amber_rounded;
-      color = AppTheme.dangerRed;
+      color = AppTheme.dangerText;
     } else if (item.type == 'target_achieved') {
       icon = Icons.emoji_events_outlined;
-      color = const Color(0xFF10B981);
+      color = AppTheme.successText;
     } else if (item.type == 'sales_change') {
       icon = Icons.trending_up_rounded;
-      color = const Color(0xFFF59E0B);
+      color = AppTheme.warningText;
     }
 
     return Card(
@@ -204,7 +200,7 @@ class _NotificationCard extends ConsumerWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: item.isRead ? AppTheme.darkCardBorder : AppTheme.jadeTosca.withAlpha(120),
+          color: item.isRead ? AppTheme.darkCardBorder : AppTheme.primaryAction.withAlpha(120),
           width: 1.0,
         ),
       ),
@@ -262,7 +258,7 @@ class _NotificationCard extends ConsumerWidget {
                             width: 8,
                             height: 8,
                             decoration: const BoxDecoration(
-                              color: AppTheme.jadeTosca,
+                              color: AppTheme.primaryAction,
                               shape: BoxShape.circle,
                             ),
                           ),

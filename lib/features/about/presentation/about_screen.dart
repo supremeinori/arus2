@@ -100,19 +100,22 @@ class _AppIdentityCard extends StatelessWidget {
             width: 72,
             height: 72,
             decoration: BoxDecoration(
-              color: AppTheme.jadeTosca,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              'A',
-              style: GoogleFonts.inter(
-                fontSize: 34,
-                fontWeight: FontWeight.w800,
-                color: Colors.white,
+              color: AppTheme.lightToskaBg,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: AppTheme.primaryAction.withValues(alpha: 0.25),
+                width: 1.0,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            ),
+            padding: const EdgeInsets.all(10),
+            child: Image.asset(
+              'assets/images/app_logo_mark.png',
+              fit: BoxFit.contain,
+              errorBuilder: (_, _, _) => const Icon(
+                Icons.point_of_sale_rounded,
+                size: 36,
+                color: AppTheme.primaryAction,
+              ),
             ),
           ),
           const SizedBox(height: 14),
@@ -156,7 +159,7 @@ class _AppIdentityCard extends StatelessWidget {
             style: GoogleFonts.inter(
               fontSize: 11.5,
               fontWeight: FontWeight.w600,
-              color: AppTheme.jadeTosca,
+              color: AppTheme.primaryAction,
             ),
             textAlign: TextAlign.center,
           ),

@@ -106,7 +106,7 @@ class _DetailContent extends ConsumerWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.dangerRed,
+              backgroundColor: AppTheme.dangerTextDeep,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
@@ -124,7 +124,7 @@ class _DetailContent extends ConsumerWidget {
                     content: Text(
                       'Cabang “${outlet.name}” berhasil dinonaktifkan.',
                     ),
-                    backgroundColor: AppTheme.jadeTosca,
+                    backgroundColor: AppTheme.primaryAction,
                   ),
                 );
               } else {
@@ -132,7 +132,7 @@ class _DetailContent extends ConsumerWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text('Gagal menonaktifkan cabang: $err'),
-                    backgroundColor: AppTheme.dangerRed,
+                    backgroundColor: AppTheme.dangerTextDeep,
                   ),
                 );
               }
@@ -155,7 +155,7 @@ class _DetailContent extends ConsumerWidget {
           content: Text(
             'Cabang “${outlet.name}” berhasil diaktifkan kembali.',
           ),
-          backgroundColor: AppTheme.jadeTosca,
+          backgroundColor: AppTheme.primaryAction,
         ),
       );
     } else {
@@ -163,7 +163,7 @@ class _DetailContent extends ConsumerWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Gagal mengaktifkan cabang: $err'),
-          backgroundColor: AppTheme.dangerRed,
+          backgroundColor: AppTheme.dangerTextDeep,
         ),
       );
     }
@@ -218,13 +218,13 @@ class _DetailContent extends ConsumerWidget {
                             ),
                             decoration: BoxDecoration(
                               color: outlet.isActive
-                                  ? const Color(0x2210B981)
-                                  : const Color(0x22EF4444),
+                                  ? AppTheme.successBg
+                                  : AppTheme.dangerBg,
                               borderRadius: BorderRadius.circular(6),
                               border: Border.all(
                                 color: outlet.isActive
-                                    ? const Color(0x3310B981)
-                                    : const Color(0x33EF4444),
+                                    ? AppTheme.successText.withValues(alpha: 0.35)
+                                    : AppTheme.dangerText.withValues(alpha: 0.35),
                               ),
                             ),
                             child: Text(
@@ -235,8 +235,8 @@ class _DetailContent extends ConsumerWidget {
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                                 color: outlet.isActive
-                                    ? const Color(0xFF34D399)
-                                    : const Color(0xFFF87171),
+                                    ? AppTheme.successText
+                                    : AppTheme.dangerTextDeep,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -248,7 +248,7 @@ class _DetailContent extends ConsumerWidget {
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13,
-                                color: AppTheme.jadeTosca,
+                                color: AppTheme.primaryAction,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -304,7 +304,7 @@ class _DetailContent extends ConsumerWidget {
                             const Icon(
                               Icons.gps_fixed_rounded,
                               size: 16,
-                              color: AppTheme.jadeTosca,
+                              color: AppTheme.primaryAction,
                             ),
                             const SizedBox(width: 8),
                             Expanded(
@@ -339,7 +339,7 @@ class _DetailContent extends ConsumerWidget {
                                   Icon(
                                     Icons.near_me_rounded,
                                     size: 15,
-                                    color: AppTheme.jadeTosca,
+                                    color: AppTheme.primaryAction,
                                   ),
                                   SizedBox(width: 6),
                                   Expanded(
@@ -377,7 +377,7 @@ class _DetailContent extends ConsumerWidget {
                                       style: const TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,
-                                        color: AppTheme.jadeTosca,
+                                        color: AppTheme.primaryAction,
                                       ),
                                       textAlign: TextAlign.end,
                                       maxLines: 1,
@@ -402,7 +402,7 @@ class _DetailContent extends ConsumerWidget {
                       label: 'Total Stok SKU',
                       value: '${outlet.inventoryCount} Produk',
                       icon: Icons.inventory_2_outlined,
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -411,7 +411,7 @@ class _DetailContent extends ConsumerWidget {
                       label: 'Staf Bertugas',
                       value: '${outlet.assignedUsersCount} Orang',
                       icon: Icons.badge_outlined,
-                      color: const Color(0xFFF59E0B),
+                      color: AppTheme.warningText,
                     ),
                   ),
                 ],
@@ -432,7 +432,7 @@ class _DetailContent extends ConsumerWidget {
                 ),
                 leading: const Icon(
                   Icons.warehouse_outlined,
-                  color: AppTheme.jadeTosca,
+                  color: AppTheme.primaryAction,
                 ),
                 title: const Text(
                   'Lihat Inventaris Cabang Ini',
@@ -479,8 +479,9 @@ class _OutletActionBar extends StatelessWidget {
         child: isActive
             ? OutlinedButton.icon(
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: AppTheme.dangerRed,
-                  side: const BorderSide(color: AppTheme.dangerRed, width: 1.2),
+                  foregroundColor: AppTheme.dangerText,
+                  side: const BorderSide(color: AppTheme.dangerText, width: 1.2),
+                  minimumSize: const Size(0, 48),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -497,8 +498,9 @@ class _OutletActionBar extends StatelessWidget {
               )
             : ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.jadeTosca,
+                  backgroundColor: AppTheme.primaryAction,
                   foregroundColor: Colors.white,
+                  minimumSize: const Size(0, 48),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),

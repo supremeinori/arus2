@@ -67,7 +67,7 @@ class _OutletListScreenState extends ConsumerState<OutletListScreen>
       ),
       floatingActionButton: isOwner
           ? FloatingActionButton.extended(
-              backgroundColor: AppTheme.jadeTosca,
+              backgroundColor: AppTheme.primaryAction,
               foregroundColor: Colors.white,
               icon: const Icon(Icons.add_location_alt_rounded),
               label: const Text('Tambah Cabang', maxLines: 1, overflow: TextOverflow.ellipsis),
@@ -86,17 +86,17 @@ class _OutletListScreenState extends ConsumerState<OutletListScreen>
 }
 
 /// Tab daftar cabang — widget class top-level
-class _OutletsTab extends StatelessWidget {
+class _OutletsTab extends ConsumerWidget {
   final AsyncValue<List<OutletModel>> outletsAsync;
   final AsyncValue<List<OutletPerformanceModel>> performanceAsync;
 
   const _OutletsTab({required this.outletsAsync, required this.performanceAsync});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AsyncStateView<List<OutletModel>>(
       value: outletsAsync,
-      onRetry: null,
+      onRetry: () => ref.invalidate(outletsListProvider),
       dataBuilder: (outlets) {
         if (outlets.isEmpty) {
           return const EmptyStateView(
@@ -133,16 +133,16 @@ class _OutletCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color statusColor = AppTheme.jadeTosca;
+    Color statusColor = AppTheme.primaryAction;
     String statusText = 'Optimal';
     if (!outlet.isActive) {
       statusColor = AppTheme.textMutedDark;
       statusText = 'Nonaktif';
     } else if (perf?.performanceStatus == 'critical') {
-      statusColor = AppTheme.dangerRed;
+      statusColor = AppTheme.dangerTextDeep;
       statusText = 'Kritis';
     } else if (perf?.performanceStatus == 'warning') {
-      statusColor = const Color(0xFFF59E0B);
+      statusColor = AppTheme.warningText;
       statusText = 'Perhatian';
     }
 
@@ -185,13 +185,13 @@ class _OutletCard extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
-                              color: AppTheme.dangerRed.withAlpha(25),
+                              color: AppTheme.dangerBg,
                               borderRadius: BorderRadius.circular(4),
-                              border: Border.all(color: AppTheme.dangerRed.withAlpha(60)),
+                              border: Border.all(color: AppTheme.dangerText.withValues(alpha: 0.4)),
                             ),
                             child: const Text(
                               'Nonaktif',
-                              style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.dangerRed),
+                              style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.dangerTextDeep),
                             ),
                           ),
                         ],
@@ -250,7 +250,7 @@ class _OutletCard extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -407,10 +407,10 @@ class _LbsTabState extends ConsumerState<_LbsTab> {
                           },
                         ),
                         ActionChip(
-                          backgroundColor: AppTheme.jadeTosca.withAlpha(25),
-                          side: const BorderSide(color: AppTheme.jadeTosca),
-                          avatar: const Icon(Icons.gps_fixed, size: 14, color: AppTheme.jadeTosca),
-                          label: const Text('GPS Riil', style: TextStyle(color: AppTheme.jadeTosca, fontSize: 12, fontWeight: FontWeight.bold)),
+                          backgroundColor: AppTheme.lightToskaBg,
+                          side: const BorderSide(color: AppTheme.primaryAction),
+                          avatar: const Icon(Icons.gps_fixed, size: 14, color: AppTheme.primaryAction),
+                          label: const Text('GPS Riil', style: TextStyle(color: AppTheme.primaryAction, fontSize: 12, fontWeight: FontWeight.bold)),
                           onPressed: () async {
                             final messenger = ScaffoldMessenger.of(context);
                             try {
@@ -419,7 +419,7 @@ class _LbsTabState extends ConsumerState<_LbsTab> {
                             } catch (e) {
                               if (mounted) {
                                 messenger.showSnackBar(
-                                  SnackBar(content: Text('GPS Error: $e'), backgroundColor: AppTheme.dangerRed),
+                                  SnackBar(content: Text('GPS Error: $e'), backgroundColor: AppTheme.dangerTextDeep),
                                 );
                               }
                             }
@@ -440,7 +440,7 @@ class _LbsTabState extends ConsumerState<_LbsTab> {
                 color: AppTheme.darkCardSurface,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
-                  side: const BorderSide(color: AppTheme.jadeTosca, width: 1.5),
+                  side: const BorderSide(color: AppTheme.primaryAction, width: 1.5),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -453,18 +453,18 @@ class _LbsTabState extends ConsumerState<_LbsTab> {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
-                              color: AppTheme.jadeTosca.withAlpha(25),
+                              color: AppTheme.lightToskaBg,
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: const Row(
                               children: [
-                                Icon(Icons.stars_rounded, color: AppTheme.jadeTosca, size: 16),
+                                Icon(Icons.near_me_rounded, color: AppTheme.primaryAction, size: 16),
                                 SizedBox(width: 6),
                                 Text(
                                   'CABANG TERDEKAT (LBS)',
                                   style: TextStyle(
-                                    color: AppTheme.jadeTosca,
-                                    fontSize: 11,
+                                    color: AppTheme.primaryAction,
+                                    fontSize: 11.5,
                                     fontWeight: FontWeight.bold,
                                   ),
                                   maxLines: 1,
@@ -476,7 +476,7 @@ class _LbsTabState extends ConsumerState<_LbsTab> {
                           Text(
                             '${nearest.distanceKm.toStringAsFixed(1)} km',
                             style: const TextStyle(
-                              color: AppTheme.jadeTosca,
+                              color: AppTheme.primaryAction,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -509,13 +509,14 @@ class _LbsTabState extends ConsumerState<_LbsTab> {
                           Expanded(
                             child: OutlinedButton.icon(
                               style: OutlinedButton.styleFrom(
-                                side: const BorderSide(color: AppTheme.jadeTosca),
+                                side: const BorderSide(color: AppTheme.primaryAction),
+                                minimumSize: const Size(0, 44),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              icon: const Icon(Icons.alt_route_rounded, size: 16, color: AppTheme.jadeTosca),
-                              label: const Text('Rute Peta', style: TextStyle(color: AppTheme.jadeTosca, fontSize: 13, fontWeight: FontWeight.bold)),
+                              icon: const Icon(Icons.alt_route_rounded, size: 16, color: AppTheme.primaryAction),
+                              label: const Text('Rute Peta', style: TextStyle(color: AppTheme.primaryAction, fontSize: 13, fontWeight: FontWeight.bold)),
                               onPressed: () {
                                 ref.read(selectedLbsOutletIdProvider.notifier).state = nearest.id;
                               },
@@ -525,8 +526,9 @@ class _LbsTabState extends ConsumerState<_LbsTab> {
                           Expanded(
                             child: ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppTheme.jadeTosca,
+                                backgroundColor: AppTheme.primaryAction,
                                 foregroundColor: Colors.white,
+                                minimumSize: const Size(0, 44),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
@@ -580,7 +582,7 @@ class _LbsTabState extends ConsumerState<_LbsTab> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                   side: BorderSide(
-                    color: isSelected ? AppTheme.jadeTosca : AppTheme.darkCardBorder,
+                    color: isSelected ? AppTheme.primaryAction : AppTheme.darkCardBorder,
                     width: isSelected ? 1.5 : 1.0,
                   ),
                 ),
@@ -590,11 +592,11 @@ class _LbsTabState extends ConsumerState<_LbsTab> {
                     children: [
                       CircleAvatar(
                         backgroundColor: isSelected
-                            ? AppTheme.jadeTosca.withAlpha(40)
+                            ? AppTheme.lightToskaBg
                             : AppTheme.darkCardSurfaceElevated,
                         child: Icon(
                           Icons.location_on,
-                          color: isSelected ? AppTheme.jadeTosca : AppTheme.textSecondaryDark,
+                          color: isSelected ? AppTheme.primaryAction : AppTheme.textSecondaryDark,
                           size: 20,
                         ),
                       ),
@@ -622,23 +624,23 @@ class _LbsTabState extends ConsumerState<_LbsTab> {
                       OutlinedButton.icon(
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(
-                            color: isSelected ? AppTheme.jadeTosca : AppTheme.darkCardBorder,
+                            color: isSelected ? AppTheme.primaryAction : AppTheme.darkCardBorder,
                           ),
-                          backgroundColor: isSelected ? AppTheme.jadeTosca.withAlpha(25) : null,
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          minimumSize: const Size(0, 32),
+                          backgroundColor: isSelected ? AppTheme.lightToskaBg : null,
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                          minimumSize: const Size(44, 44),
                         ),
                         icon: Icon(
                           Icons.alt_route_rounded,
                           size: 14,
-                          color: isSelected ? AppTheme.jadeTosca : AppTheme.textSecondaryDark,
+                          color: isSelected ? AppTheme.primaryAction : AppTheme.textSecondaryDark,
                         ),
                         label: Text(
                           isSelected ? 'Rute Aktif' : 'Lihat Rute',
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 11.5,
                             fontWeight: FontWeight.w600,
-                            color: isSelected ? AppTheme.jadeTosca : AppTheme.textSecondaryDark,
+                            color: isSelected ? AppTheme.primaryAction : AppTheme.textSecondaryDark,
                           ),
                         ),
                         onPressed: () {

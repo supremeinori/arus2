@@ -50,7 +50,7 @@ class PosReceiptDialog extends StatelessWidget {
                         : isDetailMode
                             ? Icons.receipt_long_rounded
                             : Icons.check_circle_rounded,
-                    color: isVoided ? AppTheme.dangerRed : AppTheme.jadeTosca,
+                    color: isVoided ? AppTheme.dangerText : AppTheme.primaryAction,
                     size: 22,
                   ),
                   const SizedBox(width: 8),
@@ -64,7 +64,7 @@ class PosReceiptDialog extends StatelessWidget {
                       style: GoogleFonts.inter(
                         fontWeight: FontWeight.w700,
                         fontSize: 16,
-                        color: isVoided ? AppTheme.dangerRed : AppTheme.textPrimaryDark,
+                        color: isVoided ? AppTheme.dangerText : AppTheme.textPrimaryDark,
                       ),
                     ),
                   ),
@@ -73,7 +73,7 @@ class PosReceiptDialog extends StatelessWidget {
                       icon: const Icon(Icons.close_rounded, size: 20, color: AppTheme.textMutedDark),
                       onPressed: () => Navigator.of(context).pop(),
                       padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
+                      constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
                       tooltip: 'Tutup',
                     ),
                 ],
@@ -110,23 +110,23 @@ class PosReceiptDialog extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFEE2E2),
+                          color: AppTheme.dangerBg,
                           borderRadius: BorderRadius.circular(6),
-                          border: Border.all(color: AppTheme.dangerRed.withValues(alpha: 0.3)),
+                          border: Border.all(color: AppTheme.dangerText.withValues(alpha: 0.35)),
                         ),
                         child: Column(
                           children: [
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(Icons.cancel_rounded, size: 14, color: AppTheme.dangerRed),
+                                const Icon(Icons.cancel_rounded, size: 14, color: AppTheme.dangerTextDeep),
                                 const SizedBox(width: 4),
                                 Text(
                                   'VOID (Transaksi Dibatalkan)',
                                   style: GoogleFonts.inter(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w700,
-                                    color: AppTheme.dangerRed,
+                                    color: AppTheme.dangerTextDeep,
                                   ),
                                 ),
                               ],
@@ -135,7 +135,7 @@ class PosReceiptDialog extends StatelessWidget {
                               const SizedBox(height: 2),
                               Text(
                                 'Alasan: ${transaction.voidReason}',
-                                style: GoogleFonts.inter(fontSize: 9.5, color: AppTheme.dangerRed),
+                                style: GoogleFonts.inter(fontSize: 10.5, color: AppTheme.dangerTextDeep),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.center,
@@ -282,7 +282,7 @@ class PosReceiptDialog extends StatelessWidget {
                     style: GoogleFonts.inter(
                       fontWeight: FontWeight.w800,
                       fontSize: 16,
-                      color: isVoided ? AppTheme.dangerRed : AppTheme.jadeTosca,
+                      color: isVoided ? AppTheme.dangerText : AppTheme.primaryAction,
                     ),
                   ),
                 ],
@@ -340,13 +340,14 @@ class PosReceiptDialog extends StatelessWidget {
                 Navigator.of(context).pop();
                 onVoid!();
               },
-              icon: const Icon(Icons.undo_rounded, size: 16, color: AppTheme.dangerRed),
+              icon: const Icon(Icons.undo_rounded, size: 16, color: AppTheme.dangerText),
               label: Text(
                 'Void',
-                style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: AppTheme.dangerRed),
+                style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: AppTheme.dangerText),
               ),
               style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: AppTheme.dangerRed),
+                side: const BorderSide(color: AppTheme.dangerText),
+                minimumSize: const Size(0, 44),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
             ),

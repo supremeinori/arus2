@@ -69,12 +69,12 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
                 Container(
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                    color: AppTheme.jadeTosca.withValues(alpha: 0.12),
+                    color: AppTheme.lightToskaBg,
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: const Icon(
                     Icons.restaurant_menu_rounded,
-                    color: AppTheme.jadeTosca,
+                    color: AppTheme.primaryAction,
                     size: 16,
                   ),
                 ),
@@ -102,7 +102,7 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh_rounded, color: AppTheme.jadeTosca),
+            icon: const Icon(Icons.refresh_rounded, color: AppTheme.primaryAction),
             tooltip: 'Perbarui Menu',
             onPressed: () {
               ref.invalidate(posCatalogProvider);
@@ -198,14 +198,14 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
             label: 'Menu Tersedia',
             value: '$totalAvailableMenuCount/${items.length}',
             subtext: '$totalAvailablePortions porsi',
-            color: AppTheme.jadeTosca,
+            color: AppTheme.primaryAction,
           ),
           Container(height: 30, width: 1, color: AppTheme.darkCardBorder),
           _buildSummaryMetric(
             label: 'Rata-rata Margin',
             value: '$avgMargin%',
             subtext: 'Laba kotor',
-            color: const Color(0xFF10B981),
+            color: AppTheme.successText,
           ),
           Container(height: 30, width: 1, color: AppTheme.darkCardBorder),
           _buildSummaryMetric(
@@ -215,7 +215,7 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
               currency: 'IDR',
             ),
             subtext: 'Dari stok porsi',
-            color: const Color(0xFFF59E0B),
+            color: AppTheme.warningText,
           ),
         ],
       ),
@@ -317,7 +317,7 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(
-                  color: AppTheme.jadeTosca,
+                  color: AppTheme.primaryAction,
                   width: 1.5,
                 ),
               ),
@@ -332,7 +332,7 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
           error: (_, _) => const SizedBox.shrink(),
           data: (categories) {
             return SizedBox(
-              height: 38,
+              height: 44,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -348,11 +348,11 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
                       ),
                     ),
                     selected: _selectedCategoryId == null,
-                    selectedColor: AppTheme.jadeTosca,
+                    selectedColor: AppTheme.primaryAction,
                     backgroundColor: AppTheme.darkCardSurface,
                     side: BorderSide(
                       color: _selectedCategoryId == null
-                          ? AppTheme.jadeTosca
+                          ? AppTheme.primaryAction
                           : AppTheme.darkCardBorder,
                       width: 1.0,
                     ),
@@ -386,11 +386,11 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
                           ),
                         ),
                         selected: isSelected,
-                        selectedColor: AppTheme.jadeTosca,
+                        selectedColor: AppTheme.primaryAction,
                         backgroundColor: AppTheme.darkCardSurface,
                         side: BorderSide(
                           color: isSelected
-                              ? AppTheme.jadeTosca
+                              ? AppTheme.primaryAction
                               : AppTheme.darkCardBorder,
                           width: 1.0,
                         ),
@@ -430,7 +430,7 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
   }) {
     return productsAsync.when(
       loading: () => const Center(
-        child: CircularProgressIndicator(color: AppTheme.jadeTosca),
+        child: CircularProgressIndicator(color: AppTheme.primaryAction),
       ),
       error: (err, _) => Center(
         child: Padding(
@@ -438,12 +438,12 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.error_outline, color: AppTheme.dangerRed, size: 40),
+              const Icon(Icons.error_outline, color: AppTheme.dangerText, size: 40),
               const SizedBox(height: 10),
               Text(
                 'Gagal memuat produk: $err',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.inter(color: AppTheme.dangerRed),
+                style: GoogleFonts.inter(color: AppTheme.dangerText),
               ),
               const SizedBox(height: 12),
               ElevatedButton.icon(
@@ -451,7 +451,7 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
                 icon: const Icon(Icons.refresh, size: 16),
                 label: const Text('Coba Lagi'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.jadeTosca,
+                  backgroundColor: AppTheme.primaryAction,
                   foregroundColor: Colors.white,
                 ),
               ),
@@ -482,14 +482,14 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
                 children: [
                   Container(
                     padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: AppTheme.jadeTosca.withValues(alpha: 0.12),
+                    decoration: const BoxDecoration(
+                      color: AppTheme.lightToskaBg,
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
                       Icons.inventory_2_outlined,
                       size: 36,
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                     ),
                   ),
                   const SizedBox(height: 14),
@@ -659,7 +659,7 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
               _buildDetailRow(
                 label: 'Harga Jual Konsumen',
                 value: MoneyFormatter.format(product.priceIdr, currency: 'IDR'),
-                valueColor: AppTheme.jadeTosca,
+                valueColor: AppTheme.primaryAction,
                 isBold: true,
               ),
               const SizedBox(height: 8),
@@ -669,7 +669,7 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
                 value: cost != null
                     ? MoneyFormatter.format(cost, currency: 'IDR')
                     : 'Tidak tersedia',
-                valueColor: const Color(0xFFF59E0B),
+                valueColor: AppTheme.warningText,
               ),
               const SizedBox(height: 8),
 
@@ -678,7 +678,7 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
                 value: profit != null
                     ? '${MoneyFormatter.format(profit, currency: "IDR")} ($marginPct%)'
                     : '-',
-                valueColor: const Color(0xFF10B981),
+                valueColor: AppTheme.successText,
                 isBold: true,
               ),
               const SizedBox(height: 8),
@@ -689,8 +689,8 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
                     ? '${item.maxPortions} Porsi'
                     : 'Habis (Bahan Kurang)',
                 valueColor: item.isAvailable
-                    ? const Color(0xFF0F766E)
-                    : AppTheme.dangerRed,
+                    ? AppTheme.primaryAction
+                    : AppTheme.dangerText,
               ),
               const SizedBox(height: 8),
 
@@ -701,7 +701,7 @@ class _ManagerMenuScreenState extends ConsumerState<ManagerMenuScreen> {
                     profit * item.maxPortions,
                     currency: 'IDR',
                   ),
-                  valueColor: const Color(0xFF10B981),
+                  valueColor: AppTheme.successText,
                   isBold: true,
                 ),
                 const SizedBox(height: 12),
@@ -888,10 +888,10 @@ class _ManagerProductCard extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
-                        color: const Color(0x1F10B981),
+                        color: AppTheme.successBg,
                         borderRadius: BorderRadius.circular(6),
                         border: Border.all(
-                          color: const Color(0x4010B981),
+                          color: AppTheme.successText.withValues(alpha: 0.3),
                           width: 0.8,
                         ),
                       ),
@@ -901,7 +901,7 @@ class _ManagerProductCard extends StatelessWidget {
                           const Icon(
                             Icons.trending_up_rounded,
                             size: 11,
-                            color: Color(0xFF10B981),
+                            color: AppTheme.successText,
                           ),
                           const SizedBox(width: 3),
                           Flexible(
@@ -910,9 +910,9 @@ class _ManagerProductCard extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.inter(
-                                fontSize: 9.5,
+                                fontSize: 10,
                                 fontWeight: FontWeight.w700,
-                                color: const Color(0xFF10B981),
+                                color: AppTheme.successText,
                               ),
                             ),
                           ),
@@ -935,7 +935,7 @@ class _ManagerProductCard extends StatelessWidget {
                             fontWeight: FontWeight.w800,
                             color: isOutOfStock
                                 ? AppTheme.textMutedDark
-                                : AppTheme.jadeTosca,
+                                : AppTheme.primaryAction,
                             fontSize: 13.5,
                           ),
                         ),

@@ -73,8 +73,8 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                   borderSide: const BorderSide(color: AppTheme.darkCardBorder, width: 1.5),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(6),
-                  borderSide: const BorderSide(color: AppTheme.jadeTosca, width: 2),
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(color: AppTheme.primaryAction, width: 2),
                 ),
               ),
               onChanged: (val) {
@@ -97,7 +97,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                     child: FilterChip(
                       label: const Text('Semua'),
                       selected: selectedCategory == null,
-                      selectedColor: AppTheme.jadeTosca,
+                      selectedColor: AppTheme.primaryAction,
                       backgroundColor: AppTheme.darkCardSurfaceElevated,
                       side: const BorderSide(color: AppTheme.darkCardBorder, width: 1.0),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -116,13 +116,16 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                     child: FilterChip(
                       label: const Text('Tampilkan nonaktif'),
                       selected: showInactive,
-                      selectedColor: const Color(0x33EF4444),
+                      selectedColor: AppTheme.dangerBg,
                       backgroundColor: AppTheme.darkCardSurfaceElevated,
-                      side: const BorderSide(color: AppTheme.darkCardBorder, width: 1.0),
+                      side: BorderSide(
+                        color: showInactive ? AppTheme.dangerText.withValues(alpha: 0.4) : AppTheme.darkCardBorder,
+                        width: 1.0,
+                      ),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       labelStyle: TextStyle(
                         color: showInactive
-                            ? const Color(0xFFF87171)
+                            ? AppTheme.dangerTextDeep
                             : AppTheme.textPrimaryDark,
                         fontWeight: showInactive ? FontWeight.w700 : FontWeight.w500,
                       ),
@@ -141,7 +144,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                           overflow: TextOverflow.ellipsis,
                         ),
                         selected: selectedCategory == cat.id,
-                        selectedColor: AppTheme.jadeTosca,
+                        selectedColor: AppTheme.primaryAction,
                         backgroundColor: AppTheme.darkCardSurfaceElevated,
                         side: const BorderSide(color: AppTheme.darkCardBorder, width: 1.0),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -263,14 +266,14 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                                                 vertical: 2,
                                               ),
                                               decoration: BoxDecoration(
-                                                color: const Color(0x22EF4444),
-                                                borderRadius: BorderRadius.circular(4),
-                                                border: Border.all(color: const Color(0xFFEF4444)),
+                                                color: AppTheme.dangerBg,
+                                                borderRadius: BorderRadius.circular(6),
+                                                border: Border.all(color: AppTheme.dangerText.withValues(alpha: 0.45)),
                                               ),
                                               child: Text(
                                                 'NONAKTIF',
                                                 style: GoogleFonts.inter(
-                                                  color: const Color(0xFFF87171),
+                                                  color: AppTheme.dangerTextDeep,
                                                   fontSize: 9.5,
                                                   fontWeight: FontWeight.w700,
                                                 ),
@@ -331,7 +334,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                                               style: GoogleFonts.inter(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.bold,
-                                                color: AppTheme.jadeTosca,
+                                                color: AppTheme.primaryAction,
                                               ),
                                             ),
                                           ),
@@ -342,10 +345,10 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                                                 vertical: 2,
                                               ),
                                               decoration: BoxDecoration(
-                                                color: const Color(0x26F59E0B),
-                                                borderRadius: BorderRadius.circular(4),
+                                                color: AppTheme.warningBg,
+                                                borderRadius: BorderRadius.circular(6),
                                                 border: Border.all(
-                                                  color: const Color(0x40F59E0B),
+                                                  color: AppTheme.warningAmber.withValues(alpha: 0.45),
                                                 ),
                                               ),
                                               child: Text(
@@ -354,8 +357,8 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                                                 overflow: TextOverflow.ellipsis,
                                                 style: GoogleFonts.inter(
                                                   fontSize: 11,
-                                                  color: const Color(0xFFF59E0B),
-                                                  fontWeight: FontWeight.w500,
+                                                  color: AppTheme.warningTextDeep,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
@@ -367,10 +370,10 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                                       Container(
                                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                         decoration: BoxDecoration(
-                                          color: prod.estimatedPortions > 0 ? const Color(0x1F00A896) : const Color(0x26EF4444),
+                                          color: prod.estimatedPortions > 0 ? AppTheme.lightToskaBg : AppTheme.dangerBg,
                                           borderRadius: BorderRadius.circular(6),
                                           border: Border.all(
-                                            color: prod.estimatedPortions > 0 ? const Color(0x4000A896) : const Color(0x40EF4444),
+                                            color: prod.estimatedPortions > 0 ? AppTheme.jadeTosca.withValues(alpha: 0.35) : AppTheme.dangerText.withValues(alpha: 0.35),
                                             width: 1,
                                           ),
                                         ),
@@ -381,7 +384,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                                           style: GoogleFonts.inter(
                                             fontSize: 11,
                                             fontWeight: FontWeight.w700,
-                                            color: prod.estimatedPortions > 0 ? AppTheme.jadeTosca : const Color(0xFFEF4444),
+                                            color: prod.estimatedPortions > 0 ? AppTheme.primaryAction : AppTheme.dangerTextDeep,
                                           ),
                                         ),
                                       ),
@@ -406,7 +409,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
               onPressed: () {
                 context.push('/catalog/new');
               },
-              backgroundColor: AppTheme.jadeTosca,
+              backgroundColor: AppTheme.primaryAction,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),

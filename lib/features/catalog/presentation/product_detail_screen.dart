@@ -149,7 +149,7 @@ class _ProductHeaderCard extends StatelessWidget {
                   style: GoogleFonts.inter(
                     fontSize: 10.5,
                     fontWeight: FontWeight.w700,
-                    color: prod.isActive ? AppTheme.jadeTosca : const Color(0xFFEF4444),
+                    color: prod.isActive ? AppTheme.primaryAction : AppTheme.dangerTextDeep,
                   ),
                 ),
               ),
@@ -206,7 +206,7 @@ class _ProductHeaderCard extends StatelessWidget {
                       style: GoogleFonts.inter(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
-                        color: AppTheme.jadeTosca,
+                        color: AppTheme.primaryAction,
                       ),
                     ),
                   ],
@@ -277,10 +277,10 @@ class _ProductRecipeCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: prod.estimatedPortions > 0 ? const Color(0x1F00A896) : const Color(0x26EF4444),
+                  color: prod.estimatedPortions > 0 ? AppTheme.lightToskaBg : AppTheme.dangerBg,
                   borderRadius: BorderRadius.circular(6),
                   border: Border.all(
-                    color: prod.estimatedPortions > 0 ? const Color(0x4000A896) : const Color(0x40EF4444),
+                    color: prod.estimatedPortions > 0 ? AppTheme.jadeTosca.withValues(alpha: 0.35) : AppTheme.dangerText.withValues(alpha: 0.35),
                   ),
                 ),
                 child: Text(
@@ -292,7 +292,7 @@ class _ProductRecipeCard extends StatelessWidget {
                   style: GoogleFonts.inter(
                     fontWeight: FontWeight.w700,
                     fontSize: 12,
-                    color: prod.estimatedPortions > 0 ? AppTheme.jadeTosca : const Color(0xFFEF4444),
+                    color: prod.estimatedPortions > 0 ? AppTheme.primaryAction : AppTheme.dangerTextDeep,
                   ),
                 ),
               ),
@@ -333,7 +333,7 @@ class _ProductRecipeCard extends StatelessWidget {
                       '${r.amountNeeded} ${r.ingredientUnit ?? ''}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.jadeTosca),
+                      style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.primaryAction),
                     ),
                   ],
                 ),
@@ -355,8 +355,8 @@ class _OutletStockCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isLow = stock.quantity <= stock.reorderLevel;
-    final statusColor = isLow ? const Color(0xFFEF4444) : AppTheme.jadeTosca;
-    final statusBg = isLow ? const Color(0x26EF4444) : const Color(0x1F00A896);
+    final statusColor = isLow ? AppTheme.dangerTextDeep : AppTheme.primaryAction;
+    final statusBg = isLow ? AppTheme.dangerBg : AppTheme.lightToskaBg;
 
     return Card(
       elevation: 0,

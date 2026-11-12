@@ -107,7 +107,7 @@ class _GlobalSearchScreenState extends ConsumerState<GlobalSearchScreen> {
           if (_isLoading)
             const Padding(
               padding: EdgeInsets.all(20),
-              child: Center(child: CircularProgressIndicator(color: AppTheme.jadeTosca)),
+              child: Center(child: CircularProgressIndicator(color: AppTheme.primaryAction)),
             )
           else
             Expanded(
@@ -173,14 +173,14 @@ class _ProductResultCard extends StatelessWidget {
         side: const BorderSide(color: AppTheme.darkCardBorder, width: 1.0),
       ),
       child: ListTile(
-        leading: const Icon(Icons.coffee_rounded, color: AppTheme.jadeTosca),
+        leading: const Icon(Icons.coffee_rounded, color: AppTheme.primaryAction),
         title: Text(p.name, style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 13.5), maxLines: 1, overflow: TextOverflow.ellipsis),
         subtitle: Text('${p.sku} • ${p.categoryName ?? "Umum"}', style: GoogleFonts.inter(fontSize: 12), maxLines: 1, overflow: TextOverflow.ellipsis),
         trailing: SizedBox(
           width: 100,
           child: MoneyText(
             p.priceIdr,
-            style: GoogleFonts.inter(fontWeight: FontWeight.w700, color: AppTheme.jadeTosca),
+            style: GoogleFonts.inter(fontWeight: FontWeight.w700, color: AppTheme.primaryAction),
             maxLines: 1,
             textAlign: TextAlign.end,
           ),

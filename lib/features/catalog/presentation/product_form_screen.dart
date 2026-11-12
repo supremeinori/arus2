@@ -579,13 +579,14 @@ class _ProductFormBodyState extends ConsumerState<_ProductFormBody> {
                         label: const Text('Bahan'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.darkCardSurfaceElevated,
-                          foregroundColor: AppTheme.jadeTosca,
+                          foregroundColor: AppTheme.primaryAction,
                           elevation: 0,
+                          minimumSize: const Size(0, 44),
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                           textStyle: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
-                            side: const BorderSide(color: AppTheme.jadeTosca, width: 1),
+                            side: const BorderSide(color: AppTheme.primaryAction, width: 1),
                           ),
                         ),
                       ),
@@ -724,7 +725,7 @@ class _ProductFormBodyState extends ConsumerState<_ProductFormBody> {
 
                                         // Tombol Hapus Baris
                                         IconButton(
-                                          icon: const Icon(Icons.delete_outline, color: AppTheme.dangerRed, size: 20),
+                                          icon: const Icon(Icons.delete_outline, color: AppTheme.dangerText, size: 20),
                                           onPressed: () {
                                             widget.onRemoveRecipeRow(idx);
                                             setState(() {});
@@ -763,8 +764,9 @@ class _ProductFormBodyState extends ConsumerState<_ProductFormBody> {
         child: ElevatedButton(
           onPressed: widget.isLoading ? null : widget.onSubmit,
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppTheme.jadeTosca,
+            backgroundColor: AppTheme.primaryAction,
             foregroundColor: Colors.white,
+            minimumSize: const Size(0, 48),
             padding: const EdgeInsets.symmetric(vertical: 14),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),

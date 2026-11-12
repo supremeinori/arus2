@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/theme/app_theme.dart';
 import '../../features/analytics/presentation/analytics_provider.dart';
 
 /// Satu sumber filter bisnis untuk Dashboard, Riwayat Transaksi, dan
@@ -35,7 +36,7 @@ class DashboardFilterSheet extends ConsumerStatefulWidget {
 }
 
 class _DashboardFilterSheetState extends ConsumerState<DashboardFilterSheet> {
-  static const _teal = Color(0xFF00A896);
+  static const _teal = AppTheme.primaryAction;
   static const _tealLight = Color(0xFFE6F6F4);
   static const _textPrimary = Color(0xFF0F172A);
   static const _textSecondary = Color(0xFF475569);
@@ -165,10 +166,9 @@ class _DashboardFilterSheetState extends ConsumerState<DashboardFilterSheet> {
             Text(
               'PILIH CABANG OUTLET',
               style: GoogleFonts.inter(
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
                 color: _textMuted,
-                letterSpacing: 0.5,
               ),
             ),
             const SizedBox(height: 8),
@@ -225,10 +225,9 @@ class _DashboardFilterSheetState extends ConsumerState<DashboardFilterSheet> {
           Text(
             'PILIH HARI / PERIODE',
             style: GoogleFonts.inter(
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
               color: _textMuted,
-              letterSpacing: 0.5,
             ),
           ),
           const SizedBox(height: 8),
@@ -300,7 +299,7 @@ class _DashboardFilterSheetState extends ConsumerState<DashboardFilterSheet> {
           const SizedBox(height: 24),
           SizedBox(
             width: double.infinity,
-            height: 46,
+            height: 48,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: _teal,

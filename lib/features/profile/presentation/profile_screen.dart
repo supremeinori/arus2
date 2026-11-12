@@ -147,7 +147,6 @@ class ProfileScreen extends ConsumerWidget {
           const SizedBox(height: 8),
           SettingsSectionCard(
             children: [
-              const SettingsTileDivider(),
               SettingsNavTile(
                 icon: Icons.settings_outlined,
                 title: 'Pengaturan',
@@ -200,10 +199,10 @@ class ProfileScreen extends ConsumerWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
               decoration: BoxDecoration(
-                color: AppTheme.dangerRed.withAlpha(18),
+                color: AppTheme.dangerBg,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: AppTheme.dangerRed.withAlpha(70),
+                  color: AppTheme.dangerText.withValues(alpha: 0.35),
                   width: 1.0,
                 ),
               ),
@@ -212,7 +211,7 @@ class ProfileScreen extends ConsumerWidget {
                   const Icon(
                     Icons.logout_rounded,
                     size: 20,
-                    color: AppTheme.dangerRed,
+                    color: AppTheme.dangerTextDeep,
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -225,7 +224,7 @@ class ProfileScreen extends ConsumerWidget {
                           style: GoogleFonts.inter(
                             fontSize: 13.5,
                             fontWeight: FontWeight.w700,
-                            color: AppTheme.dangerRed,
+                            color: AppTheme.dangerTextDeep,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -304,10 +303,10 @@ class _ProfileHeaderCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: AppTheme.jadeTosca.withAlpha(26),
-              borderRadius: BorderRadius.circular(20),
+              color: AppTheme.lightToskaBg,
+              borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: AppTheme.jadeTosca.withAlpha(70),
+                color: AppTheme.primaryAction.withValues(alpha: 0.3),
                 width: 1.0,
               ),
             ),
@@ -316,7 +315,7 @@ class _ProfileHeaderCard extends StatelessWidget {
               style: GoogleFonts.inter(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
-                color: AppTheme.jadeTosca,
+                color: AppTheme.primaryAction,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -382,7 +381,7 @@ class _LetterAvatar extends StatelessWidget {
           style: GoogleFonts.inter(
             fontSize: 26,
             fontWeight: FontWeight.w800,
-            color: AppTheme.jadeTosca,
+            color: AppTheme.primaryAction,
           ),
         ),
       ),

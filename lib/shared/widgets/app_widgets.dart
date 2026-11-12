@@ -114,6 +114,7 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final button = ShadButton(
       width: double.infinity,
+      height: 48,
       onPressed: isLoading ? null : onPressed,
       leading: isLoading
           ? const SizedBox(
@@ -154,7 +155,7 @@ class KpiCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final accent = accentColor ?? AppTheme.jadeTosca;
+    final accent = accentColor ?? AppTheme.primaryAction;
     final card = InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(8),

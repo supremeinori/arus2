@@ -143,9 +143,9 @@ class _SensorStatusOverview extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppTheme.jadeTosca.withAlpha(20),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.jadeTosca.withAlpha(50)),
+        color: AppTheme.lightToskaBg,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppTheme.primaryAction.withAlpha(50)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +154,7 @@ class _SensorStatusOverview extends StatelessWidget {
             children: [
               Icon(
                 Icons.sensors_rounded,
-                color: AppTheme.jadeTosca,
+                color: AppTheme.primaryAction,
                 size: 22,
               ),
               SizedBox(width: 8),
@@ -163,7 +163,7 @@ class _SensorStatusOverview extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
-                  color: AppTheme.jadeTosca,
+                  color: AppTheme.primaryAction,
                 ),
               ),
             ],
@@ -265,7 +265,7 @@ class _SensorSectionHeader extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(icon, size: 20, color: AppTheme.jadeTosca),
+            Icon(icon, size: 20, color: AppTheme.primaryAction),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -322,7 +322,7 @@ class _AccelerometerCard extends StatelessWidget {
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    color: AppTheme.jadeTosca,
+                    color: AppTheme.primaryAction,
                   ),
                 ),
               ],
@@ -432,16 +432,9 @@ class _GyroscopeCard extends ConsumerWidget {
                         child: Container(
                           width: 22,
                           height: 22,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.teal.shade600,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.teal.withAlpha(80),
-                                blurRadius: 4,
-                                spreadRadius: 1,
-                              ),
-                            ],
+                            color: AppTheme.primaryAction,
                           ),
                         ),
                       ),
@@ -746,7 +739,7 @@ class _BiometricDiagnosticCard extends ConsumerWidget {
                   child: OutlinedButton.icon(
                     icon: const Icon(
                       Icons.fingerprint_rounded,
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                     ),
                     label: const Text(
                       'Uji Sidik Jari',
@@ -884,7 +877,7 @@ class _BiometricSimulationModal extends StatelessWidget {
                 ? Icons.fingerprint_rounded
                 : Icons.face_retouching_natural_rounded,
             size: 64,
-            color: isFingerprint ? AppTheme.jadeTosca : Colors.indigo,
+            color: isFingerprint ? AppTheme.primaryAction : Colors.indigo,
           ),
           const SizedBox(height: 16),
           Text(

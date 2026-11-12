@@ -83,7 +83,7 @@ class _StockAdjustmentDialogState extends ConsumerState<StockAdjustmentDialog> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Penyesuaian stok bahan baku berhasil disimpan.', style: GoogleFonts.inter()),
-            backgroundColor: AppTheme.jadeTosca,
+            backgroundColor: AppTheme.primaryAction,
           ),
         );
       }
@@ -152,7 +152,7 @@ class _StockAdjustmentDialogState extends ConsumerState<StockAdjustmentDialog> {
                       '$_currentStock $_unit',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.jadeTosca),
+                      style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.primaryAction),
                     ),
                   ],
                 ),
@@ -163,20 +163,20 @@ class _StockAdjustmentDialogState extends ConsumerState<StockAdjustmentDialog> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: const Color(0x22EF4444),
+                    color: AppTheme.dangerBg,
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: const Color(0x33EF4444)),
+                    border: Border.all(color: AppTheme.dangerText.withValues(alpha: 0.4)),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.error_outline_rounded, color: AppTheme.dangerRed, size: 18),
+                      const Icon(Icons.error_outline_rounded, color: AppTheme.dangerTextDeep, size: 18),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           _errorMessage!,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFFF87171)),
+                          style: GoogleFonts.inter(fontSize: 12, color: AppTheme.dangerTextDeep),
                         ),
                       ),
                     ],
@@ -230,7 +230,7 @@ class _StockAdjustmentDialogState extends ConsumerState<StockAdjustmentDialog> {
                     style: GoogleFonts.inter(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
-                      color: projectedQty < 0 ? AppTheme.dangerRed : AppTheme.textPrimaryDark,
+                      color: projectedQty < 0 ? AppTheme.dangerText : AppTheme.textPrimaryDark,
                     ),
                   ),
                 ],
@@ -259,7 +259,8 @@ class _StockAdjustmentDialogState extends ConsumerState<StockAdjustmentDialog> {
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppTheme.jadeTosca,
+            backgroundColor: AppTheme.primaryAction,
+            minimumSize: const Size(0, 44),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),
           onPressed: _isLoading ? null : _submit,
@@ -312,21 +313,21 @@ const List<_MovementOption> _movementOptions = [
     label: 'Masuk',
     hint: 'Restock / beli',
     icon: Icons.arrow_upward_rounded,
-    tone: AppTheme.jadeTosca,
+    tone: AppTheme.primaryAction,
   ),
   _MovementOption(
     value: 'correction',
     label: 'Koreksi',
     hint: 'Opname +/-',
     icon: Icons.tune_rounded,
-    tone: AppTheme.warningAmber,
+    tone: AppTheme.warningText,
   ),
   _MovementOption(
     value: 'waste',
     label: 'Keluar',
     hint: 'Basi / rusak',
     icon: Icons.arrow_downward_rounded,
-    tone: AppTheme.dangerRed,
+    tone: AppTheme.dangerText,
   ),
 ];
 

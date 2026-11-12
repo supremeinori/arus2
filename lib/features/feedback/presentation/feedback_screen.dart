@@ -169,13 +169,13 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: AppTheme.jadeTosca.withValues(alpha: 0.15),
+                    color: AppTheme.lightToskaBg,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: AppTheme.darkCardBorder),
                   ),
                   child: const Icon(
                     Icons.school_outlined,
-                    color: AppTheme.jadeTosca,
+                    color: AppTheme.primaryAction,
                     size: 28,
                   ),
                 ),
@@ -258,7 +258,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
               hintText: 'Tuliskan kesan Anda di sini...',
               hintStyle: GoogleFonts.inter(
                 fontSize: 12.5,
-                color: const Color(0xFF94A3B8),
+                color: AppTheme.textMutedOnElevated,
               ),
               filled: true,
               fillColor: AppTheme.darkCardSurface,
@@ -273,7 +273,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: const BorderSide(
-                  color: AppTheme.jadeTosca,
+                  color: AppTheme.primaryAction,
                   width: 1.5,
                 ),
               ),
@@ -302,7 +302,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
               hintText: 'Tuliskan saran Anda di sini',
               hintStyle: GoogleFonts.inter(
                 fontSize: 12.5,
-                color: const Color(0xFF94A3B8),
+                color: AppTheme.textMutedOnElevated,
               ),
               filled: true,
               fillColor: AppTheme.darkCardSurface,
@@ -317,7 +317,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: const BorderSide(
-                  color: AppTheme.jadeTosca,
+                  color: AppTheme.primaryAction,
                   width: 1.5,
                 ),
               ),

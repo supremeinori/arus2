@@ -4,13 +4,14 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 
 class AppTheme {
   // Brand Colors - Modern Professional Jade Tosca / Teal Palette
-  static const jadeTosca = Color(0xFF00A896); // Main Accent: Jade Tosca
+  static const jadeTosca = Color(0xFF00A896); // Brand graphic accent (borders, bars, marks)
   static const jadeToscaGlow = Color(
     0x6600A896,
   ); // rgba(0, 168, 150, 0.4) for chart gradient
-  static const primaryToska = jadeTosca; // Modern Toska Enterprise (Jade Tosca)
-  static const primaryToskaHover = Color(0xFF0F766E); // Deeper Toska (Teal 700)
-  static const lightToskaBg = Color(0x1F00A896); // Subtle Toska Tint
+  static const primaryToska = jadeTosca; // Alias grafis Jade Tosca
+  static const primaryToskaHover = Color(0xFF0F766E); // Teal 700: WCAG AA (5.47:1 on white)
+  static const primaryAction = primaryToskaHover; // Teks aksen & fill tombol teks putih
+  static const lightToskaBg = Color(0xFFE6F6F4); // Subtle solid Toska tint (4.91:1 with #0F766E)
   static const darkToska = Color(0xFF0B4F47); // Deep Forest Toska
 
   // Clean Modern Light Mode Standard Palette (Requested Design)
@@ -26,7 +27,8 @@ class AppTheme {
   static const textSecondaryLight = Color(
     0xFF334155,
   ); // Slate-700 secondary text
-  static const textMutedLight = Color(0xFF64748B); // Slate-500 muted text
+  static const textMutedLight = Color(0xFF64748B); // Slate-500 muted text (4.76:1 on white)
+  static const textMutedOnElevated = Color(0xFF475569); // Slate-600 muted text on #F1F5F9 (6.84:1)
 
   // Dark Mode Palette - Remapped to Clean Light Mode (100% white/light theme)
   static const darkBackground = lightBackground; // 0xFFF8FAFC
@@ -54,9 +56,19 @@ class AppTheme {
   static const textMuted = textMutedLight; // Slate-500
   static const borderOutline = lightCardBorder; // Slate-200
   static const subtleBorder = lightCardBorder;
-  static const dangerRed = Color(0xFFEF4444); // Status Red
-  static const successGreen = Color(0xFF10B981); // Status Emerald
-  static const warningAmber = Color(0xFFF59E0B); // Status Amber
+  static const dangerRed = Color(0xFFEF4444); // Status Red (graphic/stroke)
+  static const successGreen = Color(0xFF10B981); // Status Emerald (graphic/stroke)
+  static const warningAmber = Color(0xFFF59E0B); // Status Amber (graphic/stroke)
+
+  // WCAG AA Text & Badge Foreground Tokens (Light Surfaces >= 4.5:1)
+  static const dangerText = Color(0xFFDC2626); // 4.83:1 on white
+  static const dangerTextDeep = Color(0xFFB91C1C); // 5.63:1 on #FEE2E2
+  static const dangerBg = Color(0xFFFEE2E2);
+  static const successText = Color(0xFF047857); // 5.48:1 on white
+  static const successBg = Color(0xFFECFDF5);
+  static const warningText = Color(0xFFB45309); // 5.02:1 on white, 4.51:1 on #FEF3C7
+  static const warningTextDeep = Color(0xFF92400E); // 6.37:1 on #FEF3C7
+  static const warningBg = Color(0xFFFEF3C7);
 
   static ThemeData get lightTheme {
     final baseTextTheme = GoogleFonts.interTextTheme();
@@ -115,13 +127,13 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.light,
       colorScheme: const ColorScheme.light(
-        primary: jadeTosca,
+        primary: primaryAction,
         onPrimary: pureWhite,
-        secondary: jadeTosca,
+        secondary: primaryAction,
         onSecondary: pureWhite,
         surface: lightCardSurface,
         onSurface: textPrimaryLight,
-        error: dangerRed,
+        error: dangerText,
         outline: lightCardBorder,
       ),
       scaffoldBackgroundColor: lightBackground,
@@ -154,11 +166,12 @@ class AppTheme {
         color: lightCardSurface,
         margin: EdgeInsets.zero,
       ),
+      focusColor: primaryAction.withValues(alpha: 0.12),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: jadeTosca,
+          backgroundColor: primaryAction,
           foregroundColor: pureWhite,
-          minimumSize: const Size.fromHeight(46),
+          minimumSize: const Size.fromHeight(48),
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -187,7 +200,8 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: jadeTosca,
+          foregroundColor: primaryAction,
+          minimumSize: const Size(44, 44),
           textStyle: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
       ),
@@ -254,8 +268,8 @@ class AppTheme {
       chipTheme: ChipThemeData(
         backgroundColor: lightCardSurfaceElevated,
         disabledColor: lightCardSurface,
-        selectedColor: jadeTosca,
-        secondarySelectedColor: jadeTosca,
+        selectedColor: primaryAction,
+        secondarySelectedColor: primaryAction,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         labelStyle: GoogleFonts.inter(fontSize: 12, color: textPrimaryLight),
         secondaryLabelStyle: GoogleFonts.inter(fontSize: 12, color: pureWhite),
@@ -267,7 +281,7 @@ class AppTheme {
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: lightCardSurface,
-        selectedItemColor: jadeTosca,
+        selectedItemColor: primaryAction,
         unselectedItemColor: textMutedLight,
       ),
     );
@@ -491,8 +505,8 @@ class AppTheme {
   static ShadThemeData get shadcnThemeLight => ShadThemeData(
     brightness: Brightness.light,
     colorScheme: const ShadZincColorScheme.light(
-      primary: jadeTosca,
-      destructive: dangerRed,
+      primary: primaryAction,
+      destructive: dangerText,
     ),
     radius: const BorderRadius.all(Radius.circular(8)),
     textTheme: ShadTextTheme.fromGoogleFont(GoogleFonts.inter),

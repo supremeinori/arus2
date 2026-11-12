@@ -74,12 +74,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppTheme.jadeTosca.withValues(alpha: 0.15),
+                    color: AppTheme.lightToskaBg,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(
                     Icons.fingerprint_rounded,
-                    color: AppTheme.jadeTosca,
+                    color: AppTheme.primaryAction,
                     size: 24,
                   ),
                 ),
@@ -237,10 +237,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: AppTheme.dangerRed.withValues(alpha: 0.12),
+                        color: AppTheme.dangerBg,
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: AppTheme.dangerRed.withValues(alpha: 0.25),
+                          color: AppTheme.dangerText.withValues(alpha: 0.35),
                           width: 1.0,
                         ),
                       ),
@@ -248,7 +248,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         children: [
                           const Icon(
                             Icons.error_outline,
-                            color: AppTheme.dangerRed,
+                            color: AppTheme.dangerTextDeep,
                             size: 18,
                           ),
                           const SizedBox(width: 8),
@@ -259,7 +259,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.inter(
                                 fontSize: 12.5,
-                                color: AppTheme.dangerRed,
+                                color: AppTheme.dangerTextDeep,
                               ),
                             ),
                           ),
@@ -332,7 +332,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     onPressed: isLoading ? null : _handleBiometricLogin,
                     icon: const Icon(
                       Icons.fingerprint,
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                       size: 20,
                     ),
                     label: Text(
@@ -342,7 +342,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       style: GoogleFonts.inter(
                         fontSize: 13.5,
                         fontWeight: FontWeight.w600,
-                        color: AppTheme.jadeTosca,
+                        color: AppTheme.primaryAction,
                       ),
                     ),
                     style: OutlinedButton.styleFrom(
@@ -382,7 +382,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     alignment: WrapAlignment.center,
                     children: [
                       ActionChip(
-                        avatar: const Icon(Icons.star, size: 16, color: AppTheme.jadeTosca),
+                        avatar: const Icon(Icons.business_center_outlined, size: 16, color: AppTheme.primaryAction),
                         label: Text('Owner', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 11.5, color: AppTheme.textPrimaryLight)),
                         backgroundColor: AppTheme.lightCardSurface,
                         side: const BorderSide(color: AppTheme.lightCardBorder, width: 1.0),
@@ -390,7 +390,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         onPressed: () => _fillAccount('owner@arus.com', '12345678'),
                       ),
                       ActionChip(
-                        avatar: const Icon(Icons.storefront, size: 16, color: AppTheme.jadeTosca),
+                        avatar: const Icon(Icons.storefront, size: 16, color: AppTheme.primaryAction),
                         label: Text('Manager', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 11.5, color: AppTheme.textPrimaryLight)),
                         backgroundColor: AppTheme.lightCardSurface,
                         side: const BorderSide(color: AppTheme.lightCardBorder, width: 1.0),
@@ -398,7 +398,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         onPressed: () => _fillAccount('manager1@arus.com', '12345678'),
                       ),
                       ActionChip(
-                        avatar: const Icon(Icons.point_of_sale, size: 16, color: AppTheme.jadeTosca),
+                        avatar: const Icon(Icons.point_of_sale, size: 16, color: AppTheme.primaryAction),
                         label: Text('Kasir', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 11.5, color: AppTheme.textPrimaryLight)),
                         backgroundColor: AppTheme.lightCardSurface,
                         side: const BorderSide(color: AppTheme.lightCardBorder, width: 1.0),
@@ -406,7 +406,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         onPressed: () => _fillAccount('kasir1@arus.com', '12345678'),
                       ),
                       ActionChip(
-                        avatar: const Icon(Icons.point_of_sale, size: 16, color: AppTheme.jadeTosca),
+                        avatar: const Icon(Icons.point_of_sale, size: 16, color: AppTheme.primaryAction),
                         label: Text('Kasir Denpasar', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 11.5, color: AppTheme.textPrimaryLight)),
                         backgroundColor: AppTheme.lightCardSurface,
                         side: const BorderSide(color: AppTheme.lightCardBorder, width: 1.0),
@@ -414,7 +414,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         onPressed: () => _fillAccount('kasir2@arus.com', '12345678'),
                       ),
                       ActionChip(
-                        avatar: const Icon(Icons.point_of_sale, size: 16, color: AppTheme.jadeTosca),
+                        avatar: const Icon(Icons.point_of_sale, size: 16, color: AppTheme.primaryAction),
                         label: Text('Kasir Jayapura', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 11.5, color: AppTheme.textPrimaryLight)),
                         backgroundColor: AppTheme.lightCardSurface,
                         side: const BorderSide(color: AppTheme.lightCardBorder, width: 1.0),
@@ -422,7 +422,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         onPressed: () => _fillAccount('kasir3@arus.com', '12345678'),
                       ),
                       ActionChip(
-                        avatar: const Icon(Icons.point_of_sale, size: 16, color: AppTheme.jadeTosca),
+                        avatar: const Icon(Icons.point_of_sale, size: 16, color: AppTheme.primaryAction),
                         label: Text('Kasir London', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 11.5, color: AppTheme.textPrimaryLight)),
                         backgroundColor: AppTheme.lightCardSurface,
                         side: const BorderSide(color: AppTheme.lightCardBorder, width: 1.0),
@@ -440,8 +440,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       borderRadius: BorderRadius.circular(8),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                          vertical: 6,
-                          horizontal: 10,
+                          vertical: 12,
+                          horizontal: 14,
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -492,7 +492,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             children: [
               const Icon(
                 Icons.settings_ethernet_rounded,
-                color: AppTheme.jadeTosca,
+                color: AppTheme.primaryAction,
                 size: 22,
               ),
               const SizedBox(width: 10),

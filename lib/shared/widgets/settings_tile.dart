@@ -34,9 +34,8 @@ class SettingsSectionLabel extends StatelessWidget {
     return Text(
       text,
       style: GoogleFonts.inter(
-        fontSize: 11.5,
-        fontWeight: FontWeight.w700,
-        letterSpacing: 0.4,
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
         color: AppTheme.textMutedDark,
       ),
       maxLines: 1,
@@ -82,7 +81,7 @@ class SettingsNavTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: AppTheme.jadeTosca),
+      leading: Icon(icon, color: AppTheme.primaryAction),
       title: Text(
         title,
         maxLines: 1,
@@ -139,7 +138,7 @@ class SettingsValueChip extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (icon != null) ...[
-                Icon(icon, size: 12, color: AppTheme.jadeTosca),
+                Icon(icon, size: 12, color: AppTheme.primaryAction),
                 const SizedBox(width: 4),
               ],
               Text(
@@ -149,7 +148,7 @@ class SettingsValueChip extends StatelessWidget {
                 style: GoogleFonts.inter(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
-                  color: AppTheme.jadeTosca,
+                  color: AppTheme.primaryAction,
                 ),
               ),
             ],

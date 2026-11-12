@@ -58,7 +58,7 @@ class ShiftSummaryScreen extends ConsumerWidget {
         ],
       ),
       body: RefreshIndicator(
-        color: AppTheme.jadeTosca,
+        color: AppTheme.primaryAction,
         backgroundColor: AppTheme.darkCardSurfaceElevated,
         onRefresh: () async {
           try {
@@ -81,10 +81,10 @@ class ShiftSummaryScreen extends ConsumerWidget {
                           width: 48,
                           height: 48,
                           decoration: BoxDecoration(
-                            color: AppTheme.jadeTosca.withValues(alpha: 0.15),
+                            color: AppTheme.lightToskaBg,
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: const Icon(Icons.badge_outlined, color: AppTheme.jadeTosca, size: 26),
+                          child: const Icon(Icons.badge_outlined, color: AppTheme.primaryAction, size: 26),
                         ),
                         const SizedBox(width: 14),
                         Expanded(
@@ -135,7 +135,7 @@ class ShiftSummaryScreen extends ConsumerWidget {
                     padding: const EdgeInsets.all(14),
                     child: Row(
                       children: [
-                        const Icon(Icons.info_outline, color: AppTheme.jadeTosca, size: 20),
+                        const Icon(Icons.info_outline, color: AppTheme.primaryAction, size: 20),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
@@ -179,7 +179,7 @@ class _ShiftMetrics extends ConsumerWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            const Icon(Icons.cloud_off_rounded, size: 36, color: Color(0xFFD97706)),
+            const Icon(Icons.cloud_off_rounded, size: 36, color: AppTheme.warningText),
             const SizedBox(height: 10),
             Text(
               'Data Shift Belum Tersedia Offline',
@@ -250,13 +250,13 @@ class _ShiftMetrics extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(
-              color: AppTheme.jadeTosca.withValues(alpha: 0.12),
+              color: AppTheme.lightToskaBg,
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: AppTheme.jadeTosca.withValues(alpha: 0.3)),
+              border: Border.all(color: AppTheme.jadeTosca.withValues(alpha: 0.35)),
             ),
             child: Row(
               children: [
-                const Icon(Icons.sync_rounded, color: AppTheme.jadeTosca, size: 18),
+                const Icon(Icons.sync_rounded, color: AppTheme.primaryAction, size: 18),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -264,7 +264,7 @@ class _ShiftMetrics extends ConsumerWidget {
                     style: GoogleFonts.inter(
                       fontSize: 11.5,
                       fontWeight: FontWeight.w600,
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                     ),
                   ),
                 ),
@@ -277,7 +277,7 @@ class _ShiftMetrics extends ConsumerWidget {
           title: 'Total Penjualan Shift Hari Ini',
           value: ref.money(shift.todayRevenueIdr),
           icon: Icons.payments_rounded,
-          color: AppTheme.jadeTosca,
+          color: AppTheme.primaryAction,
           isPrimary: true,
         ),
         const SizedBox(height: 12),
@@ -297,7 +297,7 @@ class _ShiftMetrics extends ConsumerWidget {
                 title: 'Non-Tunai (QRIS)',
                 value: ref.money(shift.qrisRevenueIdr),
                 icon: Icons.qr_code_2_rounded,
-                color: AppTheme.jadeTosca,
+                color: AppTheme.primaryAction,
               ),
             ),
           ],
@@ -307,7 +307,7 @@ class _ShiftMetrics extends ConsumerWidget {
           title: 'Jumlah Transaksi Berhasil',
           value: '${shift.transactionCount} Transaksi',
           icon: Icons.check_circle_outline_rounded,
-          color: const Color(0xFFA855F7),
+          color: AppTheme.primaryAction,
           subtitle: 'Ketuk untuk melihat riwayat & detail struk',
           onTap: () => context.push('/pos/history'),
         ),
@@ -316,17 +316,18 @@ class _ShiftMetrics extends ConsumerWidget {
           width: double.infinity,
           child: OutlinedButton.icon(
             onPressed: () => context.push('/pos/history'),
-            icon: const Icon(Icons.receipt_long_outlined, size: 18, color: AppTheme.jadeTosca),
+            icon: const Icon(Icons.receipt_long_outlined, size: 18, color: AppTheme.primaryAction),
             label: Text(
               'Buka Riwayat & Detail Transaksi',
               style: GoogleFonts.inter(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: AppTheme.jadeTosca,
+                color: AppTheme.primaryAction,
               ),
             ),
             style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: AppTheme.jadeTosca),
+              side: const BorderSide(color: AppTheme.primaryAction),
+              minimumSize: const Size(0, 48),
               padding: const EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -403,7 +404,7 @@ class _ShiftMetricTile extends StatelessWidget {
             style: GoogleFonts.inter(
               fontSize: isPrimary ? 22 : 16,
               fontWeight: FontWeight.w800,
-              color: isPrimary ? AppTheme.jadeTosca : AppTheme.textPrimaryDark,
+              color: isPrimary ? AppTheme.primaryAction : AppTheme.textPrimaryDark,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -414,7 +415,7 @@ class _ShiftMetricTile extends StatelessWidget {
               subtitle!,
               style: GoogleFonts.inter(
                 fontSize: 11,
-                color: AppTheme.jadeTosca,
+                color: AppTheme.primaryAction,
                 fontWeight: FontWeight.w500,
               ),
               maxLines: 1,

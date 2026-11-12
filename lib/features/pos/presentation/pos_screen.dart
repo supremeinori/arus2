@@ -140,10 +140,10 @@ class _PosScreenState extends ConsumerState<PosScreen> {
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: AppTheme.jadeTosca.withValues(alpha: 0.12),
+                color: AppTheme.lightToskaBg,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Icon(Icons.point_of_sale_rounded, color: AppTheme.jadeTosca, size: 18),
+              child: const Icon(Icons.point_of_sale_rounded, color: AppTheme.primaryAction, size: 18),
             ),
             const SizedBox(width: 10),
             Text(
@@ -160,13 +160,13 @@ class _PosScreenState extends ConsumerState<PosScreen> {
           IconButton(
             icon: const Icon(
               Icons.receipt_long_outlined,
-              color: AppTheme.jadeTosca,
+              color: AppTheme.primaryAction,
             ),
             tooltip: 'Riwayat Transaksi Hari Ini',
             onPressed: () => context.push('/pos/history'),
           ),
           IconButton(
-            icon: const Icon(Icons.sync_rounded, color: AppTheme.jadeTosca),
+            icon: const Icon(Icons.sync_rounded, color: AppTheme.primaryAction),
             tooltip: 'Sinkronisasi Transaksi Offline',
             onPressed: () async {
               final messenger = ScaffoldMessenger.of(context);
@@ -178,8 +178,8 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                   SnackBar(
                     content: Text(result.message ?? 'Sinkronisasi selesai.'),
                     backgroundColor: result.failedCount == 0
-                        ? const Color(0xFF059669)
-                        : const Color(0xFFD97706),
+                        ? AppTheme.successText
+                        : AppTheme.warningTextDeep,
                   ),
                 );
                 ref.invalidate(productListProvider);
@@ -190,7 +190,7 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                 messenger.showSnackBar(
                   SnackBar(
                     content: Text('Sinkronisasi gagal: $e'),
-                    backgroundColor: AppTheme.dangerRed,
+                    backgroundColor: AppTheme.dangerTextDeep,
                   ),
                 );
               }
@@ -201,7 +201,7 @@ class _PosScreenState extends ConsumerState<PosScreen> {
               Icons.delete_sweep_outlined,
               color: cartState.items.isEmpty
                   ? AppTheme.textMutedDark.withValues(alpha: 0.4)
-                  : AppTheme.dangerRed,
+                  : AppTheme.dangerText,
             ),
             tooltip: 'Kosongkan Keranjang',
             onPressed: cartState.items.isEmpty
@@ -354,11 +354,11 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                       ),
                     ),
                     selected: _selectedCategoryId == null,
-                    selectedColor: AppTheme.jadeTosca,
+                    selectedColor: AppTheme.primaryAction,
                     backgroundColor: AppTheme.darkCardSurface,
                     side: BorderSide(
                       color: _selectedCategoryId == null
-                          ? AppTheme.jadeTosca
+                          ? AppTheme.primaryAction
                           : AppTheme.darkCardBorder,
                       width: 1.0,
                     ),
@@ -392,11 +392,11 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                           ),
                         ),
                         selected: isSelected,
-                        selectedColor: AppTheme.jadeTosca,
+                        selectedColor: AppTheme.primaryAction,
                         backgroundColor: AppTheme.darkCardSurface,
                         side: BorderSide(
                           color: isSelected
-                              ? AppTheme.jadeTosca
+                              ? AppTheme.primaryAction
                               : AppTheme.darkCardBorder,
                           width: 1.0,
                         ),
@@ -437,12 +437,12 @@ class _PosScreenState extends ConsumerState<PosScreen> {
   }) {
     return productsAsync.when(
       loading: () => const Center(
-        child: CircularProgressIndicator(color: AppTheme.jadeTosca),
+        child: CircularProgressIndicator(color: AppTheme.primaryAction),
       ),
       error: (err, _) => Center(
         child: Text(
           'Gagal memuat produk: $err',
-          style: GoogleFonts.inter(color: AppTheme.dangerRed),
+          style: GoogleFonts.inter(color: AppTheme.dangerText),
         ),
       ),
       data: (catalogItems) {
@@ -469,13 +469,13 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: AppTheme.jadeTosca.withValues(alpha: 0.12),
+                      color: AppTheme.lightToskaBg,
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
                       Icons.inventory_2_outlined,
                       size: 36,
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                     ),
                   ),
                   const SizedBox(height: 14),
@@ -517,11 +517,11 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.jadeTosca,
+                      backgroundColor: AppTheme.primaryAction,
                       elevation: 0,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 18,
-                        vertical: 10,
+                        vertical: 12,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -578,7 +578,7 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                       content: Text(
                         'Menu ${product.name} habis (bahan baku tidak cukup).',
                       ),
-                      backgroundColor: AppTheme.dangerRed,
+                      backgroundColor: AppTheme.dangerTextDeep,
                       duration: const Duration(seconds: 2),
                     ),
                   );
@@ -595,7 +595,7 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                       content: Text(
                         'Maksimal estimasi porsi tercapai ($maxPortions porsi).',
                       ),
-                      backgroundColor: const Color(0xFFD97706),
+                      backgroundColor: AppTheme.warningTextDeep,
                       duration: const Duration(seconds: 2),
                     ),
                   );
@@ -670,11 +670,12 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                   overflow: TextOverflow.ellipsis,
                 ),
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: AppTheme.jadeTosca,
+                  foregroundColor: AppTheme.primaryAction,
+                  minimumSize: const Size(0, 44),
                   side: BorderSide(
                     color: cartState.items.isEmpty
                         ? AppTheme.darkCardBorder
-                        : AppTheme.jadeTosca,
+                        : AppTheme.primaryAction,
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -700,7 +701,7 @@ class _PosScreenState extends ConsumerState<PosScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: cartState.items.isEmpty
                     ? AppTheme.darkCardSurfaceElevated
-                    : AppTheme.jadeTosca,
+                    : AppTheme.primaryAction,
                 foregroundColor: Colors.white,
                 elevation: 0,
                 minimumSize: const Size(0, 44),
@@ -793,15 +794,8 @@ class _RedesignedProductCard extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
                         decoration: BoxDecoration(
-                          color: AppTheme.jadeTosca,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color(0x33000000),
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
+                          color: AppTheme.primaryAction,
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           '$inCartQty di Pesanan',
@@ -880,12 +874,12 @@ class _RedesignedProductCard extends StatelessWidget {
                   if (catalogItem.product.costIdr != null) ...[
                     const SizedBox(height: 4),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
                       decoration: BoxDecoration(
-                        color: const Color(0x1F10B981),
+                        color: AppTheme.successBg,
                         borderRadius: BorderRadius.circular(6),
                         border: Border.all(
-                          color: const Color(0x4010B981),
+                          color: AppTheme.successText.withValues(alpha: 0.3),
                           width: 0.8,
                         ),
                       ),
@@ -895,7 +889,7 @@ class _RedesignedProductCard extends StatelessWidget {
                           const Icon(
                             Icons.trending_up_rounded,
                             size: 11,
-                            color: Color(0xFF10B981),
+                            color: AppTheme.successText,
                           ),
                           const SizedBox(width: 3),
                           Flexible(
@@ -904,9 +898,9 @@ class _RedesignedProductCard extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.inter(
-                                fontSize: 9.5,
+                                fontSize: 10,
                                 fontWeight: FontWeight.w700,
-                                color: const Color(0xFF10B981),
+                                color: AppTheme.successText,
                               ),
                             ),
                           ),
@@ -928,7 +922,7 @@ class _RedesignedProductCard extends StatelessWidget {
                             fontWeight: FontWeight.w800,
                             color: isOutOfStock
                                 ? AppTheme.textMutedDark
-                                : AppTheme.jadeTosca,
+                                : AppTheme.primaryAction,
                             fontSize: 13.5,
                           ),
                         ),
@@ -938,7 +932,7 @@ class _RedesignedProductCard extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: isOutOfStock
                               ? AppTheme.darkCardSurfaceElevated
-                              : AppTheme.jadeTosca,
+                              : AppTheme.primaryAction,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
@@ -1006,7 +1000,7 @@ class _PosCartDesktopPanel extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.shopping_bag_outlined, color: AppTheme.jadeTosca, size: 20),
+                    const Icon(Icons.shopping_bag_outlined, color: AppTheme.primaryAction, size: 20),
                     const SizedBox(width: 8),
                     Text(
                       'Daftar Pesanan',
@@ -1021,15 +1015,15 @@ class _PosCartDesktopPanel extends ConsumerWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
-                    color: AppTheme.darkCardSurfaceElevated,
-                    borderRadius: BorderRadius.circular(12),
+                    color: AppTheme.lightToskaBg,
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     '${cartState.totalItemsCount} item',
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
-                      color: AppTheme.jadeTosca,
+                      color: AppTheme.primaryAction,
                     ),
                   ),
                 ),
@@ -1133,7 +1127,7 @@ class _PosCartDesktopPanel extends ConsumerWidget {
                             icon: Icon(
                               Icons.add_circle_outline,
                               size: 18,
-                              color: isMaxReached ? AppTheme.textMutedDark : AppTheme.jadeTosca,
+                              color: isMaxReached ? AppTheme.textMutedDark : AppTheme.primaryAction,
                             ),
                             onPressed: () {
                               final error = notifier.incrementProductWithValidation(
@@ -1146,7 +1140,7 @@ class _PosCartDesktopPanel extends ConsumerWidget {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(error),
-                                    backgroundColor: const Color(0xFFD97706),
+                                    backgroundColor: AppTheme.warningTextDeep,
                                     duration: const Duration(seconds: 2),
                                   ),
                                 );
@@ -1156,7 +1150,7 @@ class _PosCartDesktopPanel extends ConsumerWidget {
                             visualDensity: VisualDensity.compact,
                           ),
                           IconButton(
-                            icon: const Icon(Icons.delete_outline, size: 18, color: AppTheme.dangerRed),
+                            icon: const Icon(Icons.delete_outline, size: 18, color: AppTheme.dangerText),
                             onPressed: () => notifier.removeProduct(item.productId),
                             tooltip: 'Hapus baris',
                             visualDensity: VisualDensity.compact,
@@ -1207,10 +1201,10 @@ class _PosCartDesktopPanel extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Diskon', style: GoogleFonts.inter(fontSize: 12.5, color: AppTheme.dangerRed)),
+                      Text('Diskon', style: GoogleFonts.inter(fontSize: 12.5, color: AppTheme.dangerText)),
                       Text(
                         '- ${ref.money(cartState.discountIdr)}',
-                        style: GoogleFonts.inter(fontSize: 12.5, color: AppTheme.dangerRed, fontWeight: FontWeight.w600),
+                        style: GoogleFonts.inter(fontSize: 12.5, color: AppTheme.dangerText, fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
@@ -1230,7 +1224,7 @@ class _PosCartDesktopPanel extends ConsumerWidget {
                       style: GoogleFonts.inter(
                         fontWeight: FontWeight.w800,
                         fontSize: 18,
-                        color: AppTheme.jadeTosca,
+                        color: AppTheme.primaryAction,
                       ),
                     ),
                   ],
@@ -1241,10 +1235,10 @@ class _PosCartDesktopPanel extends ConsumerWidget {
                   icon: const Icon(Icons.payment_rounded, color: Colors.white, size: 18),
                   label: const Text('Checkout'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.jadeTosca,
+                    backgroundColor: AppTheme.primaryAction,
                     foregroundColor: Colors.white,
                     elevation: 0,
-                    minimumSize: const Size.fromHeight(46),
+                    minimumSize: const Size.fromHeight(48),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

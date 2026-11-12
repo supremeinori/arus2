@@ -106,12 +106,12 @@ class _OutletMapWidgetState extends ConsumerState<OutletMapWidget> {
   Color _getStatusColor(String? status) {
     switch (status) {
       case 'critical':
-        return AppTheme.dangerRed;
+        return AppTheme.dangerText;
       case 'warning':
-        return const Color(0xFFF59E0B);
+        return AppTheme.warningText;
       case 'optimal':
       default:
-        return AppTheme.jadeTosca;
+        return AppTheme.primaryAction;
     }
   }
 
@@ -290,8 +290,8 @@ class _OutletMapWidgetState extends ConsumerState<OutletMapWidget> {
                   Polyline(
                     points: routeAsync.value!.points,
                     color: routeAsync.value!.isFallback
-                        ? const Color(0xFFF59E0B) // Amber untuk estimasi garis lurus
-                        : AppTheme.jadeTosca,      // Tosca untuk rute jalan darat OSRM
+                        ? AppTheme.warningAmber // Amber untuk estimasi garis lurus
+                        : AppTheme.jadeTosca, // Tosca untuk rute jalan darat OSRM
                     strokeWidth: 4.5,
                     borderStrokeWidth: 1.5,
                     borderColor: Colors.white,
@@ -408,7 +408,7 @@ class _OutletMapWidgetState extends ConsumerState<OutletMapWidget> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.alt_route_rounded, size: 15, color: AppTheme.jadeTosca),
+                          Icon(Icons.alt_route_rounded, size: 15, color: AppTheme.primaryAction),
                           SizedBox(width: 4),
                           Text(
                             'Rute ke:',
@@ -429,7 +429,7 @@ class _OutletMapWidgetState extends ConsumerState<OutletMapWidget> {
                           avatar: Icon(
                             Icons.storefront_rounded,
                             size: 13,
-                            color: (_selectedOutlet?.outletId == item.id) ? Colors.white : AppTheme.jadeTosca,
+                            color: (_selectedOutlet?.outletId == item.id) ? Colors.white : AppTheme.primaryAction,
                           ),
                           label: Text(
                             '${item.name} (${item.distanceKm.toStringAsFixed(1)} km)',
@@ -440,12 +440,12 @@ class _OutletMapWidgetState extends ConsumerState<OutletMapWidget> {
                             ),
                           ),
                           selected: _selectedOutlet?.outletId == item.id,
-                          selectedColor: AppTheme.jadeTosca,
+                          selectedColor: AppTheme.primaryAction,
                           backgroundColor: AppTheme.darkCardSurfaceElevated,
                           side: BorderSide(
-                            color: (_selectedOutlet?.outletId == item.id) ? AppTheme.jadeTosca : AppTheme.darkCardBorder,
+                            color: (_selectedOutlet?.outletId == item.id) ? AppTheme.primaryAction : AppTheme.darkCardBorder,
                           ),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                           showCheckmark: false,
                           onSelected: (selected) {
                             if (selected) {
@@ -471,8 +471,8 @@ class _OutletMapWidgetState extends ConsumerState<OutletMapWidget> {
               FloatingActionButton.small(
                 heroTag: 'btn_center_user',
                 backgroundColor: AppTheme.darkCardSurface,
-                foregroundColor: AppTheme.jadeTosca,
-                elevation: 3,
+                foregroundColor: AppTheme.primaryAction,
+                elevation: 2,
                 tooltip: 'Pusatkan ke Lokasi Saya',
                 onPressed: _isLocatingOrRouting
                     ? null
@@ -484,9 +484,9 @@ class _OutletMapWidgetState extends ConsumerState<OutletMapWidget> {
               const SizedBox(height: 8),
               FloatingActionButton.small(
                 heroTag: 'btn_nearest_branch',
-                backgroundColor: AppTheme.jadeTosca,
+                backgroundColor: AppTheme.primaryAction,
                 foregroundColor: Colors.white,
-                elevation: 3,
+                elevation: 2,
                 tooltip: 'Cabang Terdekat',
                 onPressed: _isLocatingOrRouting
                     ? null
@@ -505,7 +505,7 @@ class _OutletMapWidgetState extends ConsumerState<OutletMapWidget> {
                             messenger.showSnackBar(
                               SnackBar(
                                 content: Text('GPS: ${e.toString().replaceAll("Exception: ", "")}'),
-                                backgroundColor: AppTheme.dangerRed,
+                                backgroundColor: AppTheme.dangerTextDeep,
                                 duration: const Duration(seconds: 4),
                               ),
                             );
@@ -526,7 +526,7 @@ class _OutletMapWidgetState extends ConsumerState<OutletMapWidget> {
                             messenger.showSnackBar(
                               const SnackBar(
                                 content: Text('Tidak ada data cabang outlet yang tersedia.'),
-                                backgroundColor: AppTheme.dangerRed,
+                                backgroundColor: AppTheme.dangerTextDeep,
                               ),
                             );
                           }
@@ -619,7 +619,7 @@ class _OutletMapWidgetState extends ConsumerState<OutletMapWidget> {
                                     Icon(
                                       Icons.directions_car_rounded,
                                       size: 16,
-                                      color: route.isFallback ? const Color(0xFFF59E0B) : AppTheme.jadeTosca,
+                                      color: route.isFallback ? AppTheme.warningText : AppTheme.primaryAction,
                                     ),
                                     const SizedBox(width: 6),
                                     Expanded(
@@ -628,7 +628,7 @@ class _OutletMapWidgetState extends ConsumerState<OutletMapWidget> {
                                         style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
-                                          color: route.isFallback ? const Color(0xFFF59E0B) : AppTheme.jadeTosca,
+                                          color: route.isFallback ? AppTheme.warningText : AppTheme.primaryAction,
                                         ),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -664,7 +664,7 @@ class _OutletMapWidgetState extends ConsumerState<OutletMapWidget> {
                               SizedBox(
                                 width: 14,
                                 height: 14,
-                                child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.jadeTosca),
+                                child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.primaryAction),
                               ),
                               SizedBox(width: 8),
                               Text('Menghitung rute jalan...', style: TextStyle(fontSize: 11, color: AppTheme.textMutedDark)),
@@ -674,12 +674,12 @@ class _OutletMapWidgetState extends ConsumerState<OutletMapWidget> {
                         error: (err, stack) => Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                           decoration: BoxDecoration(
-                            color: AppTheme.dangerRed.withAlpha(25),
+                            color: AppTheme.dangerBg,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: const Text(
                             'Gagal memuat rute jalan aktual. Menampilkan estimasi garis lurus.',
-                            style: TextStyle(fontSize: 11, color: AppTheme.dangerRed),
+                            style: TextStyle(fontSize: 11, color: AppTheme.dangerTextDeep),
                           ),
                         ),
                       ),
@@ -717,13 +717,13 @@ class _OutletMapWidgetState extends ConsumerState<OutletMapWidget> {
                         ),
                         ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppTheme.jadeTosca,
+                            backgroundColor: AppTheme.primaryAction,
                             foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            minimumSize: const Size(0, 32),
+                            minimumSize: const Size(0, 44),
                           ),
                           icon: const Icon(Icons.arrow_forward_rounded, size: 14),
                           onPressed: () => context.push('/outlets/${_selectedOutlet!.outletId}'),
@@ -801,7 +801,11 @@ class _OutletLocationPickerWidgetState extends ConsumerState<OutletLocationPicke
             ),
             const SizedBox(width: 8),
             TextButton.icon(
-              style: TextButton.styleFrom(foregroundColor: AppTheme.jadeTosca, padding: EdgeInsets.zero),
+              style: TextButton.styleFrom(
+                foregroundColor: AppTheme.primaryAction,
+                minimumSize: const Size(0, 44),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+              ),
               onPressed: _isGettingGps
                   ? null
                   : () async {
@@ -820,7 +824,7 @@ class _OutletLocationPickerWidgetState extends ConsumerState<OutletLocationPicke
                           messenger.showSnackBar(
                             SnackBar(
                               content: Text(e.toString().replaceAll("Exception: ", "")),
-                              backgroundColor: AppTheme.dangerRed,
+                              backgroundColor: AppTheme.dangerTextDeep,
                             ),
                           );
                         }
@@ -834,10 +838,10 @@ class _OutletLocationPickerWidgetState extends ConsumerState<OutletLocationPicke
                   ? const SizedBox(
                       width: 12,
                       height: 12,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.jadeTosca),
+                      child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.primaryAction),
                     )
                   : const Icon(Icons.my_location_rounded, size: 14),
-              label: const Text('Gunakan GPS Saya', style: TextStyle(fontSize: 11)),
+              label: const Text('Gunakan GPS Saya', style: TextStyle(fontSize: 12)),
             ),
           ],
         ),

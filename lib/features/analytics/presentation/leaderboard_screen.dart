@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/theme/app_theme.dart';
 import '../../../shared/widgets/async_state_view.dart';
 import '../../../shared/widgets/dashboard_filter_sheet.dart';
 import '../../../shared/widgets/empty_state.dart';
@@ -91,7 +92,7 @@ class LeaderboardScreen extends ConsumerWidget {
       ),
       body: SafeArea(
         child: RefreshIndicator(
-          color: const Color(0xFF00A896),
+          color: AppTheme.primaryAction,
           onRefresh: () async => ref.invalidate(leaderboardProvider),
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
@@ -112,7 +113,7 @@ class LeaderboardScreen extends ConsumerWidget {
                       const Icon(
                         Icons.analytics_outlined,
                         size: 20,
-                        color: Color(0xFF00A896),
+                        color: AppTheme.primaryAction,
                       ),
                       const SizedBox(width: 10),
                       Expanded(
@@ -270,9 +271,9 @@ class _PodiumColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color accent = item.rank == 1
-        ? const Color(0xFFF59E0B)
+        ? AppTheme.warningText
         : item.rank == 2
-            ? const Color(0xFF94A3B8)
+            ? AppTheme.textMutedOnElevated
             : const Color(0xFFC2410C);
     final double blockHeight = item.rank == 1 ? 64 : (item.rank == 2 ? 50 : 40);
 
@@ -323,9 +324,9 @@ class _PodiumColumn extends StatelessWidget {
                 Text(
                   '${item.quantitySold} terjual',
                   style: GoogleFonts.inter(
-                    fontSize: 10,
+                    fontSize: 10.5,
                     fontWeight: FontWeight.w600,
-                    color: const Color(0xFF64748B),
+                    color: AppTheme.textMutedOnElevated,
                   ),
                 ),
               ],
@@ -443,7 +444,7 @@ class _LeaderboardItemCard extends ConsumerWidget {
                       fontSize: 11.5,
                       fontWeight: FontWeight.w700,
                       color: isTop3
-                          ? const Color(0xFF00A896)
+                          ? AppTheme.primaryAction
                           : const Color(0xFF475569),
                     ),
                     maxLines: 1,
