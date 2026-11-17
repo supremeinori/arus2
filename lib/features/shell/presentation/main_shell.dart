@@ -1,4 +1,3 @@
-import 'dart:ui' show ImageFilter;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -8,8 +7,6 @@ import '../../dashboard/presentation/dashboard_screen.dart';
 import '../../dashboard/presentation/shift_summary_screen.dart';
 import '../../pos/presentation/pos_screen.dart';
 import '../../operations/presentation/operations_hub_screen.dart';
-import '../../ai_assistant/presentation/ai_home_screen.dart';
-import '../../ai_assistant/presentation/ai_provider.dart';
 import '../../analytics/presentation/analytics_screen.dart';
 import '../../inventory/presentation/inventory_list_screen.dart';
 import '../../profile/presentation/profile_screen.dart';
@@ -17,51 +14,6 @@ import '../../../core/theme/app_theme.dart';
 
 /// State Provider untuk mengontrol tab aktif pada MainShell (0-indexed).
 final shellTabIndexProvider = StateProvider<int>((ref) => 0);
-
-/// Global helper untuk membuka AI Companion Bottom Sheet dari halaman mana pun (misal Form Tambah Menu)
-void showAiCompanionBottomSheet(BuildContext context, WidgetRef ref, {String? initialPrompt}) {
-  if (initialPrompt != null && initialPrompt.isNotEmpty) {
-    ref.read(aiPendingPromptProvider.notifier).state = initialPrompt;
-  }
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    builder: (context) => BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.82,
-        decoration: BoxDecoration(
-          color: AppTheme.lightCardSurface,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-          border: Border.all(color: AppTheme.lightCardBorder, width: 1.0),
-        ),
-        child: Column(
-          children: [
-            // Drag handle bar
-            Center(
-              child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppTheme.lightCardBorder,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-            const Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                child: AiHomeScreen(),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
 
 class MainShell extends ConsumerStatefulWidget {
   const MainShell({super.key});
@@ -158,32 +110,6 @@ class _MainShellState extends ConsumerState<MainShell> {
         index: safeIndex,
         children: pages,
       ),
-      // Global Floating Action Button untuk AI Companion (Hanya Owner & Manager, disembunyikan untuk Kasir / Staff)
-      floatingActionButton: isStaff
-          ? null
-          : FloatingActionButton(
-              backgroundColor: AppTheme.lightCardSurface,
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-                side: const BorderSide(color: AppTheme.lightCardBorder, width: 1.0),
-              ),
-              tooltip: 'ARUS AI Companion',
-              onPressed: () => showAiCompanionBottomSheet(context, ref),
-              child: ClipOval(
-                child: Image.asset(
-                  'assets/images/ai_mascot.png',
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, _, _) => const Icon(
-                    Icons.analytics_rounded,
-                    size: 26,
-                    color: AppTheme.primaryAction,
-                  ),
-                ),
-              ),
-            ),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           color: AppTheme.lightCardSurface,

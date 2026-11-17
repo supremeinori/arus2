@@ -33,11 +33,6 @@ enum TxnStatus {
   voided
 }
 
-enum GameMode {
-  guess_name
-  guess_price
-}
-
 // ==========================================
 // MODUL 1: AUTENTIKASI, PENGGUNA & CABANG
 // ==========================================
@@ -55,12 +50,9 @@ model User {
   updated_at    DateTime @updatedAt @db.Timestamptz()
 
   outlets        UserOutlet[]
-  feedbacks      Feedback[]
   transactions   Transaction[]
   movements      InventoryMovement[]
   notifications  Notification[]
-  ai_logs        AiChatLog[]
-  game_sessions  GameSession[]
   refresh_tokens RefreshToken[]
   device_tokens  DeviceToken[]
 
@@ -81,7 +73,6 @@ model Outlet {
   users        UserOutlet[]
   ingredients  Ingredient[]
   transactions Transaction[]
-  blocks       BlockchainRecord[]
 
   @@map("outlets")
 }
@@ -95,18 +86,6 @@ model UserOutlet {
 
   @@id([user_id, outlet_id])
   @@map("user_outlets")
-}
-
-model Feedback {
-  id         String   @id @default(uuid()) @db.Uuid
-  user_id    String   @db.Uuid
-  kesan      String   @db.Text
-  saran      String   @db.Text
-  created_at DateTime @default(now()) @db.Timestamptz()
-
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
-  @@map("feedback")
 }
 
 // ==========================================
@@ -219,7 +198,6 @@ model Transaction {
   cashier            User                @relation(fields: [cashier_id], references: [id])
   items              TransactionItem[]
   movements          InventoryMovement[]
-  blockchain_records BlockchainRecord[]
 
   @@index([outlet_id, created_at])
   @@map("transactions")
@@ -239,31 +217,6 @@ model TransactionItem {
   product     Product     @relation(fields: [product_id], references: [id])
 
   @@map("transaction_items")
-}
-
-model BlockchainRecord {
-  id                String   @id @default(uuid()) @db.Uuid
-  outlet_id         String   @db.Uuid
-  block_index       Int
-  event_id          String?  @unique @db.VarChar(120)
-  event_type        String   @default("sale") @db.VarChar(40)
-  transaction_id    String?  @db.Uuid
-  event_data        Json?
-  data_hash         String   @db.Char(64)
-  prev_hash         String   @db.Char(64)
-  block_hash        String   @db.Char(64)
-  backup_event_data Json?
-  backup_data_hash  String?  @db.Char(64)
-  backup_prev_hash  String?  @db.Char(64)
-  backup_block_hash String?  @db.Char(64)
-  created_at        DateTime @default(now()) @db.Timestamptz()
-
-  outlet      Outlet       @relation(fields: [outlet_id], references: [id])
-  transaction Transaction? @relation(fields: [transaction_id], references: [id], onDelete: SetNull)
-
-  @@unique([outlet_id, block_index])
-  @@index([outlet_id, created_at])
-  @@map("blockchain_records")
 }
 
 model Notification {
@@ -298,37 +251,8 @@ model DeviceToken {
 }
 
 // ==========================================
-// MODUL 5: AI ASSISTANT & MINI GAME "GUESS THE MENU"
+// MODUL SESI & TOKEN
 // ==========================================
-
-model AiChatLog {
-  id          String   @id @default(uuid()) @db.Uuid
-  user_id     String   @db.Uuid
-  question    String   @db.Text
-  answer_json Json
-  facts_used  Json
-  created_at  DateTime @default(now()) @db.Timestamptz()
-
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
-  @@map("ai_chat_logs")
-}
-
-model GameSession {
-  id              String   @id @default(uuid()) @db.Uuid
-  user_id         String   @db.Uuid
-  mode            GameMode // 'guess_name' atau 'guess_price'
-  score           Int
-  correct_count   Int
-  total_questions Int      @default(5)
-  duration_sec    Int
-  played_at       DateTime @default(now()) @db.Timestamptz()
-
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
-  @@index([user_id, score(sort: Desc)])
-  @@map("game_sessions")
-}
 
 model RefreshToken {
   id          String    @id @default(uuid()) @db.Uuid

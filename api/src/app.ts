@@ -14,14 +14,9 @@ import transactionsRoute from './modules/transactions/transactions.route';
 import posRoute from './modules/pos/pos.route';
 import analyticsRoute from './modules/analytics/analytics.route';
 import insightsRoute from './modules/insights/insights.route';
-import aiRoute from './modules/ai/ai.route';
 import outletsRoute from './modules/outlets/outlets.route';
 import notificationsRoute from './modules/notifications/notifications.route';
-import fxRoute from './modules/fx/fx.route';
-import integrityRoute from './modules/integrity/integrity.route';
-import gameRoute from './modules/game/game.route';
 import searchRoute from './modules/search/search.route';
-import feedbackRoute from './modules/feedback/feedback.route';
 
 const app = express();
 
@@ -52,13 +47,8 @@ app.use('/api', transactionsRoute);
 app.use('/api', posRoute);
 app.use('/api', analyticsRoute);
 app.use('/api', insightsRoute);
-app.use('/api', aiRoute);
 app.use('/api', notificationsRoute);
-app.use('/api', fxRoute);
-app.use('/api', integrityRoute);
-app.use('/api', gameRoute);
 app.use('/api', searchRoute);
-app.use('/api', feedbackRoute);
 app.use('/', healthRoute); // Direct /health fallback
 
 // 404 Handler

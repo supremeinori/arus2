@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../features/ai_assistant/presentation/ai_provider.dart';
 import '../../features/auth/presentation/auth_provider.dart';
 import '../../features/auth/presentation/auth_state.dart';
 import '../../features/notifications/presentation/notifications_provider.dart';
@@ -75,8 +75,14 @@ class PushService {
   bool get isEnabled => _enabled;
 
   Future<void> initialize() async {
+    final options = _optionsFromEnvironment();
+    if (kIsWeb && options == null) {
+      _enabled = false;
+      debugPrint('[Push] Firebase Web options tidak disediakan, push dinonaktifkan.');
+      return;
+    }
+
     try {
-      final options = _optionsFromEnvironment();
       if (options != null) {
         await Firebase.initializeApp(options: options);
       } else {
@@ -89,7 +95,9 @@ class PushService {
       return;
     }
 
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    if (!kIsWeb) {
+      FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    }
 
     final messaging = FirebaseMessaging.instance;
 
@@ -188,15 +196,6 @@ class PushService {
   void _handleOpenedMessage(RemoteMessage message) {
     final data = message.data;
     final type = data['type'] ?? '';
-
-    if (type == 'ai_result') {
-      final chatLogId = data['chat_log_id'];
-      if (chatLogId != null && chatLogId.isNotEmpty) {
-        _ref.read(aiPendingConversationProvider.notifier).state = chatLogId;
-      }
-      _ref.read(routerProvider).go('/ai');
-      return;
-    }
 
     if (type == 'low_stock' || type == 'out_of_stock') {
       _ref.read(routerProvider).go('/inventory');

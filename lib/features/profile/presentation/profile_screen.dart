@@ -8,19 +8,10 @@ import '../../auth/presentation/auth_provider.dart';
 import '../../auth/domain/user_model.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../shared/widgets/settings_tile.dart';
-import '../../sensors/presentation/sensor_provider.dart';
-import '../../sensors/presentation/shake_settings_sheet.dart';
 import '../../shell/presentation/main_shell.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
-
-  String _getThresholdLabel(double threshold) {
-    if (threshold <= 4.5) return 'Ringan';
-    if (threshold <= 7.5) return 'Sedang';
-    if (threshold <= 11.0) return 'Kuat';
-    return 'Sangat Kuat';
-  }
 
   void _showLogoutDialog(BuildContext context, WidgetRef ref) {
     showDialog(
@@ -76,12 +67,6 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authProvider);
     final user = authState.user;
-    final currentThreshold = ref.watch(shakeThresholdProvider);
-    // Revisi 23 Okt 2026: "Cabang & Outlet" hanya untuk owner. Manajer tetap
-    // memegang "Integritas Data". Sebabnya Rute /outlets sudah dibatasi owner
-    // di app_router.dart, jadi tile itu sebelumnya jalan buntu bagi manajer.
-    final showManagement =
-        user?.role == UserRole.owner || user?.role == UserRole.manager;
     final isOwner = user?.role == UserRole.owner;
 
     final scaffold = Scaffold(
@@ -100,8 +85,8 @@ class ProfileScreen extends ConsumerWidget {
             ),
             Text(
               isOwner
-                  ? 'Kelola akun, cabang, dan integritas data'
-                  : 'Kelola akun dan integritas data',
+                  ? 'Kelola akun dan cabang'
+                  : 'Kelola akun',
               style: GoogleFonts.inter(fontSize: 11, color: AppTheme.textMutedDark),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -116,27 +101,15 @@ class ProfileScreen extends ConsumerWidget {
           _ProfileHeaderCard(user: user),
           const SizedBox(height: 18),
 
-          if (showManagement) ...[
-            SettingsSectionLabel(
-              isOwner ? 'Manajemen & Integritas' : 'Integritas Data',
-            ),
+          if (isOwner) ...[
+            const SettingsSectionLabel('Manajemen Cabang'),
             const SizedBox(height: 8),
             SettingsSectionCard(
               children: [
-                // Sementara #outlets ditahan untuk owner lewat app_router.dart,
-                // jadi kartunya disembunyikan untuk manajer.
-                if (isOwner) ...[
-                  SettingsNavTile(
-                    icon: Icons.storefront_rounded,
-                    title: 'Cabang & Outlet',
-                    onTap: () => context.push('/outlets'),
-                  ),
-                  const SettingsTileDivider(),
-                ],
                 SettingsNavTile(
-                  icon: Icons.verified_user_outlined,
-                  title: 'Integritas Data (Ledger LBS)',
-                  onTap: () => context.push('/integrity'),
+                  icon: Icons.storefront_rounded,
+                  title: 'Cabang & Outlet',
+                  onTap: () => context.push('/outlets'),
                 ),
               ],
             ),
@@ -152,37 +125,14 @@ class ProfileScreen extends ConsumerWidget {
                 title: 'Pengaturan',
                 onTap: () => context.push('/settings'),
               ),
-              const SettingsTileDivider(),
-              SettingsNavTile(
-                icon: Icons.sensors_rounded,
-                title: 'Diagnostik Sensor & Biometrik',
-                onTap: () => context.push('/sensors'),
-              ),
-              const SettingsTileDivider(),
-              SettingsNavTile(
-                icon: Icons.vibration_rounded,
-                title: 'Sensitivitas Guncangan (Shake)',
-                onTap: () => ShakeSettingsSheet.show(context),
-                trailing: SettingsValueChip(
-                  label: _getThresholdLabel(currentThreshold),
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 18),
 
           const SettingsSectionLabel('Bantuan & Info'),
           const SizedBox(height: 8),
-          // Revisi 22 Okt 2026: "Kelola Staf & Akun" dipindahkan ke Pusat Operasi,
-          // jadi di Profil tidak ada lagi pintu ganda ke halaman yang sama.
           SettingsSectionCard(
             children: [
-              SettingsNavTile(
-                icon: Icons.rate_review_outlined,
-                title: 'Saran & Kesan Kuliah PAM',
-                onTap: () => context.push('/feedback'),
-              ),
-              const SettingsTileDivider(),
               SettingsNavTile(
                 icon: Icons.info_outline_rounded,
                 title: 'Tentang ARUS',

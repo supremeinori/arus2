@@ -26,9 +26,6 @@ export async function main() {
 
   // 1. BERSIHKAN DATA SEBELUM SEEDING
   console.log('🧹 Membersihkan database lama...');
-  await prisma.gameSession.deleteMany();
-  await prisma.aiChatLog.deleteMany();
-  await prisma.feedback.deleteMany();
   await prisma.notification.deleteMany();
   await prisma.deviceToken.deleteMany();
   await prisma.refreshToken.deleteMany();
@@ -37,9 +34,8 @@ export async function main() {
   const existingTxCount = await prisma.transaction.count();
   if (existingTxCount > 0 && process.env.CONFIRM_WIPE_TRANSACTIONS !== 'true') {
     console.log(`🛡️ KEAMANAN AKTIF: Ditemukan ${existingTxCount} data transaksi riil di database.`);
-    console.log('🛡️ Penghapusan data transaksi, blockchain, dan kartu stok DILEWATI agar data tidak hilang.');
+    console.log('🛡️ Penghapusan data transaksi dan kartu stok DILEWATI agar data tidak hilang.');
   } else {
-    await prisma.blockchainRecord.deleteMany();
     await prisma.transactionItem.deleteMany();
     await prisma.transaction.deleteMany();
     await prisma.inventoryMovement.deleteMany();
@@ -422,7 +418,6 @@ export async function main() {
     movements: await prisma.inventoryMovement.count(),
     transactions: await prisma.transaction.count(),
     transactionItems: await prisma.transactionItem.count(),
-    blockchainRecords: await prisma.blockchainRecord.count(),
   };
 
   console.table(counts);

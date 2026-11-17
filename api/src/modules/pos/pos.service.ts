@@ -6,7 +6,7 @@ import type { PosCheckoutInput } from './pos.schema';
 
 /**
  * Modul POS — thin layer di atas TransactionsService & Catalog.
- * Seluruh logika atomik (stok, mutasi, blockchain) tetap di
+ * Seluruh logika atomik (stok, mutasi) tetap di
  * TransactionsService agar tidak ada duplikasi alur kasir.
  */
 export class PosService {
@@ -84,7 +84,7 @@ export class PosService {
 
   /**
    * POST /api/pos/checkout
-   * Delegasi penuh ke TransactionsService.createTransaction (atomik + blockchain).
+   * Delegasi penuh ke TransactionsService.createTransaction (atomik).
    * cashier_id opsional di payload — default dari token auth (lebih aman).
    */
   async checkout(

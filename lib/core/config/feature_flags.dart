@@ -1,12 +1,11 @@
-/// Feature Flags sesuai SRS Section 23.3
-/// Menjamin supporting features tidak merusak core chain (Gate G1 / T-CORE-01)
+/// Feature Flags
 class FeatureFlags {
   // Client-side features
   final bool lbs;
   final bool sensors;
   final bool biometric;
 
-  // Server-synced features (diambil dari GET /auth/me saat login)
+  // Server-synced features
   final bool integrity;
   final bool notifications;
   final bool fx;
@@ -15,31 +14,30 @@ class FeatureFlags {
 
   const FeatureFlags({
     this.lbs = true,
-    this.sensors = true,
+    this.sensors = false,
     this.biometric = true,
-    this.integrity = true,
+    this.integrity = false,
     this.notifications = true,
-    this.fx = true,
-    this.game = true,
-    this.ai = true,
+    this.fx = false,
+    this.game = false,
+    this.ai = false,
   });
 
   factory FeatureFlags.fromJson(Map<String, dynamic> json) {
     return FeatureFlags(
       lbs: json['lbs'] as bool? ?? true,
-      sensors: json['sensors'] as bool? ?? true,
+      sensors: json['sensors'] as bool? ?? false,
       biometric: json['biometric'] as bool? ?? true,
-      integrity: json['integrity'] as bool? ?? true,
+      integrity: json['integrity'] as bool? ?? false,
       notifications: json['notifications'] as bool? ?? true,
-      fx: json['fx'] as bool? ?? true,
-      game: json['game'] as bool? ?? true,
-      ai: json['ai'] as bool? ?? true,
+      fx: json['fx'] as bool? ?? false,
+      game: json['game'] as bool? ?? false,
+      ai: json['ai'] as bool? ?? false,
     );
   }
 
-  /// Preset untuk verifikasi Gate G1 / T-CORE-01 (semua supporting feature dimatikan)
   static const FeatureFlags coreOnly = FeatureFlags(
-    lbs: false,
+    lbs: true,
     sensors: false,
     biometric: false,
     integrity: false,

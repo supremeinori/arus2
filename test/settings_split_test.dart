@@ -5,7 +5,6 @@ import 'package:arus/features/auth/domain/user_model.dart';
 import 'package:arus/features/auth/presentation/auth_provider.dart';
 import 'package:arus/features/auth/presentation/auth_state.dart';
 import 'package:arus/features/profile/presentation/profile_screen.dart';
-import 'package:arus/features/settings/domain/currency_models.dart';
 import 'package:arus/features/settings/presentation/currency_provider.dart';
 import 'package:arus/features/settings/presentation/currency_settings_screen.dart';
 import 'package:arus/features/settings/presentation/time_settings_screen.dart';

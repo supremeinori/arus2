@@ -9,7 +9,6 @@ import '../../../core/theme/app_theme.dart';
 import '../../../shared/widgets/app_widgets.dart';
 import '../../catalog/presentation/catalog_provider.dart';
 import '../../settings/presentation/currency_provider.dart';
-import '../../sensors/presentation/sensor_provider.dart';
 import 'pos_provider.dart';
 import 'pos_cart_sheet.dart';
 import 'pos_menu_thumbnail.dart';
@@ -77,41 +76,6 @@ class _PosScreenState extends ConsumerState<PosScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Shake-to-Refresh Listener
-    ref.listen<DateTime?>(shakeEventProvider, (prev, next) {
-      if (next != null) {
-        ref.invalidate(productListProvider);
-        ref.invalidate(categoriesProvider);
-        _syncOfflineData();
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: AppTheme.textPrimaryDark,
-            content: Row(
-              children: [
-                const Icon(
-                  Icons.vibration_rounded,
-                  color: Colors.white,
-                  size: 20,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'Guncangan terdeteksi! Memperbarui katalog POS...',
-                    style: GoogleFonts.inter(color: Colors.white, fontSize: 13),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
-            duration: const Duration(seconds: 2),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
-    });
-
     final productsAsync = ref.watch(posCatalogProvider);
     final categoriesAsync = ref.watch(categoriesProvider);
     final cartState = ref.watch(posCartProvider);

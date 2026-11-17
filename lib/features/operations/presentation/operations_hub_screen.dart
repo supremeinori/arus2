@@ -110,12 +110,6 @@ class OperationsHubScreen extends ConsumerWidget {
                 icon: Icons.receipt_long_outlined,
                 onTap: () => context.push('/pos/history?scope=dashboard'),
               ),
-              _OperationTile(
-                title: 'Hiburan',
-                subtitle: 'Guess the Menu',
-                icon: Icons.sports_esports_outlined,
-                onTap: () => context.push('/game'),
-              ),
             ],
           ),
         ],

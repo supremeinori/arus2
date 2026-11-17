@@ -911,7 +911,7 @@ class LocalDatabase {
         {
           'estimated_portions': newPortions,
           'stock_quantity': newStock,
-          if (updatedRawJson != null) 'raw_json': updatedRawJson,
+          'raw_json': ?updatedRawJson,
           'updated_at': DateTime.now().toIso8601String(),
         },
         where: 'id = ?',

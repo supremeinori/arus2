@@ -2,8 +2,6 @@ import crypto from 'crypto';
 import { PaymentMethod, PrismaClient, Role, TxnStatus } from '@prisma/client';
 import { prisma } from '../../config/db';
 import { AppError } from '../../shared/errors';
-import { integrityService } from '../integrity/blockchain.service';
-import { web3AnchorService } from '../integrity/web3_anchor.service';
 import {
   NotificationDraft,
   NotificationsService,
@@ -324,30 +322,6 @@ export class TransactionsService {
         }
       }
 
-      await integrityService.appendEvent(tx, targetOutletId, {
-        eventId: `sale:${newTransaction.id}`,
-        eventType: 'sale',
-        transactionId: newTransaction.id,
-        eventData: {
-          transaction_id: newTransaction.id,
-          receipt_no: newTransaction.receipt_no,
-          outlet_id: newTransaction.outlet_id,
-          cashier_id: targetCashierId,
-          subtotal_idr: newTransaction.subtotal_idr,
-          discount_idr: newTransaction.discount_idr,
-          total_idr: newTransaction.total_idr,
-          payment_method: newTransaction.payment_method,
-          status: newTransaction.status,
-          items: preparedItems.map((item) => ({
-            product_id: item.product_id,
-            product_name: item.product_name_snapshot,
-            quantity: item.quantity,
-            unit_price_idr: item.unit_price_idr,
-            line_total_idr: item.line_total_idr,
-          })),
-        },
-      }, newTransaction.created_at);
-
       return newTransaction;
     }, {
       maxWait: 10000,
@@ -363,13 +337,6 @@ export class TransactionsService {
         console.warn('[TransactionsService] Push low_stock gagal (diabaikan):', err);
       }
     }
-
-    // Web3 Anchoring: Catat struk ke Ethereum Sepolia di background (Non-blocking)
-    web3AnchorService
-      .anchorReceiptAsync(committedTransaction.receipt_no, committedTransaction.id)
-      .catch((err) => {
-        console.warn('[TransactionsService] Background Web3 anchor error:', err?.message || err);
-      });
 
     return committedTransaction;
   }
@@ -480,30 +447,6 @@ export class TransactionsService {
           },
         });
       }
-
-      await integrityService.appendEvent(tx, transaction.outlet_id, {
-        eventId: `void:${transaction.id}`,
-        eventType: 'void_return',
-        transactionId: transaction.id,
-        eventData: {
-          transaction_id: transaction.id,
-          receipt_no: transaction.receipt_no,
-          outlet_id: transaction.outlet_id,
-          voided_by: voidedByUserId,
-          reason: reason.trim(),
-          total_idr: transaction.total_idr,
-          items: transaction.items.map((item) => ({
-            product_id: item.product_id,
-            product_name: item.product_name_snapshot,
-            quantity: item.quantity,
-            unit_price_idr: item.unit_price_idr,
-          })),
-          returned_ingredients: [...ingredientReturns.entries()].map(([ingredientId, quantity]) => ({
-            ingredient_id: ingredientId,
-            quantity,
-          })),
-        },
-      });
 
       return updated;
     }, {

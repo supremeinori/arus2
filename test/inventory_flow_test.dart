@@ -12,7 +12,6 @@ import 'package:arus/features/inventory/presentation/inventory_provider.dart';
 import 'package:arus/features/analytics/presentation/analytics_provider.dart';
 import 'package:arus/features/outlets/domain/outlet_models.dart';
 import 'package:arus/features/outlets/presentation/outlets_provider.dart';
-import 'package:arus/features/sensors/presentation/sensor_provider.dart';
 
 class AuthNotifierMock extends StateNotifier<AuthState> implements AuthNotifier {
   AuthNotifierMock(super.initialState);
@@ -57,16 +56,6 @@ class AuthNotifierMock extends StateNotifier<AuthState> implements AuthNotifier 
   }
 }
 
-class MockShakeEventNotifier extends StateNotifier<DateTime?> implements ShakeEventNotifier {
-  MockShakeEventNotifier() : super(null);
-
-  @override
-  void reset() {}
-
-  @override
-  void triggerShake() {}
-}
-
 void main() {
   group('Inventory Flow Widget Tests (Modul 2 Refactor)', () {
     testWidgets('InventoryListScreen untuk Staff menampilkan stok dan estimasi porsi menu', (tester) async {
@@ -92,7 +81,6 @@ void main() {
           overrides: [
             authProvider.overrideWith((ref) => AuthNotifierMock(AuthState.authenticated(staffUser))),
             productListProvider.overrideWith((ref) async => [sampleProduct]),
-            shakeEventProvider.overrideWith((ref) => MockShakeEventNotifier()),
           ],
           child: const MaterialApp(
             home: InventoryListScreen(),
@@ -147,7 +135,6 @@ void main() {
             outletsListProvider.overrideWith((ref) async => [sampleOutlet]),
             selectedOutletFilterProvider.overrideWith((ref) => 'out-1'),
             ingredientsListProvider.overrideWith((ref) async => [sampleIngredient]),
-            shakeEventProvider.overrideWith((ref) => MockShakeEventNotifier()),
           ],
           child: const MaterialApp(
             home: InventoryListScreen(),
@@ -224,7 +211,6 @@ void main() {
             authProvider.overrideWith((ref) => AuthNotifierMock(AuthState.authenticated(managerUser))),
             outletsListProvider.overrideWith((ref) async => allOutlets),
             ingredientsListProvider.overrideWith((ref) async => [sampleIngredient]),
-            shakeEventProvider.overrideWith((ref) => MockShakeEventNotifier()),
           ],
           child: const MaterialApp(
             home: InventoryListScreen(),
@@ -268,7 +254,6 @@ void main() {
             authProvider.overrideWith((ref) => AuthNotifierMock(AuthState.authenticated(managerNoOutlet))),
             outletsListProvider.overrideWith((ref) async => []),
             ingredientsListProvider.overrideWith((ref) async => []),
-            shakeEventProvider.overrideWith((ref) => MockShakeEventNotifier()),
           ],
           child: const MaterialApp(
             home: InventoryListScreen(),

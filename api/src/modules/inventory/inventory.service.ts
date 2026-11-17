@@ -1,7 +1,6 @@
 import { MovementType, Role } from '@prisma/client';
 import { prisma } from '../../config/db';
 import { AppError } from '../../shared/errors';
-import { integrityService } from '../integrity/blockchain.service';
 import {
   dispatchPushNotifications,
   notifyCriticalStock,
@@ -450,22 +449,6 @@ export class InventoryService {
             creator: { select: { id: true, name: true, role: true } },
           },
         });
-
-        await integrityService.appendEvent(tx, data.outlet_id, {
-          eventId: `inventory:${movement.id}`,
-          eventType: data.movement_type,
-          eventData: {
-            movement_id: movement.id,
-            ingredient_id: ingredient.id,
-            ingredient_name: ingredient.name,
-            outlet_id: data.outlet_id,
-            movement_type: data.movement_type,
-            quantity_delta: movement.quantity_delta,
-            quantity_after: movement.quantity_after,
-            created_by: userId,
-            note: movement.note,
-          },
-        }, movement.created_at);
 
         return {
           inventory: {

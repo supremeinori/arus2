@@ -14,7 +14,6 @@ import 'package:arus/features/outlets/domain/outlet_models.dart';
 import 'package:arus/features/outlets/presentation/outlet_list_screen.dart';
 import 'package:arus/features/outlets/presentation/outlets_provider.dart';
 import 'package:arus/features/profile/presentation/profile_screen.dart';
-import 'package:arus/features/sensors/presentation/sensor_provider.dart';
 import 'package:arus/shared/widgets/app_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -124,9 +123,6 @@ void main() {
           overrides: [
             authProvider.overrideWith(
               (ref) => _AuditAuthNotifier(AuthState.authenticated(ownerUser)),
-            ),
-            shakeThresholdProvider.overrideWith(
-              (ref) => ShakeThresholdNotifier()..state = 8.0,
             ),
           ],
         ),

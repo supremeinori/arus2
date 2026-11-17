@@ -18,7 +18,6 @@ import 'package:arus/features/auth/domain/auth_response.dart';
 import 'package:arus/features/auth/domain/user_model.dart';
 import 'package:arus/features/auth/presentation/auth_provider.dart';
 import 'package:arus/features/auth/presentation/auth_state.dart';
-import 'package:arus/features/settings/domain/currency_models.dart';
 import 'package:arus/features/settings/presentation/currency_provider.dart';
 import 'package:arus/shared/widgets/app_widgets.dart';
 

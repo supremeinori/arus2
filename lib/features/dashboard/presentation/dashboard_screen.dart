@@ -18,7 +18,6 @@ import '../../insights/presentation/insights_provider.dart';
 import '../../inventory/domain/inventory_models.dart';
 import '../../inventory/presentation/inventory_provider.dart';
 import '../../notifications/presentation/notifications_provider.dart';
-import '../../sensors/presentation/sensor_provider.dart';
 import '../../../core/utils/timezone_converter.dart';
 import '../../settings/presentation/currency_provider.dart';
 import '../../settings/presentation/widgets/time_settings_section.dart';
@@ -59,45 +58,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Listener Sensor Guncangan (Shake-to-Refresh)
-    ref.listen<DateTime?>(shakeEventProvider, (prev, next) {
-      if (next != null) {
-        ref.invalidate(analyticsOverviewProvider);
-        ref.invalidate(salesTrendProvider);
-        ref.invalidate(dailyProfitComparisonProvider);
-        ref.invalidate(ingredientsListProvider);
-        ref.invalidate(insightsListProvider);
-        ref.invalidate(leaderboardProvider);
-        ref.invalidate(notificationsListProvider);
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: _DashboardColors.textPrimary,
-            content: Row(
-              children: [
-                const Icon(
-                  Icons.vibration_rounded,
-                  color: Colors.white,
-                  size: 18,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'Guncangan terdeteksi! Memperbarui data...',
-                    style: GoogleFonts.inter(color: Colors.white, fontSize: 13),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
-            duration: const Duration(seconds: 2),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
-    });
-
     final authState = ref.watch(authProvider);
     final user = authState.user;
     // Revisi 22 Okt 2026: tab Beranda kini dipakai kasir juga (Ringkasan Shift dibuang),
@@ -129,7 +89,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final ingredientsAsync = ref.watch(ingredientsListProvider);
 
     // ========================================================================
-    // TODO: [BELUM ADA API SPESIFIK] Endpoint Agregasi Masalah Operasional
+    // CATATAN: [BELUM ADA API SPESIFIK] Endpoint Agregasi Masalah Operasional
     // Rekomendasi API Backend yang perlu dibuat:
     //   GET /api/analytics/issues?outlet_id=...
     // Response ideal:
@@ -702,7 +662,7 @@ class _HeroOmzetCard extends ConsumerWidget {
 // ============================================================================
 // 3. ROW OF 2 KPI CARDS (Wireframe: Transaksi [N] & Masalah [M])
 // Transaksi: API TERSEDIA (GET /api/analytics/overview -> transaction_count)
-// Masalah:   TODO: Belum ada API agregasi khusus, saat ini dihitung dari stok kritis
+// Masalah:   Catatan: Belum ada API agregasi khusus, saat ini dihitung dari stok kritis
 // ============================================================================
 class _KpiRowSection extends StatelessWidget {
   final int transactionCount;
@@ -773,7 +733,7 @@ class _KpiRowSection extends StatelessWidget {
         ),
         const SizedBox(width: 10),
 
-        // Kartu Masalah (Dihitung dari stok bahan kritis / TODO API masalah agregat)
+        // Kartu Masalah (Dihitung dari stok bahan kritis / Catatan API masalah agregat)
         // Revisi 22 Okt 2026: seluruh kartu bisa diketuk, bukan hanya teksnya.
         Expanded(
           child: Material(

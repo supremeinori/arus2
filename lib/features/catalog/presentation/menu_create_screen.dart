@@ -6,10 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/money_formatter.dart';
 import '../../../shared/widgets/async_state_view.dart';
-import '../../ai_assistant/data/ai_repository.dart';
 import '../../inventory/domain/inventory_models.dart';
 import '../../inventory/presentation/inventory_provider.dart';
-import '../../shell/presentation/main_shell.dart';
 import '../data/catalog_repository.dart';
 import '../domain/category_model.dart';
 import '../domain/product_model.dart';
@@ -60,12 +58,6 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
   bool _isActive = true;
   bool _togglingActive = false;
 
-  // State Rekomendasi Harga AI
-  bool _aiLoading = false;
-  int? _aiRecommendedPrice;
-  int? _aiMarginPercentage;
-  String? _aiReasoning;
-
   @override
   void dispose() {
     _nameCtrl.dispose();
@@ -103,68 +95,6 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
 
   /// Step 4: harga jual = modal + margin%.
   int _priceFor(int hpp, int marginPct) => (hpp * (100 + marginPct) / 100).round();
-
-  /// Panggil API Backend POST /api/ai/recommend-price
-  Future<void> _fetchAiRecommendation(int hpp) async {
-    final menuName = _nameCtrl.text.trim();
-    if (menuName.isEmpty) {
-      setState(() => _error = 'Isi Nama Menu terlebih dahulu untuk rekomendasi AI.');
-      return;
-    }
-
-    final recipes = <Map<String, dynamic>>[];
-    for (final r in _rows) {
-      final amt = int.tryParse(r.amountController.text.trim()) ?? 0;
-      if (r.ingredientId != null && amt > 0) {
-        recipes.add({'ingredient_id': r.ingredientId!, 'amount_needed': amt});
-      }
-    }
-
-    setState(() {
-      _aiLoading = true;
-      _error = null;
-    });
-
-    try {
-      final aiRepo = ref.read(aiRepositoryProvider);
-      final result = await aiRepo.recommendPrice(
-        menuName: menuName,
-        totalCogsIdr: hpp,
-        recipes: recipes,
-      );
-
-      if (mounted) {
-        setState(() {
-          _aiLoading = false;
-          _aiRecommendedPrice = result.recommendedPrice;
-          _aiMarginPercentage = result.marginPercentage;
-          _aiReasoning = result.reasoning;
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _aiLoading = false;
-          _error = 'Gagal mengambil rekomendasi AI: $e';
-        });
-      }
-    }
-  }
-
-  /// Pindah ke AI Chat dengan konteks bawaan (Passing Context & Navigation)
-  void _navigateToAiChat(int hpp) {
-    final menuName = _nameCtrl.text.trim().isEmpty ? 'Menu Baru' : _nameCtrl.text.trim();
-    final recPrice = _aiRecommendedPrice ?? _priceFor(hpp, 50);
-
-    final promptText =
-        // Prompt AI tetap dalam IDR (basis data) agar rekomendasi harga valid.
-        'Saya sedang membuat produk baru bernama $menuName dengan HPP ${MoneyFormatter.format(hpp, currency: 'IDR')}. '
-        'Tadi kamu merekomendasikan harga ${MoneyFormatter.format(recPrice, currency: 'IDR')}. '
-        'Tolong berikan simulasi detail BEP atau analisis lebih lanjut mengenai harga ini.';
-
-    // Panggil Global AI Companion Bottom Sheet tanpa merusak state form di belakangnya
-    showAiCompanionBottomSheet(context, ref, initialPrompt: promptText);
-  }
 
   /// Isi form dari produk yang ada (mode edit). Dipanggil sekali saja saat
   /// produk sudah termuat, sebelum form dibangun.
@@ -611,133 +541,6 @@ class _MenuCreateScreenState extends ConsumerState<MenuCreateScreen> {
                       style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(height: 8),
-
-                    // Tombol "Rekomendasi Harga AI"
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.primaryAction,
-                          foregroundColor: Colors.white,
-                          minimumSize: const Size(0, 48),
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        onPressed: (_aiLoading || hpp <= 0)
-                            ? null
-                            : () => _fetchAiRecommendation(hpp),
-                        icon: _aiLoading
-                            ? const SizedBox(
-                                width: 16,
-                                height: 16,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : const Icon(Icons.analytics_outlined, size: 18),
-                        label: Text(
-                          'Rekomendasi Harga AI',
-                          style: GoogleFonts.inter(
-                            fontSize: 13.5,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    // Result UI Rekomendasi AI
-                    if (_aiRecommendedPrice != null) ...[
-                      const SizedBox(height: 12),
-                      Container(
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          color: AppTheme.darkCardSurfaceElevated,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppTheme.primaryAction.withAlpha(120)),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.lightbulb_outline_rounded,
-                                  color: AppTheme.primaryAction,
-                                  size: 18,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  'Rekomendasi AI (${_aiMarginPercentage ?? 50}% Margin)',
-                                  style: GoogleFonts.inter(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppTheme.primaryAction,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            // a) Action Chip/Button harga untuk mengisi price_idr
-                            ActionChip(
-                              backgroundColor: AppTheme.primaryAction,
-                              side: BorderSide.none,
-                              avatar: const Icon(
-                                Icons.check_circle_outline_rounded,
-                                color: Colors.white,
-                                size: 16,
-                              ),
-                              label: Text(
-                                'Gunakan Harga ${ref.money(_aiRecommendedPrice!)}',
-                                style: GoogleFonts.inter(
-                                  fontSize: 12.5,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _priceCtrl.text = _aiRecommendedPrice.toString();
-                                });
-                              },
-                            ),
-                            const SizedBox(height: 8),
-                            // b) Teks reasoning sebagai caption
-                            Text(
-                              _aiReasoning ?? 'Rekomendasi optimal berdasarkan analisis pasar F&B.',
-                              style: GoogleFonts.inter(
-                                fontSize: 12,
-                                color: AppTheme.textSecondaryDark,
-                                height: 1.4,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            // c) Tombol sekunder "Lanjutkan ke Arus AI"
-                            OutlinedButton.icon(
-                              style: OutlinedButton.styleFrom(
-                                foregroundColor: AppTheme.primaryAction,
-                                side: const BorderSide(color: AppTheme.primaryAction, width: 1.2),
-                                minimumSize: const Size(0, 44),
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                              ),
-                              onPressed: () => _navigateToAiChat(hpp),
-                              icon: const Icon(Icons.forum_outlined, size: 16),
-                              label: Text(
-                                'Lanjutkan ke Arus AI',
-                                style: GoogleFonts.inter(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-
-                    const SizedBox(height: 12),
                     Text(
                       'Rekomendasi Cepat (Margin Statis):',
                       style: GoogleFonts.inter(

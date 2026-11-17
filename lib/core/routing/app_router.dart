@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/ai_assistant/presentation/ai_home_screen.dart';
-import '../../features/auth/domain/user_model.dart';
 import '../../features/auth/presentation/auth_provider.dart';
 import '../../features/auth/presentation/auth_state.dart';
 import '../../features/auth/presentation/login_screen.dart';
@@ -21,17 +19,13 @@ import '../../features/outlets/presentation/outlet_form_screen.dart';
 import '../../features/outlets/presentation/outlet_list_screen.dart';
 import '../../features/pos/presentation/pos_history_screen.dart';
 import '../../features/pos/presentation/pos_screen.dart';
-import '../../features/sensors/presentation/sensor_test_screen.dart';
 import '../../features/settings/presentation/currency_settings_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/settings/presentation/time_settings_screen.dart';
 import '../../features/shell/presentation/main_shell.dart';
 import '../../features/splash/presentation/splash_screen.dart';
-import '../../features/integrity/presentation/integrity_chain_screen.dart';
-import '../../features/game/presentation/game_home_screen.dart';
 import '../../features/search/presentation/global_search_screen.dart';
 import '../../features/about/presentation/about_screen.dart';
-import '../../features/feedback/presentation/feedback_screen.dart';
 import '../../features/users/presentation/user_management_screen.dart';
 import '../../features/analytics/presentation/leaderboard_screen.dart';
 
@@ -84,12 +78,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         return '/shell';
       }
 
-      // Batasi akses AI Assistant hanya untuk Owner dan Manager (SRS Section 2.2)
-      final isAiRestrictedRoute = state.matchedLocation.startsWith('/ai');
-      if (isAuthenticated && isAiRestrictedRoute && (authState.user?.role == UserRole.staff)) {
-        return '/shell';
-      }
-
       return null;
     },
     routes: [
@@ -130,15 +118,9 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(
-        path: '/sensors',
-        builder: (context, state) => const SensorTestScreen(),
-      ),
-      GoRoute(
         path: '/notifications',
         builder: (context, state) => const NotificationScreen(),
       ),
-      // Layar penuh untuk AI — dipakai target tap notifikasi hasil AI.
-      GoRoute(path: '/ai', builder: (context, state) => const AiHomeScreen()),
       GoRoute(
         path: '/outlets',
         builder: (context, state) => const OutletListScreen(),
@@ -214,22 +196,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(
-        path: '/integrity',
-        builder: (context, state) => const IntegrityChainScreen(),
-      ),
-      GoRoute(
-        path: '/game',
-        builder: (context, state) => const GameHomeScreen(),
-      ),
-      GoRoute(
         path: '/search',
         builder: (context, state) => const GlobalSearchScreen(),
       ),
       GoRoute(path: '/about', builder: (context, state) => const AboutScreen()),
-      GoRoute(
-        path: '/feedback',
-        builder: (context, state) => const FeedbackScreen(),
-      ),
       GoRoute(
         path: '/users',
         builder: (context, state) => const UserManagementScreen(),
