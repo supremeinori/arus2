@@ -108,8 +108,6 @@ class _PosCheckoutSheetState extends ConsumerState<PosCheckoutSheet> {
       ref.invalidate(posHistoryProvider);
       ref.invalidate(productListProvider);
       ref.invalidate(shiftSummaryProvider);
-      ref.invalidate(salesForecastProvider);
-      ref.invalidate(stockoutForecastProvider);
       ref.invalidate(analyticsOverviewProvider);
       ref.invalidate(salesTrendProvider);
 
@@ -149,8 +147,6 @@ class _PosCheckoutSheetState extends ConsumerState<PosCheckoutSheet> {
         ref.invalidate(posHistoryProvider);
         ref.invalidate(productListProvider);
         ref.invalidate(shiftSummaryProvider);
-        ref.invalidate(salesForecastProvider);
-        ref.invalidate(stockoutForecastProvider);
         ref.invalidate(analyticsOverviewProvider);
         ref.invalidate(salesTrendProvider);
         if (mounted) {

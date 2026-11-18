@@ -101,21 +101,19 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      expect(find.text('Beranda'), findsOneWidget);
       expect(find.text('Kasir'), findsOneWidget);
       expect(find.text('Stok'), findsOneWidget);
+      expect(find.text('Shift'), findsOneWidget);
       expect(find.text('Profil'), findsOneWidget);
 
-      // Pastikan tab khusus Owner/Manager (Operasi, AI, Analitik) TIDAK muncul
+      // Pastikan tab khusus Owner/Manager (Beranda, Operasi, AI, Analitik) TIDAK muncul
+      expect(find.text('Beranda'), findsNothing);
       expect(find.text('Operasi'), findsNothing);
       expect(find.text('AI'), findsNothing);
       expect(find.text('Analitik'), findsNothing);
-
-      // Beranda kasir memakai Ringkasan Shift, bukan dashboard owner/manager
-      expect(find.text('Ringkasan Shift Saya'), findsOneWidget);
     });
 
-    testWidgets('MainShell untuk Owner menampilkan 4 tab (Beranda, Operasi, Analitik, Profil)', (tester) async {
+    testWidgets('MainShell untuk Owner menampilkan 3 tab (Beranda, Operasi, Profil)', (tester) async {
       const ownerUser = UserModel(
         id: 'u-owner',
         name: 'Rina Owner',
@@ -143,15 +141,6 @@ void main() {
                 )),
             salesTrendProvider.overrideWith((ref) async => []),
             peakHoursProvider.overrideWith((ref) async => []),
-            // Shell Owner juga membangun layar Analitik. Proyeksi & risiko stok
-            // butuh backend, jadi di-stub error supaya pengujian tab tidak
-            // menunggu pemuatan tanpa henti.
-            salesForecastProvider.overrideWith(
-              (ref) => Future<SalesForecastModel>.error(Exception('stubbed di test')),
-            ),
-            stockoutForecastProvider.overrideWith(
-              (ref) => Future<StockoutForecastModel>.error(Exception('stubbed di test')),
-            ),
           ],
           child: const MaterialApp(
             home: MainShell(),
@@ -161,13 +150,11 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      // "Beranda" ada di BottomNav label (judul Beranda berulang dihilangkan sesuai spesifikasi Anti-AI-Slop)
+      // Owner memiliki 3 tab: Beranda, Operasi, Profil (Analitik telah dikonsolidasi ke Beranda)
       expect(find.text('Beranda'), findsOneWidget);
       expect(find.text('Operasi'), findsOneWidget);
-      expect(find.text('Analitik'), findsOneWidget);
       expect(find.text('Profil'), findsOneWidget);
-      // AI Companion Floating Action Button
-      expect(find.byType(FloatingActionButton), findsOneWidget);
+      expect(find.text('Analitik'), findsNothing);
     });
   });
 }

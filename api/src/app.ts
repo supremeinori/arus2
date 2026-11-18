@@ -13,7 +13,6 @@ import inventoryRoute from './modules/inventory/inventory.route';
 import transactionsRoute from './modules/transactions/transactions.route';
 import posRoute from './modules/pos/pos.route';
 import analyticsRoute from './modules/analytics/analytics.route';
-import insightsRoute from './modules/insights/insights.route';
 import outletsRoute from './modules/outlets/outlets.route';
 import notificationsRoute from './modules/notifications/notifications.route';
 import searchRoute from './modules/search/search.route';
@@ -46,7 +45,6 @@ app.use('/api', inventoryRoute);
 app.use('/api', transactionsRoute);
 app.use('/api', posRoute);
 app.use('/api', analyticsRoute);
-app.use('/api', insightsRoute);
 app.use('/api', notificationsRoute);
 app.use('/api', searchRoute);
 app.use('/', healthRoute); // Direct /health fallback

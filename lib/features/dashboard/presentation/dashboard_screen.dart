@@ -14,7 +14,6 @@ import '../../../core/utils/money_formatter.dart';
 import '../../../shared/widgets/dashboard_filter_sheet.dart';
 import '../../analytics/domain/analytics_models.dart';
 import '../../analytics/presentation/analytics_provider.dart';
-import '../../insights/presentation/insights_provider.dart';
 import '../../inventory/domain/inventory_models.dart';
 import '../../inventory/presentation/inventory_provider.dart';
 import '../../notifications/presentation/notifications_provider.dart';
@@ -117,7 +116,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             ref.invalidate(salesTrendProvider);
             ref.invalidate(dailyProfitComparisonProvider);
             ref.invalidate(ingredientsListProvider);
-            ref.invalidate(insightsListProvider);
             ref.invalidate(leaderboardProvider);
             ref.invalidate(notificationsListProvider);
           },

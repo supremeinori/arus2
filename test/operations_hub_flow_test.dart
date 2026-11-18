@@ -53,7 +53,8 @@ void main() {
       expect(find.text('Produk'), findsOneWidget);
       expect(find.text('Inventaris'), findsOneWidget);
       expect(find.text('Kelola Staf & Akun'), findsOneWidget);
-      expect(find.text('Hiburan'), findsOneWidget);
+      expect(find.text('Riwayat Transaksi'), findsOneWidget);
+      expect(find.text('Hiburan'), findsNothing);
       // Revisi 22 Okt 2026: kartu POS, Cabang, dan Ledger dipindahkan dari Pusat Operasi.
       expect(find.text('Mesin Kasir'), findsNothing);
       expect(find.text('Cabang'), findsNothing);
@@ -89,14 +90,16 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Pusat Operasi'), findsOneWidget);
-      // Sembunyikan sepenuhnya Produk untuk Manager
+      // Sembunyikan sepenuhnya Produk untuk Manager, digantikan Menu
       expect(find.text('Produk'), findsNothing);
+      expect(find.text('Menu'), findsOneWidget);
       expect(find.text('Cabang'), findsNothing);
 
       // Fitur operasional manajerial tetap ada
       expect(find.text('Inventaris'), findsOneWidget);
       expect(find.text('Kelola Staf & Akun'), findsOneWidget);
-      expect(find.text('Hiburan'), findsOneWidget);
+      expect(find.text('Riwayat Transaksi'), findsOneWidget);
+      expect(find.text('Hiburan'), findsNothing);
 
       expect(tester.takeException(), isNull);
     });

@@ -163,22 +163,6 @@ class LocalDatabase {
           )
         ''');
 
-        // 3b. Tabel Backup Produk & Estimasi Porsi (SRS Modul 2)
-        await db.execute('''
-          CREATE TABLE IF NOT EXISTS backup_products (
-            product_id TEXT,
-            outlet_id TEXT,
-            sku TEXT NOT NULL,
-            name TEXT NOT NULL,
-            image_url TEXT,
-            category_name TEXT,
-            price_idr INTEGER NOT NULL,
-            estimated_portions INTEGER NOT NULL,
-            last_sync_at TEXT NOT NULL,
-            PRIMARY KEY (product_id, outlet_id)
-          )
-        ''');
-
         // 4. Antrean Transaksi Offline (Pending Sync Queue)
         await db.execute('''
           CREATE TABLE offline_transactions (
@@ -301,7 +285,6 @@ class LocalDatabase {
             await db.delete('backup_transactions');
             await db.delete('cached_categories');
             await db.delete('cached_products');
-            await db.delete('backup_products');
             await db.delete('daily_analytics_cache');
             await db.delete('local_session_settings');
           } catch (_) {}
@@ -326,22 +309,6 @@ class LocalDatabase {
         } catch (_) {}
         try {
           await db.execute('ALTER TABLE cached_products ADD COLUMN image_url TEXT');
-        } catch (_) {}
-        try {
-          await db.execute('''
-            CREATE TABLE IF NOT EXISTS backup_products (
-              product_id TEXT,
-              outlet_id TEXT,
-              sku TEXT NOT NULL,
-              name TEXT NOT NULL,
-              image_url TEXT,
-              category_name TEXT,
-              price_idr INTEGER NOT NULL,
-              estimated_portions INTEGER NOT NULL,
-              last_sync_at TEXT NOT NULL,
-              PRIMARY KEY (product_id, outlet_id)
-            )
-          ''');
         } catch (_) {}
         try {
           await db.execute('ALTER TABLE local_session_settings ADD COLUMN refresh_token TEXT');
@@ -564,7 +531,6 @@ class LocalDatabase {
         await db.delete('local_session_settings');
         await db.delete('cached_categories');
         await db.delete('cached_products');
-        await db.delete('backup_products');
         await db.delete('offline_transactions');
         await db.delete('backup_transactions');
         await db.delete('daily_analytics_cache');
@@ -674,22 +640,6 @@ class LocalDatabase {
         },
         conflictAlgorithm: sql.ConflictAlgorithm.replace,
       );
-
-      batch.insert(
-        'backup_products',
-        {
-          'product_id': p.id,
-          'outlet_id': 'default',
-          'sku': p.sku,
-          'name': p.name,
-          'image_url': p.imageUrl,
-          'category_name': p.categoryName,
-          'price_idr': p.priceIdr,
-          'estimated_portions': p.estimatedPortions,
-          'last_sync_at': now,
-        },
-        conflictAlgorithm: sql.ConflictAlgorithm.replace,
-      );
     }
     await batch.commit(noResult: true);
   }
@@ -730,24 +680,6 @@ class LocalDatabase {
       },
       conflictAlgorithm: sql.ConflictAlgorithm.replace,
     );
-
-    try {
-      await db.insert(
-        'backup_products',
-        {
-          'product_id': product.id,
-          'outlet_id': 'default',
-          'sku': product.sku,
-          'name': product.name,
-          'image_url': product.imageUrl,
-          'category_name': product.categoryName,
-          'price_idr': product.priceIdr,
-          'estimated_portions': product.estimatedPortions,
-          'last_sync_at': DateTime.now().toIso8601String(),
-        },
-        conflictAlgorithm: sql.ConflictAlgorithm.replace,
-      );
-    } catch (_) {}
   }
 
   Future<List<ProductModel>> getCachedProducts({String? categoryId, String? search}) async {
@@ -925,14 +857,6 @@ class LocalDatabase {
         WHERE id = ?
       ''', [quantity, quantity, productId]);
     }
-
-    try {
-      await db.rawUpdate('''
-        UPDATE backup_products
-        SET estimated_portions = MAX(0, estimated_portions - ?)
-        WHERE product_id = ?
-      ''', [quantity, productId]);
-    } catch (_) {}
   }
 
   // ========================================================

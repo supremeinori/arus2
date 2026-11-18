@@ -7,7 +7,6 @@ import '../../dashboard/presentation/dashboard_screen.dart';
 import '../../dashboard/presentation/shift_summary_screen.dart';
 import '../../pos/presentation/pos_screen.dart';
 import '../../operations/presentation/operations_hub_screen.dart';
-import '../../analytics/presentation/analytics_screen.dart';
 import '../../inventory/presentation/inventory_list_screen.dart';
 import '../../profile/presentation/profile_screen.dart';
 import '../../../core/theme/app_theme.dart';
@@ -40,30 +39,23 @@ class _MainShellState extends ConsumerState<MainShell> {
     final isStaff = user?.role == UserRole.staff;
     final currentIndex = ref.watch(shellTabIndexProvider);
 
-    // Definisikan tab berdasarkan Role per SRS Section 16.2 (Tanpa tab AI terisolasi di bottom bar)
-    // Kasir memakai Ringkasan Shift sebagai Beranda (dikembalikan 22 Okt 2026)
-    // supaya tidak identik dengan dashboard owner & manager.
+    // Kasir: Tab 0 langsung Kasir (POS) agar zero-friction saat mulai transaksi.
+    // Owner / Manager: 3 tab esensial (Beranda, Operasi, Profil).
     final List<Widget> pages = isStaff
         ? const [
-            ShiftSummaryScreen(),
             PosScreen(),
             InventoryListScreen(),
+            ShiftSummaryScreen(),
             ProfileScreen(),
           ]
         : const [
             DashboardScreen(),
             OperationsHubScreen(),
-            AnalyticsScreen(),
             ProfileScreen(),
           ];
 
     final List<BottomNavigationBarItem> navItems = isStaff
         ? const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              activeIcon: Icon(Icons.home),
-              label: 'Beranda',
-            ),
             BottomNavigationBarItem(
               icon: Icon(Icons.point_of_sale_outlined),
               activeIcon: Icon(Icons.point_of_sale),
@@ -73,6 +65,11 @@ class _MainShellState extends ConsumerState<MainShell> {
               icon: Icon(Icons.inventory_2_outlined),
               activeIcon: Icon(Icons.inventory_2),
               label: 'Stok',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.receipt_long_outlined),
+              activeIcon: Icon(Icons.receipt_long),
+              label: 'Shift',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.menu_outlined),
@@ -90,11 +87,6 @@ class _MainShellState extends ConsumerState<MainShell> {
               icon: Icon(Icons.storefront_outlined),
               activeIcon: Icon(Icons.storefront),
               label: 'Operasi',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart_outlined),
-              activeIcon: Icon(Icons.bar_chart),
-              label: 'Analitik',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.menu_outlined),

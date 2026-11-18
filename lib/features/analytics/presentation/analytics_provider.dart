@@ -281,34 +281,6 @@ final shiftSummaryProvider = FutureProvider.autoDispose<ShiftSummaryModel>((ref)
   return repo.getShiftSummary(outletId: outletId);
 });
 
-// =========================================================================
-// AI PREDICTIVE PROVIDERS
-// =========================================================================
-
-/// Tab aktif di Predictive Dashboard: 0 = Peramalan Penjualan, 1 = Radar Stok Habis
-final analyticsActiveTabProvider = StateProvider.autoDispose<int>((ref) => 0);
-
-/// Horizon waktu peramalan penjualan: 7 hari atau 30 hari
-final selectedForecastHorizonProvider = StateProvider.autoDispose<int>((ref) => 7);
-
-/// Filter kategori stok habis: 'all' | 'critical' | 'warning' | 'safe'
-final selectedStockoutFilterProvider = StateProvider.autoDispose<String>((ref) => 'all');
-
-/// Provider data AI Sales Forecast (Time Series Model)
-final salesForecastProvider = FutureProvider.autoDispose<SalesForecastModel>((ref) async {
-  final repo = ref.watch(analyticsRepositoryProvider);
-  final outletId = getEffectiveOutletId(ref);
-  final horizon = ref.watch(selectedForecastHorizonProvider);
-  return repo.getSalesForecast(outletId: outletId, horizon: horizon);
-});
-
-/// Provider data AI Stockout & Velocity Forecast
-final stockoutForecastProvider = FutureProvider.autoDispose<StockoutForecastModel>((ref) async {
-  final repo = ref.watch(analyticsRepositoryProvider);
-  final outletId = getEffectiveOutletId(ref);
-  return repo.getStockoutForecast(outletId: outletId);
-});
-
 /// Provider data Leaderboard Menu Terlaris (mengikuti filter outlet & tanggal)
 final leaderboardProvider = FutureProvider.autoDispose<List<TopSellingProductModel>>((ref) async {
   final repo = ref.watch(analyticsRepositoryProvider);
