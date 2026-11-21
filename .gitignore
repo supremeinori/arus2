@@ -62,3 +62,11 @@ mpti/
 
 # Local API manual testing (Thunder Client)
 api/manual-tests/
+
+# Prakmobile Ketentuan
+ketentuan/
+
+# Archived documentation
+docs/archive/
+archive/
+

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../config/env.dart';
@@ -10,11 +9,11 @@ final apiClientProvider = Provider<ApiClient>((ref) {
   return ApiClient(secureStore: secureStore);
 });
 
+/// Client HTTP terpusat menggunakan library Dio.
+/// Mengatur Base URL, menyisipkan Token JWT, dan menangani error jaringan.
 class ApiClient {
   late final Dio _dio;
   final SecureStore secureStore;
-  bool _isRefreshing = false;
-  final List<Completer<String?>> _refreshWaiters = [];
 
   ApiClient({required this.secureStore, Dio? customDio}) {
     _dio = customDio ??
@@ -31,10 +30,10 @@ class ApiClient {
           ),
         );
 
+    // Interceptor: Otomatis tempel Bearer Token di setiap request
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          // Lampirkan access token jika tersedia
           final token = await secureStore.getAccessToken();
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
@@ -42,75 +41,9 @@ class ApiClient {
           return handler.next(options);
         },
         onError: (DioException error, handler) async {
-          // Tangani silent refresh jika 401 dan bukan endpoint auth dasar
-          final path = error.requestOptions.path;
-          final isAuthEndpoint = path.contains('/auth/login') || path.contains('/auth/refresh');
-
-          if (error.response?.statusCode == 401 && !isAuthEndpoint) {
-            String? newAccessToken;
-            
-            if (!_isRefreshing) {
-              _isRefreshing = true;
-              final completer = Completer<String?>();
-              _refreshWaiters.add(completer);
-              
-              try {
-                final refreshToken = await secureStore.getRefreshToken();
-                if (refreshToken != null && refreshToken.isNotEmpty) {
-                  // Panggil refresh endpoint secara terpisah
-                  final refreshDio = Dio(BaseOptions(baseUrl: AppEnv.apiBaseUrl));
-                  final refreshResponse = await refreshDio.post(
-                    '/auth/refresh',
-                    data: {'refresh_token': refreshToken},
-                  );
-
-                  if (refreshResponse.statusCode == 200) {
-                    final data = refreshResponse.data['data'] as Map<String, dynamic>;
-                    newAccessToken = data['access_token'] as String;
-                    final newRefreshToken = data['refresh_token'] as String;
-
-                    await secureStore.setAccessToken(newAccessToken);
-                    await secureStore.setRefreshToken(newRefreshToken);
-                  }
-                }
-              } on DioException catch (dioErr) {
-                // Hanya bersihkan token jika server merespons secara eksplisit bahwa token kedaluwarsa / ditolak (401/403)
-                // Jangan hapus token jika terjadi masalah koneksi fisik / offline / timeout
-                if (dioErr.response?.statusCode == 401 || dioErr.response?.statusCode == 403) {
-                  await secureStore.clearTokens();
-                }
-                newAccessToken = null;
-              } catch (_) {
-                newAccessToken = null;
-              } finally {
-                _isRefreshing = false;
-                // Resolve all waiters
-                for (final waiter in _refreshWaiters) {
-                  if (!waiter.isCompleted) {
-                    waiter.complete(newAccessToken);
-                  }
-                }
-                _refreshWaiters.clear();
-              }
-            } else {
-              // Wait for ongoing refresh
-              final completer = Completer<String?>();
-              _refreshWaiters.add(completer);
-              newAccessToken = await completer.future;
-            }
-
-            if (newAccessToken != null) {
-              // Ulangi request asli dengan token baru
-              final opts = error.requestOptions;
-              opts.headers['Authorization'] = 'Bearer $newAccessToken';
-              
-              try {
-                final clonedResponse = await _dio.fetch(opts);
-                return handler.resolve(clonedResponse);
-              } on DioException catch (e) {
-                return handler.reject(e);
-              }
-            }
+          // Jika token ditolak/kedaluwarsa (401), bersihkan sesi login lokal
+          if (error.response?.statusCode == 401) {
+            await secureStore.clearTokens();
           }
 
           final appException = _mapDioError(error);
@@ -134,6 +67,8 @@ class ApiClient {
     _dio.options.baseUrl = newUrl;
   }
 
+  // --- HTTP Methods (GET, POST, PUT, PATCH, DELETE) ---
+
   Future<Response<T>> get<T>(
     String path, {
     Map<String, dynamic>? queryParameters,
@@ -146,8 +81,7 @@ class ApiClient {
         options: options,
       );
     } on DioException catch (e) {
-      if (e.error is AppException) throw e.error as AppException;
-      throw _mapDioError(e);
+      throw _handleError(e);
     }
   }
 
@@ -165,8 +99,7 @@ class ApiClient {
         options: options,
       );
     } on DioException catch (e) {
-      if (e.error is AppException) throw e.error as AppException;
-      throw _mapDioError(e);
+      throw _handleError(e);
     }
   }
 
@@ -184,8 +117,7 @@ class ApiClient {
         options: options,
       );
     } on DioException catch (e) {
-      if (e.error is AppException) throw e.error as AppException;
-      throw _mapDioError(e);
+      throw _handleError(e);
     }
   }
 
@@ -203,8 +135,7 @@ class ApiClient {
         options: options,
       );
     } on DioException catch (e) {
-      if (e.error is AppException) throw e.error as AppException;
-      throw _mapDioError(e);
+      throw _handleError(e);
     }
   }
 
@@ -222,9 +153,14 @@ class ApiClient {
         options: options,
       );
     } on DioException catch (e) {
-      if (e.error is AppException) throw e.error as AppException;
-      throw _mapDioError(e);
+      throw _handleError(e);
     }
+  }
+
+  // Helper untuk mengekstrak error yang ramah pengguna
+  AppException _handleError(DioException e) {
+    if (e.error is AppException) return e.error as AppException;
+    return _mapDioError(e);
   }
 
   AppException _mapDioError(DioException error) {
