@@ -7,10 +7,8 @@ import '../../../core/l10n/strings_id.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/storage/local_db.dart';
 import '../../../core/storage/secure_store.dart';
-import '../../../core/auth/biometric_service.dart';
 import '../../../shared/widgets/async_state_view.dart';
 import '../../auth/presentation/auth_provider.dart';
-import '../../auth/domain/user_model.dart';
 import 'health_provider.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -21,7 +19,6 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
-  bool _isBiometricPromptActive = false;
   bool _hasNavigated = false;
   bool _hasStartedCheck = false;
   Timer? _fallbackTimer;
@@ -29,8 +26,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // PERBAIKAN 2: Gunakan addPostFrameCallback agar UI logo Splash Screen
-    // dipastikan sudah selesai di-render secara visual sebelum inisialisasi / prompt biometrik dipicu.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       _startSessionCheck();
@@ -66,11 +61,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     if (_hasStartedCheck || _hasNavigated) return;
     _hasStartedCheck = true;
 
-    // Safety fallback timer 4000ms: Memastikan aplikasi tidak pernah stuck di logo jika
-    // storage OS mengalami kebuntuan atau latency tidak normal sebelum sensor biometrik dipicu.
-    _fallbackTimer = Timer(const Duration(milliseconds: 4000), () {
-      if (!_hasNavigated && !_isBiometricPromptActive && mounted) {
-        debugPrint('[SplashScreen] Safety fallback timeout (4000ms) fired. Forcing exit to /login.');
+    // Safety fallback timer 3000ms: Memastikan aplikasi tidak pernah stuck di logo jika
+    // storage OS mengalami kebuntuan atau latency tidak normal.
+    _fallbackTimer = Timer(const Duration(milliseconds: 3000), () {
+      if (!_hasNavigated && mounted) {
+        debugPrint('[SplashScreen] Safety fallback timeout fired. Forcing exit to /login.');
         _goToLogin();
       }
     });
@@ -78,7 +73,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     _initiateSessionCheck();
   }
 
-  /// PERBAIKAN 1 & 3: Try-Catch menyeluruh & setiap cabang logika memiliki exit route eksplisit
   Future<void> _initiateSessionCheck() async {
     try {
       final secureStore = ref.read(secureStoreProvider);
@@ -108,85 +102,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
       debugPrint('[SplashScreen] hasValidSession: $hasValidSession, user: ${cachedUser?.email}');
 
-      // Cabang 1: Token kosong atau tidak ada sesi valid -> Langsung keluar ke /login
+      // Token kosong atau tidak ada sesi valid -> Langsung keluar ke /login
       if (!hasValidSession || cachedUser == null) {
         debugPrint('[SplashScreen] Cabang: Belum ada sesi tersimpan. Exit ke /login.');
         _goToLogin();
         return;
       }
 
-      // Memeriksa flag biometrik yang diaktifkan pengguna
-      final isBiometricActive = await secureStore.isBiometricEnabled() ||
-          cachedUser.settings.biometricEnabled;
-
-      debugPrint('[SplashScreen] isBiometricActive: $isBiometricActive');
-
-      // Cabang 2: Sesi ada tetapi user belum mengaktifkan biometrik -> Keluar ke /login (form login manual)
-      if (!isBiometricActive) {
-        debugPrint('[SplashScreen] Cabang: Biometrik belum diaktifkan user. Exit ke /login.');
-        _goToLogin();
-        return;
-      }
-
-      // Matikan fallback timer saat biometrik aktif agar tidak mendahului pemindaian sidik jari user
+      // Sesi valid langsung restore ke dashboard
+      debugPrint('[SplashScreen] Sesi valid ditemukan. Masuk ke Beranda (/shell).');
       _fallbackTimer?.cancel();
-      _fallbackTimer = null;
-
-      // PERBAIKAN 2: Beri jeda via addPostFrameCallback agar layout dan badge
-      // "Menunggu sensor biometrik..." terpasang di layar sebelum pop-up OS muncul
-      if (mounted) {
-        setState(() {
-          _isBiometricPromptActive = true;
-        });
-      }
-
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted || _hasNavigated) return;
-        _triggerBiometricPrompt(cachedUser, refreshToken);
-      });
+      ref.read(authProvider.notifier).restoreSessionInstant(cachedUser, refreshToken);
+      _goToDashboard();
     } catch (e, stack) {
       debugPrint('[SplashScreen] Catch: Terjadi error saat inisialisasi storage: $e\n$stack');
-      // PERBAIKAN 1: Jangan biarkan aplikasi hang. Paksa keluar ke /login
-      _goToLogin();
-    }
-  }
-
-  /// PERBAIKAN 1 & 2: Pemanggilan authenticate() dibungkus try-catch & aman
-  Future<void> _triggerBiometricPrompt(UserModel user, String? refreshToken) async {
-    _fallbackTimer?.cancel();
-    _fallbackTimer = null;
-
-    try {
-      final bioService = ref.read(biometricServiceProvider);
-      final isAvailable = await bioService.isBiometricAvailable();
-
-      debugPrint('[SplashScreen] Sensor biometrik tersedia: $isAvailable');
-      // Cabang 3: Hardware biometrik tidak tersedia atau tidak didukung -> Exit ke /login
-      if (!isAvailable) {
-        debugPrint('[SplashScreen] Cabang: Sensor tidak tersedia. Exit ke /login.');
-        _goToLogin();
-        return;
-      }
-
-      final authenticated = await bioService.authenticate(
-        localizedReason: 'Pindai sidik jari atau wajah Anda untuk masuk ke ARUS',
-      );
-
-      debugPrint('[SplashScreen] Hasil verifikasi biometrik: $authenticated');
-
-      // Cabang 4: Biometrik sukses -> Exit ke Beranda (/shell)
-      if (authenticated) {
-        debugPrint('[SplashScreen] Cabang: Biometrik sukses. Exit ke Beranda (/shell).');
-        ref.read(authProvider.notifier).restoreSessionInstant(user, refreshToken);
-        _goToDashboard();
-      } else {
-        // Cabang 5: Biometrik dibatalkan atau gagal -> Exit ke /login
-        debugPrint('[SplashScreen] Cabang: Biometrik dibatalkan/gagal. Exit ke /login.');
-        _goToLogin();
-      }
-    } catch (e, stack) {
-      debugPrint('[SplashScreen] Catch: Terjadi error saat trigger biometrik: $e\n$stack');
-      // PERBAIKAN 1: Fallback paksa ke /login jika terjadi PlatformException
       _goToLogin();
     }
   }
@@ -291,44 +220,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                     ),
                   ),
                 ),
-                if (_isBiometricPromptActive) ...[
-                  const SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    decoration: BoxDecoration(
-                      color: AppTheme.darkCardSurfaceElevated,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppTheme.darkCardBorder, width: 1.0),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(Icons.fingerprint_rounded, size: 28, color: AppTheme.primaryAction),
-                            const SizedBox(width: 10),
-                            Text(
-                              'Menunggu sensor biometrik...',
-                              style: GoogleFonts.inter(fontSize: 12.5, fontWeight: FontWeight.w600, color: AppTheme.textPrimaryDark),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 6),
-                        TextButton.icon(
-                          style: TextButton.styleFrom(minimumSize: const Size(44, 44)),
-                          icon: const Icon(Icons.password_rounded, size: 16, color: AppTheme.primaryAction),
-                          label: Text(
-                            'Batal & Masuk dengan Password',
-                            style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: AppTheme.primaryAction),
-                          ),
-                          onPressed: () {
-                            _goToLogin();
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
                 const SizedBox(height: 32),
               ],
             ),

@@ -18,7 +18,6 @@ export class UsersService {
         user_id: userId,
         display_currency: user?.display_currency ?? DEFAULT_DISPLAY_CURRENCY,
         display_timezone: 'Asia/Jakarta',
-        biometric_enabled: false,
         shake_refresh_enabled: true,
         tilt_enabled: true,
         daily_revenue_target_idr: 5000000,
@@ -37,7 +36,6 @@ export class UsersService {
     data: {
       display_currency?: Currency;
       display_timezone?: string;
-      biometric_enabled?: boolean;
       shake_refresh_enabled?: boolean;
       tilt_enabled?: boolean;
       daily_revenue_target_idr?: number | null;

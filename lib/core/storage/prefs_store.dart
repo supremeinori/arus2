@@ -17,14 +17,10 @@ class PrefsStore {
 
   PrefsStore(this._prefs);
 
-  static const _keyBiometricEnabled = 'biometric_enabled';
   static const _keyDisplayCurrency = 'display_currency';
   static const _keyDisplayTimezone = 'display_timezone';
   static const _keyShakeRefreshEnabled = 'shake_refresh_enabled';
   static const _keyShakeThreshold = 'shake_threshold';
-
-  bool get isBiometricEnabled => _prefs.getBool(_keyBiometricEnabled) ?? false;
-  Future<void> setBiometricEnabled(bool val) => _prefs.setBool(_keyBiometricEnabled, val);
 
   /// Preferensi matauang untuk akun tertentu (disimpan per user id).
   ///

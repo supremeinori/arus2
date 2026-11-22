@@ -96,16 +96,10 @@ class AuthNotifierMock extends StateNotifier<AuthState> implements AuthNotifier 
   AuthNotifierMock(super.initialState);
 
   @override
-  Future<void> checkAuth([bool requireBiometricIfEnabled = true]) async {}
+  Future<void> checkAuth() async {}
 
   @override
   Future<bool> login(String email, String password) async => true;
-
-  @override
-  Future<bool> authenticateWithBiometric() async => true;
-
-  @override
-  Future<void> toggleBiometric(bool enabled) async {}
 
   @override
   Future<void> logout() async {}

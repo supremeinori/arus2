@@ -8,7 +8,6 @@ import '../../../core/config/env.dart';
 import '../../../core/network/api_client.dart';
 import '../../../core/l10n/strings_id.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../../core/auth/biometric_service.dart';
 import '../../../shared/widgets/app_widgets.dart';
 import '../../shell/presentation/main_shell.dart';
 import 'auth_provider.dart';
@@ -56,132 +55,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final success = await ref
         .read(authProvider.notifier)
         .login(_emailController.text.trim(), _passwordController.text);
-    if (success && mounted) {
-      final authState = ref.read(authProvider);
-      final user = authState.user;
-      final isBiometricAvailable = await ref
-          .read(biometricServiceProvider)
-          .isBiometricAvailable();
-      final isAlreadyEnabled = user?.settings.biometricEnabled ?? false;
-
-      if (isBiometricAvailable && !isAlreadyEnabled && mounted) {
-        final shouldEnable = await showDialog<bool>(
-          context: context,
-          barrierDismissible: false,
-          builder: (ctx) => ShadDialog(
-            title: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: AppTheme.lightToskaBg,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Icon(
-                    Icons.fingerprint_rounded,
-                    color: AppTheme.primaryAction,
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    'Aktifkan Login Biometrik?',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.inter(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            description: Text(
-              'Aktifkan login biometrik untuk akses lebih cepat dan aman.',
-              style: GoogleFonts.inter(
-                fontSize: 13,
-                color: AppTheme.textMutedLight,
-                height: 1.4,
-              ),
-            ),
-            actions: [
-              ShadButton.ghost(
-                onPressed: () => Navigator.of(ctx).pop(false),
-                child: Text(
-                  'Nanti Saja',
-                  style: GoogleFonts.inter(
-                    color: AppTheme.textMutedLight,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              ShadButton(
-                onPressed: () => Navigator.of(ctx).pop(true),
-                child: Text(
-                  'Ya, Aktifkan',
-                  style: GoogleFonts.inter(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-
-        if (shouldEnable == true && mounted) {
-          final confirmed = await ref
-              .read(biometricServiceProvider)
-              .authenticate(
-                localizedReason: 'Konfirmasi sidik jari atau wajah Anda untuk mengaktifkan login biometrik',
-              );
-
-          if (confirmed && mounted) {
-            await ref.read(authProvider.notifier).toggleBiometric(true);
-            if (!mounted) return;
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: AppTheme.successGreen,
-                content: Row(
-                  children: [
-                    const Icon(
-                      Icons.check_circle_rounded,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        'Login biometrik berhasil diaktifkan!',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.inter(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                duration: const Duration(seconds: 2),
-              ),
-            );
-          }
-        }
-      }
-
-      if (mounted) {
-        ref.read(shellTabIndexProvider.notifier).state = 0;
-        context.go('/shell');
-      }
-    }
-  }
-
-  Future<void> _handleBiometricLogin() async {
-    final success = await ref
-        .read(authProvider.notifier)
-        .authenticateWithBiometric();
     if (success && mounted) {
       ref.read(shellTabIndexProvider.notifier).state = 0;
       context.go('/shell');
@@ -325,37 +198,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     label: 'Masuk',
                     isLoading: isLoading,
                     onPressed: _submitLogin,
-                  ),
-
-                  const SizedBox(height: 12),
-                  OutlinedButton.icon(
-                    onPressed: isLoading ? null : _handleBiometricLogin,
-                    icon: const Icon(
-                      Icons.fingerprint,
-                      color: AppTheme.primaryAction,
-                      size: 20,
-                    ),
-                    label: Text(
-                      'Masuk Via Biometrik',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.inter(
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.primaryAction,
-                      ),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: AppTheme.lightCardSurface,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      side: const BorderSide(
-                        color: AppTheme.lightCardBorder,
-                        width: 1.0,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
                   ),
 
                   const SizedBox(height: 24),

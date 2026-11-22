@@ -63,7 +63,6 @@ class OutletSummary {
 class UserSettingsSummary {
   final String displayCurrency;
   final String displayTimezone;
-  final bool biometricEnabled;
   final bool shakeRefreshEnabled;
   final bool tiltEnabled;
   final int? dailyRevenueTargetIdr;
@@ -71,7 +70,6 @@ class UserSettingsSummary {
   const UserSettingsSummary({
     this.displayCurrency = MoneyFormatter.defaultCurrency,
     this.displayTimezone = 'Asia/Jakarta',
-    this.biometricEnabled = false,
     this.shakeRefreshEnabled = true,
     this.tiltEnabled = true,
     this.dailyRevenueTargetIdr,
@@ -83,7 +81,6 @@ class UserSettingsSummary {
       displayCurrency:
           json['display_currency'] as String? ?? MoneyFormatter.defaultCurrency,
       displayTimezone: json['display_timezone'] as String? ?? 'Asia/Jakarta',
-      biometricEnabled: json['biometric_enabled'] as bool? ?? false,
       shakeRefreshEnabled: json['shake_refresh_enabled'] as bool? ?? true,
       tiltEnabled: json['tilt_enabled'] as bool? ?? true,
       dailyRevenueTargetIdr: json['daily_revenue_target_idr'] as int?,
@@ -94,7 +91,6 @@ class UserSettingsSummary {
     return {
       'display_currency': displayCurrency,
       'display_timezone': displayTimezone,
-      'biometric_enabled': biometricEnabled,
       'shake_refresh_enabled': shakeRefreshEnabled,
       'tilt_enabled': tiltEnabled,
       'daily_revenue_target_idr': dailyRevenueTargetIdr,
@@ -104,7 +100,6 @@ class UserSettingsSummary {
   UserSettingsSummary copyWith({
     String? displayCurrency,
     String? displayTimezone,
-    bool? biometricEnabled,
     bool? shakeRefreshEnabled,
     bool? tiltEnabled,
     int? dailyRevenueTargetIdr,
@@ -112,7 +107,6 @@ class UserSettingsSummary {
     return UserSettingsSummary(
       displayCurrency: displayCurrency ?? this.displayCurrency,
       displayTimezone: displayTimezone ?? this.displayTimezone,
-      biometricEnabled: biometricEnabled ?? this.biometricEnabled,
       shakeRefreshEnabled: shakeRefreshEnabled ?? this.shakeRefreshEnabled,
       tiltEnabled: tiltEnabled ?? this.tiltEnabled,
       dailyRevenueTargetIdr: dailyRevenueTargetIdr ?? this.dailyRevenueTargetIdr,

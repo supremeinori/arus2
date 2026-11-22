@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'core/auth/biometric_lock_wrapper.dart';
 import 'core/l10n/strings_id.dart';
 import 'core/push/push_service.dart';
 import 'core/routing/app_router.dart';
@@ -31,9 +30,7 @@ class ArusApp extends ConsumerWidget {
       // ScaffoldMessenger.of(context) di layar mana pun akan null dan
       // melempar "Null check operator used on a null value" pada mode release.
       builder: (context, child) => ScaffoldMessenger(
-        child: BiometricLockWrapper(
-          child: child ?? const SizedBox.shrink(),
-        ),
+        child: child ?? const SizedBox.shrink(),
       ),
     );
   }

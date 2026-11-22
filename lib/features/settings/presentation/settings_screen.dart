@@ -3,16 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/auth/biometric_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/timezone_converter.dart';
 import '../../../shared/widgets/settings_tile.dart';
-import '../../auth/presentation/auth_provider.dart';
 import 'currency_provider.dart';
 
-/// Hub pengaturan aplikasi: kurs, zona waktu, dan keamanan biometrik.
+/// Hub pengaturan aplikasi: kurs dan zona waktu.
 ///
-/// Layar ini hanya memuat pintu masuk ketiga domain tersebut. Rinciannya ada di
+/// Layar ini hanya memuat pintu masuk kedua domain tersebut. Rinciannya ada di
 /// layar masing-masing (`/settings/currency` dan `/settings/time`) supaya daftar
 /// pengaturan tetap pendek, sementara nilai aktif tiap domain langsung terbaca
 /// dari chip di sisi kanan baris.
@@ -62,125 +60,6 @@ class SettingsScreen extends ConsumerWidget {
                     label: TimezoneConverter.getSuffix(timezone),
                     icon: Icons.public_rounded,
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-            const SettingsSectionLabel('Keamanan & Akses Cepat'),
-            const SizedBox(height: 4),
-            Text(
-              'Kelola autentikasi sidik jari/wajah dan kunci layar otomatis setelah 5 menit di background.',
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.inter(
-                fontSize: 12,
-                color: AppTheme.textMutedDark,
-              ),
-            ),
-            const SizedBox(height: 12),
-            SettingsSectionCard(
-              children: [
-                SwitchListTile(
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 4,
-                  ),
-                  secondary: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: AppTheme.darkCardSurfaceElevated,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Icon(
-                      Icons.fingerprint_rounded,
-                      color: AppTheme.primaryAction,
-                      size: 24,
-                    ),
-                  ),
-                  title: Text(
-                    'Login Sidik Jari (Biometrik)',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13.5,
-                      color: AppTheme.textPrimaryDark,
-                    ),
-                  ),
-                  subtitle: Text(
-                    'Buka kunci dengan sidik jari/wajah & kunci otomatis 5 menit.',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.inter(
-                      fontSize: 12,
-                      color: AppTheme.textMutedDark,
-                    ),
-                  ),
-                  activeThumbColor: AppTheme.primaryAction,
-                  value:
-                      ref.watch(authProvider).user?.settings.biometricEnabled ??
-                      false,
-                  onChanged: (enabled) async {
-                    if (enabled) {
-                      final bioService = ref.read(biometricServiceProvider);
-                      final available = await bioService.isBiometricAvailable();
-                      if (!available) {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: AppTheme.dangerTextDeep,
-                              content: Text(
-                                'Sensor biometrik tidak tersedia atau belum didaftarkan di perangkat ini.',
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.inter(color: Colors.white),
-                              ),
-                            ),
-                          );
-                        }
-                        return;
-                      }
-
-                      final confirmed = await bioService.authenticate(
-                        localizedReason:
-                            'Konfirmasi sidik jari atau wajah untuk mengaktifkan login biometrik',
-                      );
-                      if (confirmed && context.mounted) {
-                        await ref
-                            .read(authProvider.notifier)
-                            .toggleBiometric(true);
-                        if (!context.mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: AppTheme.primaryAction,
-                            content: Text(
-                              'Login biometrik berhasil diaktifkan.',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.inter(color: Colors.white),
-                            ),
-                          ),
-                        );
-                      }
-                    } else {
-                      await ref
-                          .read(authProvider.notifier)
-                          .toggleBiometric(false);
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: AppTheme.darkCardSurfaceElevated,
-                            content: Text(
-                              'Login biometrik dinonaktifkan.',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.inter(color: Colors.white),
-                            ),
-                          ),
-                        );
-                      }
-                    }
-                  },
                 ),
               ],
             ),

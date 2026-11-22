@@ -3,7 +3,6 @@ class FeatureFlags {
   // Client-side features
   final bool lbs;
   final bool sensors;
-  final bool biometric;
 
   // Server-synced features
   final bool integrity;
@@ -15,7 +14,6 @@ class FeatureFlags {
   const FeatureFlags({
     this.lbs = true,
     this.sensors = false,
-    this.biometric = true,
     this.integrity = false,
     this.notifications = true,
     this.fx = false,
@@ -27,7 +25,6 @@ class FeatureFlags {
     return FeatureFlags(
       lbs: json['lbs'] as bool? ?? true,
       sensors: json['sensors'] as bool? ?? false,
-      biometric: json['biometric'] as bool? ?? true,
       integrity: json['integrity'] as bool? ?? false,
       notifications: json['notifications'] as bool? ?? true,
       fx: json['fx'] as bool? ?? false,
@@ -39,7 +36,6 @@ class FeatureFlags {
   static const FeatureFlags coreOnly = FeatureFlags(
     lbs: true,
     sensors: false,
-    biometric: false,
     integrity: false,
     notifications: false,
     fx: false,

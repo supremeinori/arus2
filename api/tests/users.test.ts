@@ -90,7 +90,6 @@ describe('User Settings & Display Currency', () => {
       .set('Authorization', `Bearer ${ownerToken}`)
       .send({
         display_currency: 'USD',
-        biometric_enabled: true,
         shake_refresh_enabled: false,
         tilt_enabled: true,
       });

@@ -20,7 +20,6 @@ class SecureStore {
 
   static const _keyAccessToken = 'arus_access_token';
   static const _keyRefreshToken = 'arus_refresh_token';
-  static const _keyBiometricEnabled = 'arus_biometric_enabled';
   static const _keyUserJson = 'arus_user_json';
   static const _keyLoginTimestamp = 'arus_login_timestamp';
 
@@ -57,15 +56,6 @@ class SecureStore {
   Future<void> setRefreshToken(String token) async => await _safeWrite(_keyRefreshToken, token);
   Future<void> deleteRefreshToken() async => await _safeDelete(_keyRefreshToken);
 
-  Future<bool> isBiometricEnabled() async {
-    final val = await _safeRead(_keyBiometricEnabled);
-    return val == 'true' || val == '1';
-  }
-
-  Future<void> setBiometricEnabled(bool enabled) async {
-    await _safeWrite(_keyBiometricEnabled, enabled ? 'true' : 'false');
-  }
-
   Future<String?> getUserJson() async => await _safeRead(_keyUserJson);
   Future<void> setUserJson(String json) async => await _safeWrite(_keyUserJson, json);
 
@@ -73,15 +63,11 @@ class SecureStore {
     required String accessToken,
     required String refreshToken,
     required String userJson,
-    bool? biometricEnabled,
   }) async {
     await setAccessToken(accessToken);
     await setRefreshToken(refreshToken);
     await setUserJson(userJson);
     await _safeWrite(_keyLoginTimestamp, DateTime.now().toIso8601String());
-    if (biometricEnabled != null) {
-      await setBiometricEnabled(biometricEnabled);
-    }
   }
 
   Future<bool> hasValidStoredSession() async {
@@ -120,6 +106,5 @@ class SecureStore {
 
   Future<void> clearAllSession() async {
     await clearTokens();
-    await _safeDelete(_keyBiometricEnabled);
   }
 }

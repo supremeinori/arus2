@@ -20,7 +20,6 @@ class LocalSessionSettings {
   final String email;
   final String role;
   final String? avatarUrl;
-  final bool biometricEnabled;
   final String displayCurrency;
   final String displayTimezone;
   final bool shakeSensorEnabled;
@@ -35,7 +34,6 @@ class LocalSessionSettings {
     required this.email,
     required this.role,
     this.avatarUrl,
-    this.biometricEnabled = false,
     this.displayCurrency = MoneyFormatter.defaultCurrency,
     this.displayTimezone = 'WIB',
     this.shakeSensorEnabled = true,
@@ -52,7 +50,6 @@ class LocalSessionSettings {
       'email': email,
       'role': role,
       'avatar_url': avatarUrl,
-      'biometric_enabled': biometricEnabled ? 1 : 0,
       'display_currency': displayCurrency,
       'display_timezone': displayTimezone,
       'shake_sensor_enabled': shakeSensorEnabled ? 1 : 0,
@@ -70,7 +67,6 @@ class LocalSessionSettings {
       email: map['email'] as String? ?? '',
       role: map['role'] as String? ?? 'staff',
       avatarUrl: map['avatar_url'] as String?,
-      biometricEnabled: (map['biometric_enabled'] as int? ?? 0) == 1,
       displayCurrency:
           map['display_currency'] as String? ?? MoneyFormatter.defaultCurrency,
       displayTimezone: map['display_timezone'] as String? ?? 'WIB',
@@ -355,7 +351,6 @@ class LocalDatabase {
       email: user.email,
       role: user.role.name,
       avatarUrl: user.avatarUrl,
-      biometricEnabled: user.settings.biometricEnabled,
       displayCurrency: user.settings.displayCurrency,
       displayTimezone: user.settings.displayTimezone,
       shakeSensorEnabled: user.settings.shakeRefreshEnabled,
@@ -413,59 +408,6 @@ class LocalDatabase {
       } catch (_) {}
     }
     return null;
-  }
-
-  Future<void> updateBiometricSetting(String userId, bool enabled) async {
-    final db = await database;
-    if (db == null) {
-      if (_webSessionStore.containsKey(userId)) {
-        _webSessionStore[userId]!['biometric_enabled'] = enabled ? 1 : 0;
-        final rawUser = _webSessionStore[userId]!['user_json'] as String?;
-        if (rawUser != null) {
-          try {
-            final decoded = jsonDecode(rawUser) as Map<String, dynamic>;
-            if (decoded['settings'] is Map) {
-              decoded['settings']['biometric_enabled'] = enabled;
-            } else {
-              decoded['settings'] = {'biometric_enabled': enabled};
-            }
-            _webSessionStore[userId]!['user_json'] = jsonEncode(decoded);
-          } catch (_) {}
-        }
-      }
-      return;
-    }
-
-    await db.update(
-      'local_session_settings',
-      {'biometric_enabled': enabled ? 1 : 0},
-      where: 'user_id = ?',
-      whereArgs: [userId],
-    );
-
-    try {
-      final maps = await db.query(
-        'local_session_settings',
-        columns: ['user_json'],
-        where: 'user_id = ?',
-        whereArgs: [userId],
-        limit: 1,
-      );
-      if (maps.isNotEmpty && maps.first['user_json'] != null) {
-        final decoded = jsonDecode(maps.first['user_json'] as String) as Map<String, dynamic>;
-        if (decoded['settings'] is Map) {
-          decoded['settings']['biometric_enabled'] = enabled;
-        } else {
-          decoded['settings'] = {'biometric_enabled': enabled};
-        }
-        await db.update(
-          'local_session_settings',
-          {'user_json': jsonEncode(decoded)},
-          where: 'user_id = ?',
-          whereArgs: [userId],
-        );
-      }
-    } catch (_) {}
   }
 
   /// Simpan preferensi mata uang tampilan untuk [userId] di cache lokal.

@@ -20,7 +20,6 @@ export class AuthService {
     return {
       display_currency: user?.display_currency ?? DEFAULT_DISPLAY_CURRENCY,
       display_timezone: primaryTz || 'Asia/Jakarta',
-      biometric_enabled: false,
       shake_refresh_enabled: true,
       tilt_enabled: true,
     };

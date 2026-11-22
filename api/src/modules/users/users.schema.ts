@@ -35,7 +35,6 @@ export const updateUserSchema = z.object({
 export const updateUserSettingsSchema = z.object({
   display_currency: z.enum(SUPPORTED_CURRENCIES).optional(),
   display_timezone: z.string().min(1).max(50).optional(),
-  biometric_enabled: z.boolean().optional(),
   shake_refresh_enabled: z.boolean().optional(),
   tilt_enabled: z.boolean().optional(),
   daily_revenue_target_idr: z.number().int().nonnegative().nullable().optional(),
