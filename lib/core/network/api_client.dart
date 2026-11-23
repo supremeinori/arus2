@@ -30,7 +30,8 @@ class ApiClient {
           ),
         );
 
-    // Interceptor: Otomatis tempel Bearer Token di setiap request
+    // [FLOW NET 1] Interceptor onRequest: tiap mau nembak API, ambil token dari secure_store.dart
+    // lalu otomatis ditempel ke header Authorization biar server tahu user ini udah login sah.
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
@@ -41,7 +42,8 @@ class ApiClient {
           return handler.next(options);
         },
         onError: (DioException error, handler) async {
-          // Jika token ditolak/kedaluwarsa (401), bersihkan sesi login lokal
+          // [FLOW NET 2] Kalau server balas 401 (token basi/ditolak), langsung sapu bersih token di HP,
+          // terus error mentahnya dilempar ke _mapDioError biar diubah jadi AppException yang ramah.
           if (error.response?.statusCode == 401) {
             await secureStore.clearTokens();
           }
@@ -67,7 +69,8 @@ class ApiClient {
     _dio.options.baseUrl = newUrl;
   }
 
-  // --- HTTP Methods (GET, POST, PUT, PATCH, DELETE) ---
+  // [FLOW NET 3] Pembungkus GET/POST/PUT/PATCH/DELETE biar semua Repository cukup lewat 1 pintu ini.
+  // Kalau ada error internet/server, semuanya bermuara ke _handleError() di bawah.
 
   Future<Response<T>> get<T>(
     String path, {
@@ -157,7 +160,8 @@ class ApiClient {
     }
   }
 
-  // Helper untuk mengekstrak error yang ramah pengguna
+  // [FLOW NET 4] Muara semua error jaringan (timeout / putus / error server),
+  // diterjemahin ke AppException (app_exception.dart) biar pesan ke user nggak pakai bahasa teknis.
   AppException _handleError(DioException e) {
     if (e.error is AppException) return e.error as AppException;
     return _mapDioError(e);

@@ -33,6 +33,8 @@ class _InventoryListScreenState extends ConsumerState<InventoryListScreen> {
     super.dispose();
   }
 
+  // [FLOW INV-ADJUST 1] Buka popup penyesuaian stok (stock_adjustment_dialog.dart).
+  // Kalau sukses nyimpen (result == true), refresh ulang daftar bahan baku biar angkanya langsung update.
   void _openAdjustmentDialog(IngredientModel item) async {
     final result = await showDialog<bool>(
       context: context,
@@ -44,6 +46,7 @@ class _InventoryListScreenState extends ConsumerState<InventoryListScreen> {
     }
   }
 
+  // [FLOW INV-CREATE 1] Buka popup tambah/edit bahan baku baru (add_ingredient_dialog.dart).
   void _openAddIngredientDialog(String outletId, String outletName, [IngredientModel? existing]) async {
     final result = await showDialog<bool>(
       context: context,

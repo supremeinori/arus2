@@ -13,7 +13,8 @@ class ArusApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
 
-    // Inisialisasi push FCM (aman bila kredensial Firebase belum tersedia).
+    // [FLOW NOTIF 2 - STARTUP] Nyalain PushService (push_service.dart) buat connect ke Firebase (FCM)
+    // dan daftarin token HP ini ke server begitu user login.
     ref.watch(pushServiceProvider);
 
     return ShadApp.router(

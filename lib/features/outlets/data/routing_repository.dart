@@ -24,6 +24,8 @@ class RoutingRepository {
             );
 
   /// Memanggil OSRM (Open Source Routing Machine) API untuk mendapatkan rute jaringan jalan riil
+  // [FLOW LBS-RUTE 2] Nembak server gratis OSRM pakai titik awal (HP user) & tujuan (cabang).
+  // Balikannya berupa daftar titik jalan (points) buat digambar jadi garis biru di outlet_map_widget.dart.
   Future<RoadRouteModel> getRoute({
     required LatLng origin,
     required LatLng destination,

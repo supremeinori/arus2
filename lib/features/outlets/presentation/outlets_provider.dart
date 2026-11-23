@@ -18,10 +18,13 @@ final outletsPerformanceProvider = FutureProvider.autoDispose<List<OutletPerform
   return repo.getPerformance();
 });
 
-// Default lokasi user untuk simulasi / geolokasi: Malioboro Yogyakarta (-7.7828, 110.3670)
+// [FLOW LBS 2] Simpan titik koordinat (Lat, Lng) posisi user sekarang.
+// Default-nya Malioboro Jogja; kalau tombol GPS diklik, nilainya langsung diganti titik GPS asli HP.
 final userCoordinatesProvider = StateProvider<(double, double)>((ref) => (-7.7828, 110.3670));
 
 /// Mengambil koordinat GPS riil perangkat dengan penanganan error komprehensif & timeout
+// [FLOW LBS 3] Ini gunanya buat cek GPS nyala + minta izin lokasi HP + ambil titik koordinat asli via Geolocator.
+// Habis dapet (lat, lng), hasilnya dilempar ke userCoordinatesProvider lalu dipakai peta & nearestOutletProvider.
 Future<(double, double)> fetchCurrentGpsLocation() async {
   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {
@@ -52,6 +55,7 @@ Future<(double, double)> fetchCurrentGpsLocation() async {
 }
 
 /// Menghitung jarak garis lurus (geodesik / Haversine) dalam meter
+// [FLOW LBS 4] Rumus Haversine: hitung jarak garis lurus (meter) antara posisi HP user dan titik cabang.
 double calculateStraightDistanceMeters(
   double lat1,
   double lon1,
@@ -80,6 +84,7 @@ String formatDistance(double meters) {
   return '${km.toStringAsFixed(1)} km';
 }
 
+// [FLOW LBS 5] Tiap koordinat user berubah, provider ini otomatis nyuruh outlets_repository.dart cari cabang terdekat.
 final nearestOutletProvider = FutureProvider.autoDispose<NearestOutletResult>((ref) async {
   final repo = ref.watch(outletsRepositoryProvider);
   final (lat, lng) = ref.watch(userCoordinatesProvider);

@@ -97,18 +97,21 @@ class CatalogRepository {
     }
 
     try {
+      // [FLOW KATALOG 3] Nembak API /products ke server lewat api_client.dart.
       final res = await _apiClient.get<Map<String, dynamic>>(
         '/products',
         queryParameters: queryParams,
       );
 
       final data = res.data?['data'] as List<dynamic>? ?? [];
+      // [FLOW KATALOG 4] Lempar tiap JSON mentah ke cetakan ProductModel.fromJson (product_model.dart).
       final products = data.map((p) => ProductModel.fromJson(p as Map<String, dynamic>)).toList();
 
-      // Simpan seluruh produk ke SQLite lokal
+      // [FLOW KATALOG 5] Sebelum dibalikin ke layar, simpan dulu kopiannya ke SQLite lokal (local_db.dart) buat jaga-jaga offline.
       await _localDb.cacheProducts(products);
       return products;
     } on AppException {
+      // [FLOW OFFLINE FALLBACK] Internet putus / server down? Ambil cadangan produk terakhir dari local_db.dart!
       final cached = await _localDb.getCachedProducts(categoryId: categoryId, search: q);
       if (cached.isNotEmpty) {
         return cached;

@@ -19,6 +19,8 @@ import 'notification_service.dart';
 /// Android lewat channel importance tinggi, jadi handler ini tidak
 /// menampilkan notifikasi kedua. Hanya pesan data-only yang ditampilkan
 /// manual lewat [NotificationService].
+// [FLOW FCM-BACKGROUND] Jalan otomatis kalau ada push dari server saat aplikasi lagi ditutup/background.
+// Pesan data-only langsung dilempar ke NotificationService.instance.show() biar bunyi di HP.
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   debugPrint('[Push] Background message: ${message.messageId}');
@@ -74,6 +76,8 @@ class PushService {
 
   bool get isEnabled => _enabled;
 
+  // [FLOW FCM 1] Dipanggil dari app.dart (pushServiceProvider): aktifin Firebase, minta izin notif,
+  // pasang kuping/listener buat pesan masuk (foreground & background), lalu daftar token HP ke server.
   Future<void> initialize() async {
     final options = _optionsFromEnvironment();
     if (kIsWeb && options == null) {
@@ -146,6 +150,8 @@ class PushService {
 
   /// Mendaftarkan token perangkat ke backend.
   /// Hanya berhasil bila user sudah login (butuh access token).
+  // [FLOW FCM 2] Ambil token unik HP dari Firebase, lalu kirim POST /notifications/device-token lewat api_client.dart
+  // supaya server tahu alamat HP mana yang harus dikirimi push notification.
   Future<void> registerDeviceToken() async {
     if (!_enabled) return;
 
@@ -168,6 +174,8 @@ class PushService {
     }
   }
 
+  // [FLOW FCM 3 - FOREGROUND] Kalau push datang pas aplikasi lagi dibuka:
+  // refresh inbox notifikasi, lalu lempar ke _showSystemNotification() -> NotificationService.instance.show().
   void _handleForegroundMessage(RemoteMessage message) {
     debugPrint('[Push] Foreground message: ${message.messageId}');
     _invalidateInbox();
@@ -193,6 +201,8 @@ class PushService {
     _showForegroundBanner(title, body);
   }
 
+  // [FLOW FCM 4 - DIKLIK USER] Kalau user ngeklik banner notifikasi:
+  // tipe stok kritis langsung diarahkan ke /inventory, selain itu ke halaman /notifications.
   void _handleOpenedMessage(RemoteMessage message) {
     final data = message.data;
     final type = data['type'] ?? '';

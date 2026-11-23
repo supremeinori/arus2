@@ -103,6 +103,8 @@ class ProductModel {
     this.outletStock = const [],
   });
 
+  // [FLOW KATALOG 4] Cetakan data produk: ubah JSON mentah dari server jadi objek ProductModel yang aman.
+  // Tanda (??) dipakai buat nilai cadangan biar app nggak crash kalau ada field yang kosong dari server.
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     final catObj = json['category'] as Map<String, dynamic>?;
     final invList = json['inventory'] as List<dynamic>? ?? [];

@@ -17,6 +17,7 @@ class StockMovementScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // [FLOW INV-MUTASI 1] Layar riwayat mutasi dibuka -> langsung mantau inventoryMovementsProvider (inventory_provider.dart).
     final movementsAsync = ref.watch(inventoryMovementsProvider(outletId));
 
     return Scaffold(

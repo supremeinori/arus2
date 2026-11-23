@@ -12,7 +12,8 @@ import '../../domain/route_model.dart';
 import '../../data/routing_repository.dart';
 import '../outlets_provider.dart';
 
-// Provider untuk mengambil rute jalan aktual (OSRM) secara asinkron dengan auto cancel
+// [FLOW LBS-RUTE 1] Pas user klik salah satu cabang di peta, provider ini manggil routing_repository.dart (OSRM)
+// buat dapetin garis jalur jalan aslinya (otomatis batalin request lama kalau user buru-buru klik cabang lain).
 final selectedRouteProvider = FutureProvider.autoDispose.family<RoadRouteModel, (LatLng, LatLng)>((ref, coords) async {
   final routingRepo = ref.watch(routingRepositoryProvider);
   final cancelToken = CancelToken();
@@ -494,6 +495,8 @@ class _OutletMapWidgetState extends ConsumerState<OutletMapWidget> {
                         final messenger = ScaffoldMessenger.of(context);
                         setState(() => _isLocatingOrRouting = true);
                         try {
+                          // [FLOW LBS-RUTE 3] Tombol "Cabang Terdekat" diklik: ambil GPS HP asli, simpan ke state,
+                          // cari cabang terdekat di server, lalu otomatis pilih cabang itu buat gambar garis rute di peta.
                           final gpsCoord = await fetchCurrentGpsLocation();
                           if (mounted) {
                             ref.read(userCoordinatesProvider.notifier).state = gpsCoord;

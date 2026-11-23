@@ -80,6 +80,7 @@ class LocalSessionSettings {
 }
 
 class LocalDatabase {
+  // [FLOW SQLITE 1] Pola Singleton: database arus_local.db di HP cuma dibuka 1 pintu aja biar nggak bentrok/bocor.
   LocalDatabase._();
   static final LocalDatabase instance = LocalDatabase._();
 
@@ -109,6 +110,7 @@ class LocalDatabase {
     return await sql.openDatabase(
       path,
       version: 4,
+      // [FLOW SQLITE 2] onCreate cuma jalan SEKALI pas app pertama kali diinstall di HP buat bikin 4 tabel SQL lokal.
       onCreate: (db, version) async {
         // 1. Sesi User & Pengaturan Utilitas
         await db.execute('''
@@ -545,6 +547,7 @@ class LocalDatabase {
   // ========================================================
   // 3. PRODUCTS CACHE OPERATIONS
   // ========================================================
+  // [FLOW SQLITE 3] Dipanggil catalog_repository.dart buat nyimpen daftar produk ke tabel cached_products (INSERT/REPLACE massal).
   Future<void> cacheProducts(List<ProductModel> products) async {
     final db = await database;
     if (db == null) {
@@ -804,6 +807,8 @@ class LocalDatabase {
   // ========================================================
   // 4. OFFLINE TRANSACTIONS & SYNC QUEUE OPERATIONS
   // ========================================================
+  // [FLOW SQLITE 4] Dipanggil pos_repository.dart pas kasir checkout tapi internet mati:
+  // simpan bon ke tabel offline_transactions dengan is_synced = 0, nanti dijemput sync_service.dart pas online.
   Future<void> saveOfflineTransaction({
     required PosTransactionModel transaction,
     required String clientRequestId,

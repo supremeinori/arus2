@@ -36,6 +36,8 @@ class TestPushNotificationButton extends ConsumerWidget {
     );
   }
 
+  // [FLOW UJI-NOTIF] Widget tombol tes berdiri sendiri (belum ditempel di layar produksi).
+  // Kalau ditempel manual buat demo, klik tombol ini langsung manggil notificationServiceProvider.show() biar HP bunyi & muncul banner!
   Future<void> _sendTestNotification(BuildContext context, WidgetRef ref) async {
     final shown = await ref.read(notificationServiceProvider).show(
           title: testTitle,

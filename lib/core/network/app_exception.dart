@@ -1,4 +1,5 @@
 /// Representasi Exception terstandar di ARUS sesuai SRS Section 18
+// [FLOW ERROR] Cetakan error seragam buat seluruh app: ubah error mentah Dio/server jadi pesan ramah buat user.
 class AppException implements Exception {
   final String code;
   final String message;

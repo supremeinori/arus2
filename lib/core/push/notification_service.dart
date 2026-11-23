@@ -47,6 +47,7 @@ class NotificationService {
   ///
   /// Aman dipanggil berulang dan aman dipanggil saat plugin tidak tersedia
   /// (mis. pada unit test) — error ditelan dan dicatat ke log.
+  // [FLOW NOTIF-LOKAL 1] Dipanggil dari main.dart saat startup: pasang plugin notif + bikin Channel Android.
   Future<void> initialize() async {
     if (_initialized) return;
     try {
@@ -68,6 +69,7 @@ class NotificationService {
   /// default dari manifest hanya kalau channel tersebut benar-benar ada di
   /// sistem. Kalau belum ada, FCM membuat fallback channel dengan importance
   /// rendah sehingga notifikasi tidak muncul sebagai heads-up.
+  // [FLOW NOTIF-LOKAL 2] Bikin saluran resmi Android (importance: max + suara + getar) biar notif muncul heads-up.
   Future<void> _createChannel() async {
     final android = _plugin.resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>();
@@ -149,6 +151,8 @@ class NotificationService {
   ///
   /// [requestPermissionIfMissing] diisi false pada background isolate: di sana
   /// tidak ada Activity sehingga dialog permission tidak bisa ditampilkan.
+  // [FLOW NOTIF-LOKAL 3] Pintu utama buat munculin banner + bunyi di HP!
+  // Dipanggil dari push_service.dart (FCM masuk), notifications_provider.dart (stok kritis), atau tombol uji.
   Future<bool> show({
     required String title,
     required String body,

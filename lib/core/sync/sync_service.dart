@@ -35,7 +35,9 @@ class SyncService {
   bool get isSyncing => _isSyncing;
 
   /// Sinkronisasi seluruh transaksi offline yang tertunda ke server Supabase
+  // [FLOW SYNC 1] Dipanggil tombol Sync di pos_screen.dart atau pas Tutup Shift di shift_summary_screen.dart.
   Future<SyncResult> syncPendingTransactions() async {
+    // Kunci dulu biar kalau kasir pencet tombol 2x nggak kirim dobel.
     if (_isSyncing) {
       return const SyncResult(totalPending: 0, syncedCount: 0, failedCount: 0, message: 'Sinkronisasi sedang berjalan.');
     }
@@ -45,6 +47,7 @@ class SyncService {
     int failed = 0;
 
     try {
+      // [FLOW SYNC 2] Cek ke local_db.dart: ada berapa bon offline yang is_synced-nya masih 0?
       final pendingList = await _localDb.getPendingOfflineTransactions();
       if (pendingList.isEmpty) {
         return const SyncResult(totalPending: 0, syncedCount: 0, failedCount: 0, message: 'Tidak ada transaksi tertunda.');
@@ -66,6 +69,7 @@ class SyncService {
                   })
               .toList();
 
+          // [FLOW SYNC 3] Ini baris yang beneran nembak bon offline ke server online lewat api_client.dart.
           final response = await _client.post<Map<String, dynamic>>(
             '/transactions',
             data: {
@@ -78,6 +82,7 @@ class SyncService {
             },
           );
 
+          // [FLOW SYNC 4] Kalau server balas 200/201 (sukses), coret bon di local_db.dart jadi is_synced = 1 lalu synced++.
           if (response.statusCode == 200 || response.statusCode == 201) {
             final data = response.data?['data'] as Map<String, dynamic>?;
             final receiptNo = data?['receipt_no'] as String? ?? txMap['receipt_no'] as String;

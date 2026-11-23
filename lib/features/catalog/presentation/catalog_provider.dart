@@ -21,6 +21,8 @@ final searchQueryProvider = StateProvider<String>((ref) => '');
 /// bisa mengaktifkannya kembali kapan menu itu mau dipakai lagi.
 final showInactiveProvider = StateProvider<bool>((ref) => false);
 
+// [FLOW KATALOG 2] Dipanggil dari product_list_screen.dart (ref.watch).
+// Tugasnya ngumpulin filter (kategori, search, outlet), terus nyuruh catalog_repository.dart ambil data produk.
 final productListProvider = FutureProvider.autoDispose<List<ProductModel>>((ref) async {
   final repo = ref.watch(catalogRepositoryProvider);
   final categoryId = ref.watch(selectedCategoryProvider);

@@ -13,6 +13,7 @@ class NotificationsRepository {
 
   NotificationsRepository(this._client);
 
+  // [FLOW INBOX-NOTIF] Ambil daftar isi kotak masuk notifikasi dari server (GET /notifications).
   Future<NotificationsResponse> getNotifications() async {
     try {
       final response = await _client.get<Map<String, dynamic>>('/notifications');
@@ -45,6 +46,7 @@ class NotificationsRepository {
     }
   }
 
+  // [FLOW INBOX-NOTIF] Suruh server ngecek kondisi stok kritis sekarang (POST /notifications/evaluate).
   Future<int> evaluateNotifications() async {
     try {
       final response = await _client.post<Map<String, dynamic>>('/notifications/evaluate');

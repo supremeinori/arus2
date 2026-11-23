@@ -24,6 +24,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // [FLOW INBOX-NOTIF 1] Layar Pusat Notifikasi dibuka: langsung ambil list notif & jumlah belum dibaca dari notifications_provider.dart.
     final notifsAsync = ref.watch(notificationsListProvider);
     final unreadCount = ref.watch(unreadNotificationCountProvider);
     final isProcessing = ref.watch(notificationActionProvider);
@@ -65,6 +66,8 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
             onPressed: isProcessing
                 ? null
                 : () async {
+                    // [FLOW INBOX-NOTIF 2 - TOMBOL DEMO ASLI] Diklik -> lempar ke notifications_provider.dart (evaluateNotifications)
+                    // buat cek stok kritis di server & munculin banner heads-up + suara di HP!
                     final triggered = await ref
                         .read(notificationActionProvider.notifier)
                         .evaluateNotifications();
@@ -207,6 +210,7 @@ class _NotificationCard extends ConsumerWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () async {
+          // [FLOW INBOX-NOTIF 3] Kartu notif diklik: tandai sudah dibaca di server, lalu lempar ke /inventory atau /shell.
           if (!item.isRead) {
             await ref.read(notificationActionProvider.notifier).markAsRead(item.id);
           }

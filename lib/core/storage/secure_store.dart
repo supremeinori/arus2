@@ -7,6 +7,8 @@ final secureStoreProvider = Provider<SecureStore>((ref) {
 });
 
 class SecureStore {
+  // [FLOW AUTH-STORE 1] Alat penyimpan permanen di memori HP yang terenkripsi hardware (AES-256).
+  // Dipakai buat nyimpen token login biar nggak hilang walau app ditutup atau HP di-restart.
   final FlutterSecureStorage _storage;
 
   SecureStore({FlutterSecureStorage? storage})
@@ -23,6 +25,8 @@ class SecureStore {
   static const _keyUserJson = 'arus_user_json';
   static const _keyLoginTimestamp = 'arus_login_timestamp';
 
+  // [FLOW AUTH-STORE 2] Bungkus read/write/delete pakai try-catch biar kalau chip storage HP
+  // lagi error, app nggak langsung crash layar merah (tinggal balikin null secara aman).
   Future<String?> _safeRead(String key) async {
     try {
       return await _storage.read(key: key);
@@ -59,6 +63,7 @@ class SecureStore {
   Future<String?> getUserJson() async => await _safeRead(_keyUserJson);
   Future<void> setUserJson(String json) async => await _safeWrite(_keyUserJson, json);
 
+  // [FLOW AUTH-STORE 3] Dipanggil pas user berhasil login: simpan token + profil + jam login ke HP.
   Future<void> saveSession({
     required String accessToken,
     required String refreshToken,
@@ -97,6 +102,7 @@ class SecureStore {
     await _safeWrite(_keyLoginTimestamp, DateTime.now().toIso8601String());
   }
 
+  // [FLOW AUTH-STORE 4] Dipanggil pas logout atau kena error 401 dari api_client.dart: hapus bersih semua token.
   Future<void> clearTokens() async {
     await deleteAccessToken();
     await deleteRefreshToken();

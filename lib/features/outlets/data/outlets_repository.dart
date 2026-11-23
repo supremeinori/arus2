@@ -13,6 +13,7 @@ class OutletsRepository {
 
   OutletsRepository(this._client);
 
+  // [FLOW LBS 6] Ambil daftar semua cabang dari server lewat GET /outlets, lalu cetak ke OutletModel.
   Future<List<OutletModel>> getOutlets() async {
     try {
       final response = await _client.get<Map<String, dynamic>>('/outlets');
@@ -49,6 +50,7 @@ class OutletsRepository {
     }
   }
 
+  // [FLOW LBS 7] Kirim koordinat (lat, lng) HP user ke server GET /outlets/nearest biar dapet cabang terdekat.
   Future<NearestOutletResult> getNearestOutlet(double lat, double lng) async {
     try {
       final response = await _client.get<Map<String, dynamic>>(

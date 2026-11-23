@@ -36,6 +36,8 @@ class _OutletListScreenState extends ConsumerState<OutletListScreen>
 
   @override
   Widget build(BuildContext context) {
+    // [FLOW LBS 1] Titik awal pas layar Cabang & LBS dibuka:
+    // layar langsung mantau daftar outlet, performa cabang, dan cabang terdekat dari outlets_provider.dart.
     final outletsAsync = ref.watch(outletsListProvider);
     final performanceAsync = ref.watch(outletsPerformanceProvider);
     final nearestAsync = ref.watch(nearestOutletProvider);

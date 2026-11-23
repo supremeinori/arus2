@@ -39,6 +39,8 @@ class NotificationActionNotifier extends StateNotifier<bool> {
     }
   }
 
+  // [FLOW INBOX-NOTIF 2B] Dipanggil tombol Sync di notification_screen.dart:
+  // suruh server evaluasi stok kritis via notifications_repository.dart, kalau ada yang baru langsung bunyiin HP via NotificationService.show()!
   Future<int> evaluateNotifications() async {
     state = true;
     try {

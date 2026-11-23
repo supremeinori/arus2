@@ -32,6 +32,8 @@ final inventoryFilterProvider = StateProvider<InventoryFilterState>((ref) {
   return const InventoryFilterState();
 });
 
+// [FLOW INV-LOAD 1] Dipantau sama inventory_list_screen.dart buat ambil daftar bahan baku.
+// Cek role dulu (kasir/manager dikunci ke cabangnya), lalu lempar ke inventory_repository.dart (getIngredients).
 final ingredientsListProvider = FutureProvider.autoDispose<List<IngredientModel>>((ref) async {
   final repo = ref.watch(inventoryRepositoryProvider);
   final authUser = ref.watch(authProvider).user;
@@ -68,6 +70,7 @@ final inventoryListProvider = FutureProvider.autoDispose<List<InventoryStockItem
   );
 });
 
+// [FLOW INV-MUTASI 2] Dipantau stock_movement_screen.dart buat ambil log keluar-masuk stok dari inventory_repository.dart.
 final inventoryMovementsProvider = FutureProvider.autoDispose.family<List<InventoryMovementItem>, String?>((ref, outletId) async {
   final repo = ref.watch(inventoryRepositoryProvider);
   final authUser = ref.watch(authProvider).user;

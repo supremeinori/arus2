@@ -13,6 +13,7 @@ class InventoryRepository {
 
   InventoryRepository(this._client);
 
+  // [FLOW INV-LOAD 2] Tembak GET /inventory/ingredients lewat api_client.dart, lalu cetak JSON-nya jadi IngredientModel.
   Future<List<IngredientModel>> getIngredients({
     String? outletId,
     String? status,
@@ -38,6 +39,7 @@ class InventoryRepository {
     }
   }
 
+  // [FLOW INV-CREATE 2] Kirim data bahan baku baru ke server lewat POST /inventory/ingredients.
   Future<IngredientModel> createIngredient({
     required String outletId,
     required String name,
@@ -98,6 +100,7 @@ class InventoryRepository {
     }
   }
 
+  // [FLOW INV-ADJUST 3] Terima data dari stock_adjustment_dialog.dart lalu tembak POST /inventory/adjustments ke server.
   Future<void> createAdjustment({
     required String outletId,
     required String ingredientId,
@@ -120,6 +123,7 @@ class InventoryRepository {
     }
   }
 
+  // [FLOW INV-MUTASI 3] Tembak GET /inventory/movements buat ambil riwayat stok masuk/keluar, lalu cetak ke InventoryMovementItem.
   Future<List<InventoryMovementItem>> getMovements({
     String? outletId,
     String? ingredientId,

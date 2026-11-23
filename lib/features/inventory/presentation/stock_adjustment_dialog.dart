@@ -42,6 +42,8 @@ class _StockAdjustmentDialogState extends ConsumerState<StockAdjustmentDialog> {
     super.dispose();
   }
 
+  // [FLOW INV-ADJUST 2] Pas tombol Simpan diklik: cek angka (kalau waste otomatis jadi minus, jangan sampai stok < 0),
+  // terus lempar ke inventory_repository.dart (createAdjustment), kalau sukses tutup popup & refresh list.
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
